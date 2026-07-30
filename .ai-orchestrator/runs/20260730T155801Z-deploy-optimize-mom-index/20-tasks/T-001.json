@@ -2,7 +2,7 @@
   "id": "T-001",
   "title": "Build the truthful public data contract and collection core",
   "owner": "codex",
-  "status": "ready",
+  "status": "completed",
   "design_revision": "D-001@1",
   "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
   "objective": "Restructure the Python pipeline around a versioned public schema, honest source states, last-known-good storage, and a hardened unauthenticated Guba collector so later scoring and frontend tasks can rely on a stable interface.",
