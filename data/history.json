@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "last_success_at": "2026-07-30T17:09:05.365918+00:00",
+  "last_success_at": "2026-07-30T19:55:18.073451+00:00",
   "records": [
     {
       "date": "2026-07-31",
-      "timestamp": "2026-07-30T17:09:05.365918+00:00",
+      "timestamp": "2026-07-30T19:55:18.073451+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -235,19 +235,19 @@
           ]
         },
         "semiconductor": {
-          "index": 23.9,
+          "index": 24.0,
           "interpretation": "🟢 正常区间 — 小白参与度适中，无需特别操作",
           "details": {
-            "total_posts": 77,
-            "valid_posts": 77,
+            "total_posts": 76,
+            "valid_posts": 76,
             "spam_posts": 0,
             "newbie_posts": 15,
             "pure_newbie": 1,
-            "newbie_ratio": 19.5,
+            "newbie_ratio": 19.7,
             "avg_newbie_score": 28.4,
             "avg_sentiment": 40.0,
             "purity_signal": 6.7,
-            "activity": 96.2,
+            "activity": 95.0,
             "mom_buy_index": 11.0,
             "mom_sell_index": 17.0,
             "buy_sell_ratio": 1.0,
