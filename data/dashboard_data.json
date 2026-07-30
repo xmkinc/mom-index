@@ -10,7 +10,7 @@
       "collected_at": null,
       "post_count": 0,
       "errors": [
-        "No public collection has succeeded yet."
+        "尚无成功的公开采集结果。"
       ]
     },
     {
@@ -20,7 +20,7 @@
       "collected_at": null,
       "post_count": 0,
       "errors": [
-        "Public collection is disabled; local-only paths require explicit opt-in."
+        "公开部署未启用小红书采集；本地路径必须明确选择后才会运行。"
       ]
     }
   ],
@@ -30,7 +30,7 @@
     "stale_after_hours": 12
   },
   "warnings": [
-    "No last-known-good live reading is available."
+    "尚无可用的最后一次成功实时读数。"
   ],
   "methodology": {
     "formula_version": "1.1",

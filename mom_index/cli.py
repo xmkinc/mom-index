@@ -53,7 +53,7 @@ def collect_sources(
         results.append(
             SourceResult.unavailable(
                 "xiaohongshu",
-                "public Xiaohongshu collection is disabled; use an explicit local-only path",
+                "公开部署未启用小红书采集；如需使用，请在本地明确选择合规的数据路径",
             )
         )
     save_collection(data_dir, results)

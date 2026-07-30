@@ -2,7 +2,7 @@
   "id": "T-004",
   "title": "Add CI, scheduled refresh, Pages deployment, and operations documentation",
   "owner": "codex",
-  "status": "ready",
+  "status": "completed",
   "design_revision": "D-001@1",
   "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
   "objective": "Complete the repository delivery path with least-privilege CI, a six-hour last-known-good data refresh, GitHub Pages deployment, and exact Chinese developer/operations documentation.",

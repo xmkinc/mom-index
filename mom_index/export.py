@@ -124,10 +124,10 @@ def _source_status(result: SourceResult) -> dict[str, Any]:
 def _ordered_sources(results: list[SourceResult]) -> list[dict[str, Any]]:
     by_id = {result.source_id: result for result in results}
     defaults = {
-        "guba": SourceResult.unavailable("guba", "no successful collection result is available"),
+        "guba": SourceResult.unavailable("guba", "尚无成功的公开采集结果"),
         "xiaohongshu": SourceResult.unavailable(
             "xiaohongshu",
-            "public Xiaohongshu collection is disabled; local-only paths require explicit opt-in",
+            "公开部署未启用小红书采集；本地路径必须明确选择后才会运行",
         ),
     }
     ordered_ids = ["guba", "xiaohongshu"]
@@ -157,13 +157,11 @@ def build_payload(
         for error in source.errors:
             warnings.append(f"{source.label}: {_public_error(error)}"[:300])
         if source.mode == "simulated":
-            warnings.append(f"{source.label}: explicit simulated data is active")
+            warnings.append(f"{source.label}: 当前为明确启用的模拟数据 (simulated)")
     if last_success is None:
-        warnings.append("No last-known-good live reading is available.")
+        warnings.append("尚无可用的最后一次成功实时读数。")
     elif stale:
-        warnings.append(
-            f"Last successful reading is older than {STALE_AFTER_HOURS} hours."
-        )
+        warnings.append(f"最后一次成功读数已超过 {STALE_AFTER_HOURS} 小时。")
 
     latest = None
     if isinstance(latest_record, dict):
