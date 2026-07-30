@@ -1,14 +1,15 @@
-# T-006 integration report
+# Final integration report
 
 ## Run context
 
 - Run: `20260730T182929Z-complete-crash-aware-index`
-- Task: `T-006`
+- Tasks: `T-001`, `T-002`, `T-003R`, `T-004`, `T-005R`, `T-006`, `T-007`
 - Design: `D-001@1`
-- Worker: Codex implementation worker
-- Branch: `ai/20260730T182929Z-complete-crash-aware-index/codex/T-006`
-- Immutable dispatch base: `f263999dd85aeba18524d21aa923a0656578422d`
-- Status: implementation and executable gates passed; commit and final Claude review remain outside this report stage.
+- Integration owner: Codex
+- Branch: `ai/20260730T182929Z-complete-crash-aware-index/integration`
+- Accepted base: `0649bdca7003c4ad0cfdbced8f5fa4d97746343f`
+- Verified integration head: `9ab7728`
+- Status: implementation and executable gates passed; final Claude review remains.
 
 ## Integrated behavior
 
@@ -22,6 +23,7 @@
 - Migrated the checked-in seed history and public payload from schema v2 to schema v3.
 - Hardened public site assembly/checks for schema v3, truthful required labels, explicit imported/simulated caveats, visible stale/market degradation, and the four required renderer concerns.
 - Updated README and operations guidance for schema v3, local-only import boundaries, failure semantics, privacy, and market independence.
+- Closed the XHS URL integration discrepancy: exact safe `xiaohongshu.com` and `www.xiaohongshu.com` links are preserved, while HTTP, deceptive subdomains, credentials, explicit ports, whitespace/control characters, and unsafe schemes remain rejected.
 
 ## Executable verification
 
@@ -29,7 +31,7 @@ All task commands were run from the task worktree with the repository's pinned P
 
 | Command | Result |
 | --- | --- |
-| `python -m pytest -q` | PASS — `180 passed in 0.57s` |
+| `python -m pytest -q` | PASS — `189 passed in 0.77s` |
 | `python -m compileall -q mom_index scripts tests pipeline.py` | PASS — exit 0, no output |
 | `python scripts/build_site.py --out _site` | PASS — deterministic six-file artifact written |
 | `python scripts/check_site.py _site` | PASS — schema, assets, privacy, provenance, and degraded-state checks |
@@ -47,8 +49,9 @@ The targeted integration test covers CLI parsing and execution for both import f
 - All implementation, tests, documentation, seed data, and this report are inside T-006 `write_scope`.
 - No merge, push, deployment, publication, or default-branch write was performed.
 
-## Risks and out-of-scope findings
+## Risks and resolved findings
 
-- The schema and XHS importer accept both `xiaohongshu.com` and `www.xiaohongshu.com`, but the read-only public exporter URL allowlist currently accepts only `www.xiaohongshu.com`. A bare-host imported post still contributes to classification/index/quality, but its representative public source link can be omitted. `mom_index/export.py` and its tests are outside T-006 write scope, so this discrepancy was not changed here.
+- The XHS bare-host export mismatch found during T-006 was resolved by scoped repair T-007 and 85 focused exporter/importer tests.
 - Market snapshots are intentionally local, explicit, and per-build. The public scheduled path therefore exports an honest unavailable market context until a compliant public integration is separately designed.
-- The frontend renderer implementation came from prerequisite T-005R. T-006 verifies its JavaScript syntax and required v3/v2/unknown-version markers, but final responsive browser QA and Claude/Fable design review remain integration-stage responsibilities.
+- WorkBuddy/GLM-5.2 authored the first sanitized-import implementation but its non-interactive bridge could not execute Bash. Codex takeover T-003R reviewed every inherited line, repaired security/type boundaries, and ran the executable gates. The original blocked handoff remains preserved.
+- WorkBuddy's frontend task was reassigned as T-005R rather than weakening permission controls. The resulting renderer passed syntax and mocked v2/v3/unknown-version runtime smoke checks; the final site artifact passed `check_site`.
