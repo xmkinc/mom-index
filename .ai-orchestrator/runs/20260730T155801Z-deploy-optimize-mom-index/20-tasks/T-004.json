@@ -1,0 +1,70 @@
+{
+  "id": "T-004",
+  "title": "Add CI, scheduled refresh, Pages deployment, and operations documentation",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
+  "objective": "Complete the repository delivery path with least-privilege CI, a six-hour last-known-good data refresh, GitHub Pages deployment, and exact Chinese developer/operations documentation.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/charter.md",
+    ".ai-orchestrator/roles/codex-foreman.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/decisions.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/handoffs/T-001-codex.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/handoffs/T-002-kimi.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/handoffs/T-003-glm52.md"
+  ],
+  "write_scope": [
+    ".github/workflows/**",
+    "README.md",
+    "docs/**"
+  ],
+  "read_only_scope": [
+    "mom_index/**",
+    "schema/**",
+    "data/**",
+    "frontend/**",
+    "scripts/**",
+    "tests/**",
+    "requirements*.txt"
+  ],
+  "forbidden_changes": [
+    "Do not change Python, schema, data, frontend, scripts, tests, dependencies, accepted design, or other task artifacts.",
+    "Do not reference credentials, cookies, paid APIs, Playwright profiles, or Xiaohongshu in unattended public collection.",
+    "Do not grant workflow permissions beyond each job's minimum need, use pull_request_target, execute untrusted fork code with a write token, or persist collection.json/raw posts.",
+    "Do not merge, push the default branch, enable Pages, or deploy from the worker task."
+  ],
+  "deliverables": [
+    ".github/workflows/ci.yml for Python 3.11 tests, compile, site build/smoke, JavaScript syntax, dependency check, and workflow YAML parsing with contents:read",
+    ".github/workflows/refresh-data.yml for six-hour/manual Guba-only refresh using the data branch as single-writer LKG storage, concurrency protection, and contents:write only",
+    ".github/workflows/deploy.yml for fixed-ref master code plus data-branch state, gated site build, and Pages deployment with contents:read/pages:write/id-token:write",
+    "Chinese README with public URL, truthful source table, methodology, exact setup/run/test commands, repository architecture, limitations, and no investment-advice disclaimer",
+    "docs/OPERATIONS.md covering initial data-branch/Pages setup, manual refresh/deploy, workflow observability, degraded behavior, troubleshooting, rollback, security, and cadence",
+    "Atomic implementation commit and handoff report"
+  ],
+  "acceptance_criteria": [
+    "CI runs on pull requests and default-branch pushes without write permissions and executes all local quality gates.",
+    "Refresh runs at most every six hours plus manual dispatch, collects only Guba by default, reuses data-branch LKG history, validates/builds/checks before committing only public history/dashboard JSON, and never commits collection.json.",
+    "A collection failure can still publish a schema-valid degraded payload while preserving the last successful index history.",
+    "Deploy checks out default-branch code and data-branch payload deterministically, gates the artifact, uses official Pages actions, and deploys only after an allowed trusted event.",
+    "All workflows parse as YAML, use pinned major action versions and explicit least-privilege permissions/concurrency, and contain no secrets or account-specific tokens.",
+    "README and operations docs accurately match executable commands and clearly distinguish Guba live from Xiaohongshu unavailable/local-only behavior.",
+    "Changes remain inside the declared protected write scope and are delivered as an atomic commit."
+  ],
+  "verification_commands": [
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m pytest -q",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m compileall -q mom_index scripts tests pipeline.py",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python scripts/build_site.py --out _site",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python scripts/check_site.py _site",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -c \"import pathlib,yaml; [yaml.safe_load(p.read_text()) for p in pathlib.Path('.github/workflows').glob('*.yml')]; print('workflow yaml: OK')\"",
+    "node --check frontend/assets/app.js"
+  ],
+  "dependencies": [
+    "T-001",
+    "T-002",
+    "T-003"
+  ]
+}

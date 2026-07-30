@@ -2,7 +2,7 @@
   "id": "T-002",
   "title": "Correct deterministic scoring and add comprehensive tests",
   "owner": "kimi",
-  "status": "ready",
+  "status": "completed",
   "design_revision": "D-001@1",
   "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
   "objective": "Correct the deterministic classifier and scoring semantics within schema v2, and establish a comprehensive pytest suite covering the analysis, collector parser, storage/export, validation, and degraded-path contracts.",

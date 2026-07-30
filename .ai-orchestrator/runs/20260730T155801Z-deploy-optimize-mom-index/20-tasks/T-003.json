@@ -2,7 +2,7 @@
   "id": "T-003",
   "title": "Rebuild the static dashboard and deterministic site assembly",
   "owner": "workbuddy",
-  "status": "ready",
+  "status": "completed",
   "design_revision": "D-001@1",
   "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
   "objective": "Build an accessible, responsive schema-v2 dashboard and deterministic static-site assembly/smoke tooling that truthfully exposes source modes, freshness, degraded states, methodology, and sparse history on GitHub Pages.",
