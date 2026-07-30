@@ -291,8 +291,11 @@
       body = '<div class="state" id="top-posts-state">今日暂无典型小白帖，或数据源处于不可用状态。</div>';
     } else {
       body = allTop.map(function (p) {
-        var badgeCls = p.score >= 50 ? "pure" : "semi";
-        var badgeTxt = p.score >= 50 ? "纯小白" : "偏小白";
+        // The classifier is the source of truth for the human-readable level.
+        // Re-deriving it from the numeric score here can drift when backend
+        // thresholds change and would make the badge contradict the reasoning.
+        var badgeTxt = p.level || (p.score >= 50 ? "纯小白" : "偏小白");
+        var badgeCls = badgeTxt === "纯小白" ? "pure" : "semi";
         var intentMap = { buy: "看涨", sell: "看跌", neutral: "中性" };
         var intentTxt = intentMap[p.intent] || "中性";
         var titleHtml;
