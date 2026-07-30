@@ -6,3 +6,7 @@
 - Sample freshness window is 72 hours.
 - Low-band text describes sparse novice evidence and explicitly disclaims bottom calls.
 - Formula version 1.1 and all numeric weights remain unchanged.
+
+## Execution amendment
+
+- T-005 was explicitly reassigned to Codex as T-005R after the WorkBuddy background CLI refused Bash in non-interactive `acceptEdits` mode. No bypass or full-access permission was enabled.
