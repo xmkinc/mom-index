@@ -11,9 +11,14 @@ PACKAGE_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = PACKAGE_ROOT.parent
 DEFAULT_DATA_DIR = PROJECT_ROOT / "data"
 SCHEMA_PATH = PROJECT_ROOT / "schema" / "dashboard.schema.json"
+XHS_IMPORT_SCHEMA_PATH = PROJECT_ROOT / "schema" / "xhs_import.schema.json"
+MARKET_SNAPSHOT_SCHEMA_PATH = PROJECT_ROOT / "schema" / "market_snapshot.schema.json"
 
 DISPLAY_TIMEZONE = "Asia/Shanghai"
 STALE_AFTER_HOURS = 12
+PUBLIC_SCHEMA_VERSION = 3
+HISTORY_SCHEMA_VERSION = 3
+CONFIDENCE_MODEL_VERSION = "1.0"
 
 SECTORS = {
     "nasdaq": {"name": "纳斯达克", "code": "of159941", "etf": "513100"},
@@ -23,14 +28,27 @@ SECTORS = {
 }
 SECTOR_NAMES = {key: value["name"] for key, value in SECTORS.items()}
 SECTOR_KEYS = tuple(SECTORS)
+MARKET_REFERENCES = {
+    sector: {
+        "symbol": config["etf"],
+        "name": f'{config["name"]}ETF',
+    }
+    for sector, config in SECTORS.items()
+}
 
 SOURCE_LABELS = {
     "guba": "东方财富股吧",
     "xiaohongshu": "小红书",
 }
+SOURCE_MODE_PRECEDENCE = {
+    "live": 0,
+    "imported": 1,
+    "simulated": 2,
+}
 
 METHODOLOGY = {
     "formula_version": "1.1",
+    "confidence_model_version": CONFIDENCE_MODEL_VERSION,
     "weights": {
         "newbie_ratio": 0.40,
         "newbie_intensity": 0.25,

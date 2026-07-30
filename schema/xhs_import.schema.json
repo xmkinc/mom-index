@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xmkinc.github.io/mom-index/schema/xhs_import.schema.json",
+  "title": "Sanitized local Xiaohongshu import",
+  "$comment": "JSONL importers validate each decoded line against $defs/record before constructing an array.",
+  "oneOf": [
+    {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    {
+      "$ref": "#/$defs/sectorMap"
+    }
+  ],
+  "$defs": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "content",
+        "url",
+        "sector",
+        "published_at",
+        "collected_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://(?:www\\.)?xiaohongshu\\.com/"
+        },
+        "sector": {
+          "enum": [
+            "nasdaq",
+            "gold",
+            "cpo",
+            "semiconductor"
+          ]
+        },
+        "published_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/timestamp"
+            }
+          ]
+        },
+        "collected_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "sectorMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "nasdaq": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "sector": {
+                    "const": "nasdaq"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "gold": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "sector": {
+                    "const": "gold"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "cpo": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "sector": {
+                    "const": "cpo"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "semiconductor": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/record"
+              },
+              {
+                "properties": {
+                  "sector": {
+                    "const": "semiconductor"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

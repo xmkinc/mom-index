@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://xmkinc.github.io/mom-index/schema/dashboard.schema.json",
-  "title": "Mom Index public dashboard payload",
+  "title": "Mom Index public dashboard payload v3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -14,11 +14,12 @@
     "methodology",
     "latest",
     "sector_history",
+    "market_context",
     "record_count"
   ],
   "properties": {
     "schema_version": {
-      "const": 2
+      "const": 3
     },
     "generated_at": {
       "$ref": "#/$defs/timestamp"
@@ -59,6 +60,9 @@
     "sector_history": {
       "$ref": "#/$defs/sectorHistory"
     },
+    "market_context": {
+      "$ref": "#/$defs/marketContext"
+    },
     "record_count": {
       "type": "integer",
       "minimum": 0
@@ -94,6 +98,7 @@
         "mode": {
           "enum": [
             "live",
+            "imported",
             "simulated",
             "unavailable"
           ]
@@ -182,12 +187,17 @@
       "additionalProperties": false,
       "required": [
         "formula_version",
+        "confidence_model_version",
         "weights"
       ],
       "properties": {
         "formula_version": {
+          "const": "1.1"
+        },
+        "confidence_model_version": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "maxLength": 40
         },
         "weights": {
           "type": "object",
@@ -276,7 +286,8 @@
         "index",
         "interpretation",
         "details",
-        "top_newbie_posts"
+        "top_newbie_posts",
+        "sample_quality"
       ],
       "properties": {
         "index": {
@@ -296,8 +307,95 @@
           "items": {
             "$ref": "#/$defs/post"
           }
+        },
+        "sample_quality": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/sampleQuality"
+            }
+          ]
         }
       }
+    },
+    "sampleQuality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_version",
+        "confidence",
+        "valid_sample_size",
+        "title_only_ratio",
+        "platform_counts",
+        "classifier_evidence_coverage",
+        "known_in_window_ratio",
+        "unknown_time_ratio",
+        "window_hours",
+        "reason_codes"
+      ],
+      "properties": {
+        "model_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "valid_sample_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "title_only_ratio": {
+          "$ref": "#/$defs/ratio"
+        },
+        "platform_counts": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "classifier_evidence_coverage": {
+          "$ref": "#/$defs/ratio"
+        },
+        "known_in_window_ratio": {
+          "$ref": "#/$defs/ratio"
+        },
+        "unknown_time_ratio": {
+          "$ref": "#/$defs/ratio"
+        },
+        "window_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reason_codes": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      }
+    },
+    "ratio": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
     },
     "details": {
       "type": "object",
@@ -499,9 +597,352 @@
           "source_mode": {
             "enum": [
               "live",
+              "imported",
               "simulated"
             ]
           }
+        }
+      }
+    },
+    "marketContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "provider",
+        "imported_at",
+        "errors",
+        "sectors"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "available",
+            "degraded",
+            "unavailable"
+          ]
+        },
+        "provider": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          ]
+        },
+        "imported_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/timestamp"
+            }
+          ]
+        },
+        "errors": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        },
+        "sectors": {
+          "$ref": "#/$defs/marketSectors"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unavailable"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provider": {
+                "type": "null"
+              },
+              "imported_at": {
+                "type": "null"
+              },
+              "sectors": {
+                "properties": {
+                  "nasdaq": {
+                    "type": "null"
+                  },
+                  "gold": {
+                    "type": "null"
+                  },
+                  "cpo": {
+                    "type": "null"
+                  },
+                  "semiconductor": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "imported_at": {
+                "$ref": "#/$defs/timestamp"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sectors": {
+                "properties": {
+                  "nasdaq": {
+                    "not": {
+                      "type": "null"
+                    }
+                  },
+                  "gold": {
+                    "not": {
+                      "type": "null"
+                    }
+                  },
+                  "cpo": {
+                    "not": {
+                      "type": "null"
+                    }
+                  },
+                  "semiconductor": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "degraded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sectors": {
+                "not": {
+                  "properties": {
+                    "nasdaq": {
+                      "type": "null"
+                    },
+                    "gold": {
+                      "type": "null"
+                    },
+                    "cpo": {
+                      "type": "null"
+                    },
+                    "semiconductor": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "marketSectors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nasdaq",
+        "gold",
+        "cpo",
+        "semiconductor"
+      ],
+      "properties": {
+        "nasdaq": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nasdaqMarketSector"
+            }
+          ]
+        },
+        "gold": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/goldMarketSector"
+            }
+          ]
+        },
+        "cpo": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/cpoMarketSector"
+            }
+          ]
+        },
+        "semiconductor": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/semiconductorMarketSector"
+            }
+          ]
+        }
+      }
+    },
+    "marketSector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "name",
+        "as_of",
+        "returns"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "as_of": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "returns": {
+          "$ref": "#/$defs/marketReturns"
+        }
+      }
+    },
+    "nasdaqMarketSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/marketSector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "513100"
+            },
+            "name": {
+              "const": "纳斯达克ETF"
+            }
+          }
+        }
+      ]
+    },
+    "goldMarketSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/marketSector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "518880"
+            },
+            "name": {
+              "const": "黄金ETF"
+            }
+          }
+        }
+      ]
+    },
+    "cpoMarketSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/marketSector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "515880"
+            },
+            "name": {
+              "const": "CPO通信ETF"
+            }
+          }
+        }
+      ]
+    },
+    "semiconductorMarketSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/marketSector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "512480"
+            },
+            "name": {
+              "const": "半导体ETF"
+            }
+          }
+        }
+      ]
+    },
+    "marketReturns": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "1d": {
+          "type": "number"
+        },
+        "5d": {
+          "type": "number"
+        },
+        "20d": {
+          "type": "number"
         }
       }
     }

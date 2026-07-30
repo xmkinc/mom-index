@@ -9,15 +9,24 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from mom_index.config import SECTOR_KEYS, display_date
 from mom_index.collectors import SourceResult
+from mom_index.config import (
+    HISTORY_SCHEMA_VERSION,
+    SECTOR_KEYS,
+    SOURCE_MODE_PRECEDENCE,
+    display_date,
+)
 
 HISTORY_FILENAME = "history.json"
 COLLECTION_FILENAME = "collection.json"
 
 
 def empty_history() -> dict[str, Any]:
-    return {"schema_version": 2, "last_success_at": None, "records": []}
+    return {
+        "schema_version": HISTORY_SCHEMA_VERSION,
+        "last_success_at": None,
+        "records": [],
+    }
 
 
 def read_json(path: Path) -> Any:
@@ -57,9 +66,43 @@ def load_history(data_dir: Path) -> dict[str, Any]:
     value = read_json(path)
     if not isinstance(value, dict) or not isinstance(value.get("records"), list):
         raise ValueError(f"Invalid history file: {path}")
-    value.setdefault("schema_version", 2)
-    value.setdefault("last_success_at", None)
-    return value
+    version = value.get("schema_version", 2)
+    if version not in {2, HISTORY_SCHEMA_VERSION}:
+        raise ValueError(f"Unsupported history schema version {version!r}: {path}")
+    return _upgrade_history(value)
+
+
+def _upgrade_history(history: dict[str, Any]) -> dict[str, Any]:
+    """Return a schema-v3 copy, adding nullable fields to legacy v2 records."""
+
+    upgraded_records: list[dict[str, Any]] = []
+    for raw_record in history.get("records", []):
+        if not isinstance(raw_record, dict):
+            continue
+        record = dict(raw_record)
+        source_mode = record.get("source_mode", "live")
+        if source_mode not in SOURCE_MODE_PRECEDENCE:
+            raise ValueError(
+                f"Unsupported history source mode {source_mode!r}"
+            )
+        sectors = record.get("sectors")
+        if isinstance(sectors, dict):
+            upgraded_sectors: dict[str, Any] = {}
+            for sector, raw_value in sectors.items():
+                if isinstance(raw_value, dict):
+                    value = dict(raw_value)
+                    value.setdefault("sample_quality", None)
+                    upgraded_sectors[str(sector)] = value
+                else:
+                    upgraded_sectors[str(sector)] = raw_value
+            record["sectors"] = upgraded_sectors
+        record["source_mode"] = source_mode
+        upgraded_records.append(record)
+    return {
+        "schema_version": HISTORY_SCHEMA_VERSION,
+        "last_success_at": history.get("last_success_at"),
+        "records": upgraded_records,
+    }
 
 
 def save_history(data_dir: Path, history: dict[str, Any]) -> None:
@@ -78,8 +121,19 @@ def merge_success(
     missing = [sector for sector in SECTOR_KEYS if sector not in sector_indices]
     if missing:
         raise ValueError(f"Cannot update LKG with missing sectors: {', '.join(missing)}")
-    if source_mode not in {"live", "simulated"}:
-        raise ValueError("Only live or explicit simulated results can update history")
+    invalid_sectors = [
+        sector
+        for sector in SECTOR_KEYS
+        if not isinstance(sector_indices.get(sector), dict)
+    ]
+    if invalid_sectors:
+        raise ValueError(
+            f"Cannot update LKG with invalid sectors: {', '.join(invalid_sectors)}"
+        )
+    if source_mode not in SOURCE_MODE_PRECEDENCE:
+        raise ValueError(
+            "Only live, imported, or explicit simulated results can update history"
+        )
 
     timestamp = datetime.fromisoformat(collected_at.replace("Z", "+00:00"))
     if timestamp.tzinfo is None:
@@ -89,20 +143,43 @@ def merge_success(
         "date": record_date,
         "timestamp": collected_at,
         "source_mode": source_mode,
-        "sectors": {sector: sector_indices[sector] for sector in SECTOR_KEYS},
+        "sectors": {
+            sector: {
+                **sector_indices[sector],
+                "sample_quality": sector_indices[sector].get("sample_quality"),
+            }
+            for sector in SECTOR_KEYS
+        },
     }
+    upgraded = _upgrade_history(history)
     records = [
         existing
-        for existing in history.get("records", [])
+        for existing in upgraded["records"]
         if existing.get("date") != record_date
     ]
     records.append(record)
-    records.sort(key=lambda item: (str(item.get("date", "")), str(item.get("timestamp", ""))))
+    records.sort(
+        key=lambda item: (
+            str(item.get("date", "")),
+            str(item.get("timestamp", "")),
+        )
+    )
     return {
-        "schema_version": 2,
+        "schema_version": HISTORY_SCHEMA_VERSION,
         "last_success_at": collected_at,
         "records": records,
     }
+
+
+def dominant_source_mode(modes: list[str]) -> str:
+    """Return the truthful caveat mode using simulated > imported > live."""
+
+    if not modes:
+        raise ValueError("At least one successful source mode is required")
+    invalid = sorted(set(modes) - set(SOURCE_MODE_PRECEDENCE))
+    if invalid:
+        raise ValueError(f"Unsupported successful source modes: {', '.join(invalid)}")
+    return max(modes, key=SOURCE_MODE_PRECEDENCE.__getitem__)
 
 
 def save_collection(data_dir: Path, results: list[SourceResult]) -> Path:
