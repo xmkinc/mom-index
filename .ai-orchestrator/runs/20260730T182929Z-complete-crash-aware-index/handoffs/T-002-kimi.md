@@ -9,7 +9,7 @@
 | Design spec | D-001@1 |
 | Branch | `ai/20260730T182929Z-complete-crash-aware-index/kimi/T-002` |
 | Base SHA | `d9687c5f418cbd7f4f64b065515471966fc31444` |
-| Commit SHA | `2fc1fc915fdbe1739949ead044bd1440c8c967d5` |
+| Commit SHA | `65b1ae1` |
 
 ## Changed files
 
@@ -48,6 +48,22 @@ source .venv/bin/activate && python -m compileall mom_index/analysis/signals.py 
 ```
 
 Result: clean compile.
+
+Post-acceptance repair (trailing whitespace in `mom_index/analysis/classifier.py`):
+
+```bash
+git diff --check d9687c5f418cbd7f4f64b065515471966fc31444...HEAD
+```
+
+Result: clean.
+
+```bash
+source .venv/bin/activate && python -m pytest -q tests/test_classifier.py tests/test_quality.py tests/test_scoring.py
+```
+
+Result: `44 passed in 0.04s`
+
+Repair commit: `65b1ae1`
 
 ## Acceptance criteria check
 
