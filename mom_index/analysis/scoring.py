@@ -11,7 +11,11 @@ def compute_sector_index(analysis_results: List) -> Dict:
     1. 小白占比 (40%) — 该板块中小白帖的比例
     2. 小白强度 (25%) — 小白帖的平均得分
     3. 情绪极端度 (20%) — 贪婪/恐慌的情绪极端程度
-    4. 热度信号 (15%) — 该板块的讨论活跃度
+    4. 热度纯度 (15%) — 纯小白帖在小白帖中的占比
+    
+    注意: ``activity``（有效帖数相对热度）作为 details 的独立观察指标输出，
+    schema v2 要求 details 必须包含该字段。当前加权公式仅使用上述四个维度，
+    与 config.METHODOLOGY 中的权重声明保持一致。
     """
     if not analysis_results:
         return {
@@ -22,17 +26,18 @@ def compute_sector_index(analysis_results: List) -> Dict:
     
     total = len(analysis_results)
     
-    # 过滤掉垃圾帖
+    # 过滤掉垃圾帖 — 垃圾记录不参与任何指标、分母或意图统计
     valid_posts = [r for r in analysis_results if r.level != "垃圾帖"]
     spam_count = total - len(valid_posts)
+    valid_count = len(valid_posts)
     
-    # 小白帖（分数 >= 20）
-    newbie_posts = [r for r in analysis_results if r.newbie_score >= 20]
-    pure_newbie = [r for r in analysis_results if r.newbie_score >= 50]
+    # 小白帖（分数 >= 20）与纯小白（分数 >= 50）均基于有效帖
+    newbie_posts = [r for r in valid_posts if r.newbie_score >= 20]
+    pure_newbie = [r for r in valid_posts if r.newbie_score >= 50]
     newbie_count = len(newbie_posts)
     
     # 维度1: 小白占比 (0-100) — 基于有效帖子
-    newbie_ratio = (newbie_count / len(valid_posts)) * 100 if valid_posts else 0
+    newbie_ratio = (newbie_count / valid_count) * 100 if valid_count else 0
     
     # 维度2: 小白强度 (0-100)
     avg_newbie_score = sum(r.newbie_score for r in newbie_posts) / max(newbie_count, 1)
@@ -41,9 +46,11 @@ def compute_sector_index(analysis_results: List) -> Dict:
     sentiments = [abs(r.sentiment_score) for r in newbie_posts]
     avg_sentiment = sum(sentiments) / max(len(sentiments), 1) * 100
     
-    # 维度4: 热度信号 (0-100) — 小白帖占比越高 + 纯小白越多 = 信号越强
+    # 维度4: 热度纯度 (0-100) — 纯小白在小白中的占比
     purity_signal = (len(pure_newbie) / max(newbie_count, 1)) * 100 if newbie_count > 0 else 0
-    activity_signal = min(100, len(valid_posts) / 80 * 100)  # 80条为满热度
+    
+    # 独立观察指标：讨论活跃度（schema v2 details 必填，不参与加权指数）
+    activity_signal = min(100, valid_count / 80 * 100)  # 80条有效帖为满热度
     
     # 综合指数
     index = (
@@ -59,10 +66,13 @@ def compute_sector_index(analysis_results: List) -> Dict:
     newbie_buy = [r for r in newbie_posts if r.intent == "buy"]
     newbie_sell = [r for r in newbie_posts if r.intent == "sell"]
     
-    buy_ratio = len(newbie_buy) / max(newbie_count, 1)
-    sell_ratio = len(newbie_sell) / max(newbie_count, 1)
-    buy_intensity = sum(r.intent_strength for r in newbie_buy) / max(len(newbie_buy), 1)
-    sell_intensity = sum(r.intent_strength for r in newbie_sell) / max(len(newbie_sell), 1)
+    buy_count = len(newbie_buy)
+    sell_count = len(newbie_sell)
+    
+    buy_ratio = buy_count / max(newbie_count, 1)
+    sell_ratio = sell_count / max(newbie_count, 1)
+    buy_intensity = sum(r.intent_strength for r in newbie_buy) / max(buy_count, 1)
+    sell_intensity = sum(r.intent_strength for r in newbie_sell) / max(sell_count, 1)
     
     # 买入指数: 小白买入占比(50%) + 小白热度(30%) + 买入强度(20%)
     mom_buy_index = round(min(100, (
@@ -78,15 +88,20 @@ def compute_sector_index(analysis_results: List) -> Dict:
         sell_intensity * 100 * 0.20
     )), 1)
     
-    # 买卖比: >1 表示买入情绪占优, <1 表示恐慌卖出占优
-    buy_sell_ratio = round(len(newbie_buy) / max(len(newbie_sell), 1), 1)
+    # 买卖比: 有买无卖时为 null（避免除以零的误导数值）；买卖均为 0 时定义为 0.0
+    if buy_count == 0 and sell_count == 0:
+        buy_sell_ratio = 0.0
+    elif sell_count == 0:
+        buy_sell_ratio = None
+    else:
+        buy_sell_ratio = round(buy_count / sell_count, 1)
     
     return {
         "index": index,
         "interpretation": interpret_index(index),
         "details": {
             "total_posts": total,
-            "valid_posts": len(valid_posts),
+            "valid_posts": valid_count,
             "spam_posts": spam_count,
             "newbie_posts": newbie_count,
             "pure_newbie": len(pure_newbie),
@@ -99,8 +114,8 @@ def compute_sector_index(analysis_results: List) -> Dict:
             "mom_buy_index": mom_buy_index,
             "mom_sell_index": mom_sell_index,
             "buy_sell_ratio": buy_sell_ratio,
-            "buy_count": len(newbie_buy),
-            "sell_count": len(newbie_sell),
+            "buy_count": buy_count,
+            "sell_count": sell_count,
         },
         "top_newbie_posts": [
             {
@@ -108,18 +123,18 @@ def compute_sector_index(analysis_results: List) -> Dict:
                 "score": r.newbie_score,
                 "level": r.level,
                 "reasoning": r.reasoning[:150],
-                "sentiment": r.sentiment_score,
                 "intent": r.intent,
-                "intent_label": {"buy": "🟢 买入", "sell": "🔴 卖出", "neutral": "⚪ 观望"}.get(r.intent, ""),
                 "key_signals": r.key_signals[:2],
                 "source_url": r.source_url,
             }
-            for r in sorted(newbie_posts, key=lambda x: x.newbie_score, reverse=True)[:5]
-        ],
+            for r in sorted(newbie_posts, key=lambda x: (-x.newbie_score, x.post_id))
+            if r.source_url
+        ][:5],
     }
 
 
 def interpret_index(index: float) -> str:
+    """Canonical interpretation of a Mom Index value."""
     if index >= 75:
         return "🔴 极度狂热 — 擦鞋童时刻！小白情绪爆表，历史级别的危险信号"
     elif index >= 60:

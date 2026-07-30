@@ -45,35 +45,45 @@ class AnalysisResult:
     key_signals: List[str] = field(default_factory=list)
 
 
+# 垃圾/活动帖过滤模式（与 scoring.py 的 spam 判定保持同步）
+_SPAM_PATTERNS = [
+    "我是冲着金条来的",
+    "金条来的，你呢",
+    "领金条",
+    "签到",
+    "打卡",
+    "广告",
+]
+
+
+def _is_spam(full_text: str) -> str | None:
+    """Return the matched spam pattern if the post should be filtered."""
+    for spam in _SPAM_PATTERNS:
+        if spam in full_text:
+            return spam
+    return None
+
+
 def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     """分析单条帖子，返回详细判定"""
     title = post.get("title", "")
     content = post.get("content", "")
     full_text = f"{title} {content}" if content else title
     
-    # 0. 垃圾过滤
-    SPAM_PATTERNS = [
-        "我是冲着金条来的",
-        "金条来的，你呢",
-        "领金条",
-        "签到",
-        "打卡",
-        "广告",
-    ]
-    for spam in SPAM_PATTERNS:
-        if spam in full_text:
-            result = AnalysisResult(
-                post_id=post.get("id", ""),
-                title=title[:80],
-                platform=post.get("platform", "unknown"),
-                sector=sector,
-                source_url=post.get("url", ""),
-                newbie_score=0,
-                newbie_confidence="high",
-                level="垃圾帖",
-                reasoning=f"检测到垃圾/活动帖（命中: 「{spam}」），已过滤，不计入指数。",
-            )
-            return result
+    # 0. 垃圾过滤 — 提前返回，不进入任何信号/意图/情绪计算
+    spam = _is_spam(full_text)
+    if spam:
+        return AnalysisResult(
+            post_id=post.get("id", ""),
+            title=title[:80],
+            platform=post.get("platform", "unknown"),
+            sector=sector,
+            source_url=post.get("url", ""),
+            newbie_score=0,
+            newbie_confidence="high",
+            level="垃圾帖",
+            reasoning=f"检测到垃圾/活动帖（命中: 「{spam}」），已过滤，不计入指数。",
+        )
     
     result = AnalysisResult(
         post_id=post.get("id", ""),
@@ -151,15 +161,17 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     result.sentiment_score = _analyze_sentiment(full_text)
     
     # 8. 买入/卖出意图判定
-    buy_count = sum(1 for kw in BUY_KEYWORDS if kw in full_text)
-    sell_count = sum(1 for kw in SELL_KEYWORDS if kw in full_text)
+    # 同一关键词只计一次，避免子串/重叠关键词的重复计数
+    buy_matches = {kw for kw in BUY_KEYWORDS if kw in full_text}
+    sell_matches = {kw for kw in SELL_KEYWORDS if kw in full_text}
     
-    if buy_count > sell_count:
+    # 确定性 tie 处理：买卖信号数相等时为 neutral
+    if len(buy_matches) > len(sell_matches):
         result.intent = "buy"
-        result.intent_strength = min(1.0, buy_count / 5)
-    elif sell_count > buy_count:
+        result.intent_strength = min(1.0, len(buy_matches) / 5)
+    elif len(sell_matches) > len(buy_matches):
         result.intent = "sell"
-        result.intent_strength = min(1.0, sell_count / 5)
+        result.intent_strength = min(1.0, len(sell_matches) / 5)
     else:
         result.intent = "neutral"
         result.intent_strength = 0
@@ -237,15 +249,26 @@ def _analyze_sentiment(text: str) -> float:
 # 批量分析
 # ============================================================
 
-def analyze_sector(posts: List[Dict], sector: str) -> List[AnalysisResult]:
-    """分析一个板块的所有帖子"""
-    results = []
+def dedupe_posts(posts: List[Dict]) -> List[Dict]:
+    """按稳定 id 去重，保留首次出现顺序。"""
+    seen: set[str] = set()
+    result: List[Dict] = []
     for post in posts:
-        result = analyze_post(post, sector)
-        results.append(result)
+        post_id = str(post.get("id", ""))
+        if not post_id or post_id in seen:
+            continue
+        seen.add(post_id)
+        result.append(post)
+    return result
+
+
+def analyze_sector(posts: List[Dict], sector: str) -> List[AnalysisResult]:
+    """分析一个板块的所有帖子，按稳定身份去重。"""
+    unique_posts = dedupe_posts(posts)
+    results = [analyze_post(post, sector) for post in unique_posts]
     
-    # 按小白分数排序
-    results.sort(key=lambda r: r.newbie_score, reverse=True)
+    # 按小白分数降序，分数相同按 post_id 升序以保证确定性
+    results.sort(key=lambda r: (-r.newbie_score, r.post_id))
     return results
 
 
