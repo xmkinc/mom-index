@@ -36,7 +36,7 @@ class AnalysisResult:
     matched_newbie: List[Tuple[str, str, float]] = field(default_factory=list)  
     matched_pro: List[Tuple[str, str, float]] = field(default_factory=list)
     matched_extension_signals: List[Tuple[str, str, float]] = field(default_factory=list)
-    
+
     # 内容深度
     has_content: bool = False
     
@@ -153,7 +153,7 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
         buy_ext,
         sell_ext,
     ) = _get_keywords_for_platform(platform)
-    
+
     # 1. 逐信号匹配（含平台扩展）
     matched_newbie = []
     matched_pro = []
@@ -234,13 +234,13 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
             compound_buy += count
         elif side == "sell":
             compound_sell += count
-    
+
     # 8. 情绪分析（在已屏蔽复合覆盖的文本上进行）
     result.sentiment_score = _analyze_sentiment(masked_text)
     # Compound overrides contribute panic/fear sentiment directly.
     if compound_sell:
         result.sentiment_score = _blend_sentiment(result.sentiment_score, -0.5)
-    
+
     # 9. 买入/卖出意图判定（在已屏蔽复合覆盖的文本上进行）
     # 同一关键词只计一次，避免子串/重叠关键词的重复计数
     buy_matches = {kw for kw in buy_keywords if kw in masked_text}
@@ -253,7 +253,7 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     for kw in sell_ext:
         if kw in masked_text:
             matched_extensions.append(("sell", kw, 0.0))
-    
+
     # Add compound override contributions to intent counts.
     buy_count = len(buy_matches) + compound_buy
     sell_count = len(sell_matches) + compound_sell
