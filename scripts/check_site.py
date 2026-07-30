@@ -3,7 +3,8 @@
 
 Verifies, against the accepted design contract:
   * ``index.html`` and the single public payload ``data/dashboard_data.json``
-    exist and the payload validates against ``schema/dashboard.schema.json``;
+    exist and the schema-v3 payload validates against
+    ``schema/dashboard.schema.json``;
   * every relative asset reference in ``index.html`` resolves inside the site;
   * no CDN / absolute-URL runtime dependencies (``https://``/``http://`` in
     ``src``/``href``), no absolute ``/mom-index/`` paths; ``data:`` URIs allowed;
@@ -11,6 +12,8 @@ Verifies, against the accepted design contract:
     proxy) anywhere in the built artifact;
   * no fabricated source claims — "抖音"/"Douyin" must not appear, and a
     source whose mode is ``unavailable`` must not be described as live;
+  * required source labels, imported/simulated caveats, stale warnings, and
+    unavailable/degraded market context are explicit;
   * the vendored Chart.js runtime is present and referenced.
 
 Usage:
@@ -47,6 +50,10 @@ SECRET_PATTERNS = [
 ]
 
 FORBIDDEN_TERMS = ["抖音", "Douyin"]
+EXPECTED_SOURCE_LABELS = {
+    "guba": "东方财富股吧",
+    "xiaohongshu": "小红书",
+}
 
 
 class LinkExtractor(HTMLParser):
@@ -98,15 +105,47 @@ def _check_payload(site: Path) -> dict:
             msgs.append(f"  {loc}: {err.message}")
         raise Failure("payload failed schema validation:\n" + "\n".join(msgs))
 
+    if payload.get("schema_version") != 3:
+        raise Failure("public site payload must use schema v3")
+
     # Truthful-source consistency: an unavailable source must not be described
     # as live; xiaohongshu must not be reported as live in the public payload.
+    seen_source_ids: set[str] = set()
+    warnings = payload.get("warnings", [])
+    warning_text = "\n".join(str(item) for item in warnings)
     for src in payload.get("sources", []):
+        source_id = src.get("id")
+        if source_id in seen_source_ids:
+            raise Failure(f"duplicate source id in payload: {source_id!r}")
+        seen_source_ids.add(source_id)
+        expected_label = EXPECTED_SOURCE_LABELS.get(source_id)
+        if expected_label is not None and src.get("label") != expected_label:
+            raise Failure(
+                f"source {source_id!r} must use truthful label {expected_label!r}"
+            )
         if src.get("mode") == "unavailable" and src.get("collected_at") is not None:
             raise Failure(
-                f"source {src.get('id')!r} is unavailable but carries a collected_at"
+                f"source {source_id!r} is unavailable but carries a collected_at"
             )
-        if src.get("id") == "xiaohongshu" and src.get("mode") == "live":
+        if src.get("mode") == "unavailable" and not src.get("errors"):
+            raise Failure(f"source {source_id!r} is unavailable without an explanation")
+        if source_id == "xiaohongshu" and src.get("mode") == "live":
             raise Failure("xiaohongshu must not be reported as live in the public payload")
+        if src.get("mode") == "imported" and "imported" not in warning_text:
+            raise Failure(f"source {source_id!r} is imported without an imported caveat")
+        if src.get("mode") == "simulated" and "simulated" not in warning_text:
+            raise Failure(f"source {source_id!r} is simulated without a simulated caveat")
+
+    missing_sources = sorted(set(EXPECTED_SOURCE_LABELS) - seen_source_ids)
+    if missing_sources:
+        raise Failure(f"payload is missing required sources: {', '.join(missing_sources)}")
+    if payload.get("freshness", {}).get("is_stale") and not warnings:
+        raise Failure("stale payload must include a visible warning")
+    market_status = payload.get("market_context", {}).get("status")
+    if market_status in {"degraded", "unavailable"} and "市场" not in warning_text:
+        raise Failure(
+            f"{market_status} market context must include a visible market warning"
+        )
     return payload
 
 
@@ -144,6 +183,27 @@ def _check_index(site: Path) -> str:
         raise Failure("vendored Chart.js runtime missing at assets/chart.umd.min.js")
     if "assets/chart.umd.min.js" not in html:
         raise Failure("index.html does not reference the vendored Chart.js runtime")
+
+    app_path = site / "assets" / "app.js"
+    if not app_path.is_file():
+        raise Failure("dashboard application missing at assets/app.js")
+    app_source = _read_text(app_path)
+    required_ui_markers = [
+        "社交指数",
+        "买卖语言证据",
+        "客观样本质量",
+        "独立市场背景",
+        "旧版数据（schema v2）",
+        "不支持的数据版本",
+    ]
+    missing_markers = [
+        marker for marker in required_ui_markers if marker not in app_source
+    ]
+    if missing_markers:
+        raise Failure(
+            "dashboard renderer is missing required v3/degraded-state markers: "
+            + ", ".join(missing_markers)
+        )
     return html
 
 

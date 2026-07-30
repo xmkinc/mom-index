@@ -1,6 +1,6 @@
 {
-  "schema_version": 2,
-  "generated_at": "2026-07-30T00:00:00+00:00",
+  "schema_version": 3,
+  "generated_at": "2026-07-30T19:32:43.977391+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
@@ -10,7 +10,7 @@
       "collected_at": null,
       "post_count": 0,
       "errors": [
-        "尚无成功的公开采集结果。"
+        "尚无成功的公开采集结果"
       ]
     },
     {
@@ -20,7 +20,7 @@
       "collected_at": null,
       "post_count": 0,
       "errors": [
-        "公开部署未启用小红书采集；本地路径必须明确选择后才会运行。"
+        "公开部署未启用小红书采集；本地路径必须明确选择后才会运行"
       ]
     }
   ],
@@ -30,10 +30,12 @@
     "stale_after_hours": 12
   },
   "warnings": [
-    "尚无可用的最后一次成功实时读数。"
+    "尚无可用的最后一次成功实时读数。",
+    "市场背景数据不可用或不完整；社交指数仍按独立公式展示，未使用行情数据。"
   ],
   "methodology": {
     "formula_version": "1.1",
+    "confidence_model_version": "1.0",
     "weights": {
       "newbie_ratio": 0.4,
       "newbie_intensity": 0.25,
@@ -47,6 +49,20 @@
     "gold": [],
     "cpo": [],
     "semiconductor": []
+  },
+  "market_context": {
+    "status": "unavailable",
+    "provider": null,
+    "imported_at": null,
+    "errors": [
+      "未提供可用的市场快照。"
+    ],
+    "sectors": {
+      "nasdaq": null,
+      "gold": null,
+      "cpo": null,
+      "semiconductor": null
+    }
   },
   "record_count": 0
 }
