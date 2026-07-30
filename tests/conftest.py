@@ -70,3 +70,54 @@ def pro_post(make_post):
         title="ETF估值与定投策略分析",
         content="当前PE处于历史分位低位，建议按仓位分散配置，长期持有。",
     )
+
+
+@pytest.fixture
+def xhs_help_post(make_post):
+    return make_post(
+        post_id="xhs_help1",
+        title="小白不会选股怎么办",
+        content="求带，现在入局还不晚吗？",
+        platform="xiaohongshu",
+        url="https://www.xiaohongshu.com/explore/123",
+    )
+
+
+@pytest.fixture
+def xhs_panic_post(make_post):
+    return make_post(
+        post_id="xhs_panic1",
+        title="快跑！抄底失败被套了",
+        content="家庭主妇第一次加杠杆，亏麻了，要不要割肉？",
+        platform="xiaohongshu",
+        url="https://www.xiaohongshu.com/explore/456",
+    )
+
+
+@pytest.fixture
+def xhs_chasing_post(make_post):
+    return make_post(
+        post_id="xhs_chase1",
+        title="三倍做多满仓干",
+        content="上班族还来得及吗？",
+        platform="xiaohongshu",
+        url="https://www.xiaohongshu.com/explore/789",
+    )
+
+
+@pytest.fixture
+def title_only_posts(make_post):
+    """Factory for a list of title-only posts."""
+
+    def _make(count: int = 95, platform: str = "guba") -> list[dict]:
+        return [
+            make_post(
+                post_id=f"titleonly_{i}",
+                title=f"第{i}个标题",
+                content="",
+                platform=platform,
+            )
+            for i in range(count)
+        ]
+
+    return _make

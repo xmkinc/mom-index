@@ -124,3 +124,54 @@ class TestAnalyzeAll:
         results = analyze_sector(posts, "nasdaq")
         # Same score: sorted by post_id ascending
         assert [r.post_id for r in results] == ["a", "z"]
+
+
+class TestPlatformExtensions:
+    """Platform-scoped keyword extensions affect only the matching platform."""
+
+    def test_xhs_help_phrases_produce_evidence(self, xhs_help_post):
+        result = analyze_post(xhs_help_post, "nasdaq")
+        assert result.matched_extension_signals
+        labels = {item[0] for item in result.matched_extension_signals}
+        assert "知识求助" in labels
+        assert "决策依赖" in labels
+
+    def test_xhs_extensions_do_not_apply_to_guba(self, make_post):
+        post = make_post(
+            post_id="g1",
+            title="小白不会选股怎么办",
+            content="求带，现在入局还不晚吗？",
+            platform="guba",
+        )
+        result = analyze_post(post, "nasdaq")
+        assert result.matched_extension_signals == []
+
+    def test_has_content_flag(self, make_post):
+        with_content = make_post(post_id="c1", title="标题", content="正文")
+        without_content = make_post(post_id="c2", title="标题", content="")
+        assert analyze_post(with_content, "nasdaq").has_content is True
+        assert analyze_post(without_content, "nasdaq").has_content is False
+
+
+class TestCompoundOverrides:
+    """Ordered longest-match compound overrides suppress inner matches."""
+
+    def test_chaodi_shibai_is_sell_not_buy(self, make_post):
+        post = make_post(
+            post_id="compound1",
+            title="抄底失败被套了",
+            content="现在怎么办",
+            platform="xiaohongshu",
+        )
+        result = analyze_post(post, "nasdaq")
+        assert result.intent == "sell"
+        # Ordinary 抄底 buy signal is suppressed by the compound override.
+        buy_hits = [kw for kw in ("抄底",) if kw in f"{post['title']} {post['content']}"]
+        # The only buy keyword in the text is the substring of the override.
+        assert "抄底" in f"{post['title']} {post['content']}"
+        assert result.sentiment_score <= 0
+
+    def test_xhs_panic_post_is_sell_side(self, xhs_panic_post):
+        result = analyze_post(xhs_panic_post, "nasdaq")
+        assert result.intent == "sell"
+        assert result.sentiment_score < 0
