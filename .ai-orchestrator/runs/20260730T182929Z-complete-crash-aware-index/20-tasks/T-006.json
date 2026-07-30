@@ -1,0 +1,17 @@
+{
+  "id": "T-006",
+  "title": "Wire CLI, site checks, documentation, and integration",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "objective": "Connect completed boundaries to the CLI/build/export/UI, update checks and documentation, migrate seed output, and run combined quality gates.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/10-design/accepted-design.md"],
+  "write_scope": ["mom_index/cli.py", "scripts/check_site.py", "scripts/build_site.py", "tests/test_degraded.py", "README.md", "docs/OPERATIONS.md", "data/**", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/30-integration/**"],
+  "read_only_scope": ["mom_index/**", "schema/**", "frontend/**", "tests/**"],
+  "forbidden_changes": ["Do not modify workflows.", "Do not change formula 1.1.", "Do not publish or merge master."],
+  "deliverables": ["Integration implementation", "Updated docs/data", "Quality-gate report", "Atomic commit"],
+  "acceptance_criteria": ["Explicit XHS and market import CLI paths work.", "Public default remains Guba-only.", "All repository quality gates pass."],
+  "verification_commands": ["python -m pytest -q", "python -m compileall -q mom_index scripts tests pipeline.py", "python scripts/build_site.py --out _site", "python scripts/check_site.py _site", "node --check frontend/assets/app.js"],
+  "dependencies": ["T-001", "T-002", "T-003", "T-004", "T-005"]
+}

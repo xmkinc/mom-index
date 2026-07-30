@@ -1,0 +1,3 @@
+# English Engineering Brief
+
+The first 95-title Xiaohongshu trial scored 9.4/100, but the user suspects the recent crash is relevant and asks how to complete the project. Build an auditable v0.2 that separates social participation, action-language direction, sample quality, and market context. Extend deterministic Xiaohongshu vocabulary without changing Guba behavior; add measurable confidence; accept sanitized local Xiaohongshu and market snapshot imports without credentials or identity data; keep the public GitHub path unauthenticated and Guba-only; remove predictive/trading claims; preserve formula 1.1, LKG, privacy, and deterministic behavior; add schema, UI, documentation, and tests. Do not publish or merge directly to master.
