@@ -1,0 +1,67 @@
+{
+  "id": "T-001",
+  "title": "Build the truthful public data contract and collection core",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
+  "objective": "Restructure the Python pipeline around a versioned public schema, honest source states, last-known-good storage, and a hardened unauthenticated Guba collector so later scoring and frontend tasks can rely on a stable interface.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/charter.md",
+    ".ai-orchestrator/roles/codex-foreman.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/decisions.md"
+  ],
+  "write_scope": [
+    "mom_index/**",
+    "schema/**",
+    "data/**",
+    "pipeline.py",
+    "sync_data.py",
+    "collectors/**",
+    "analyzer/**",
+    "requirements.txt",
+    "requirements-dev.txt",
+    ".gitignore",
+    "LICENSE"
+  ],
+  "read_only_scope": [
+    "frontend/**",
+    "README.md",
+    ".github/**"
+  ],
+  "forbidden_changes": [
+    "Do not modify the accepted schema v2 contract without stopping and reporting an architecture issue.",
+    "Do not change frontend files, workflows, documentation, orchestration control files, or another task's handoff.",
+    "Do not present simulated Xiaohongshu data as live or include interactive-login collection in the public default path.",
+    "Do not implement T-002 scoring behavior changes beyond the minimal moves required to preserve current behavior.",
+    "Do not modify or merge into the default branch."
+  ],
+  "deliverables": [
+    "Installable/importable mom_index package with stable collect, build, validate, and all CLI commands",
+    "JSON Schema v2 plus honest empty/degraded seed payload",
+    "Hardened Guba collector with optional proxy, row-scoped parsing, retries, and explicit failures",
+    "Last-known-good storage and privacy-preserving public export",
+    "Quarantined explicit-only simulated source and local-only Xiaohongshu paths",
+    "Pinned runtime and development dependencies, license, migration cleanup, and legacy pipeline shim",
+    "Atomic implementation commit and handoff report"
+  ],
+  "acceptance_criteria": [
+    "The package compiles under Python 3.11+ and all documented CLI entry points show help.",
+    "A forced collection failure still produces a schema-valid payload with unavailable source mode and no fabricated current reading.",
+    "A successful fixture/live collection path records timezone-aware provenance and a last-success timestamp.",
+    "Public export contains no author identities, cookies, credentials, raw record dump, or silently simulated data.",
+    "Duplicate committed frontend data is removed from the source-of-truth architecture and simulated public history is purged into non-public fixtures or removed.",
+    "Changes remain inside the declared write scope and are delivered as an atomic commit."
+  ],
+  "verification_commands": [
+    "python -m compileall mom_index pipeline.py",
+    "python -m mom_index --help",
+    "python -m mom_index collect --help",
+    "python -m mom_index build --help",
+    "python -m mom_index validate data/dashboard_data.json"
+  ],
+  "dependencies": []
+}
