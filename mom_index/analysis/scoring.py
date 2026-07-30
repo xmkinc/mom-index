@@ -1,20 +1,6 @@
-"""
-宝妈指数计算引擎
-四个板块独立计算，各自有完整的历史曲线
-"""
-from datetime import datetime, date
+"""Deterministic Mom Index scoring."""
+
 from typing import Dict, List
-import json
-import os
-
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
-
-SECTOR_NAMES = {
-    "nasdaq": "纳斯达克",
-    "gold": "黄金",
-    "cpo": "CPO通信",
-    "semiconductor": "半导体",
-}
 
 
 def compute_sector_index(analysis_results: List) -> Dict:
@@ -126,6 +112,7 @@ def compute_sector_index(analysis_results: List) -> Dict:
                 "intent": r.intent,
                 "intent_label": {"buy": "🟢 买入", "sell": "🔴 卖出", "neutral": "⚪ 观望"}.get(r.intent, ""),
                 "key_signals": r.key_signals[:2],
+                "source_url": r.source_url,
             }
             for r in sorted(newbie_posts, key=lambda x: x.newbie_score, reverse=True)[:5]
         ],
@@ -143,72 +130,3 @@ def interpret_index(index: float) -> str:
         return "🟢 正常区间 — 小白参与度适中，无需特别操作"
     else:
         return "🔵 极度冷清 — 小白沉默不语，可能是市场底部信号"
-
-
-def load_history() -> Dict:
-    """加载历史数据"""
-    history_file = os.path.join(DATA_DIR, "history.json")
-    if os.path.exists(history_file):
-        with open(history_file, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    return {"records": []}
-
-
-def save_history(history: Dict):
-    """保存历史数据"""
-    history_file = os.path.join(DATA_DIR, "history.json")
-    os.makedirs(DATA_DIR, exist_ok=True)
-    with open(history_file, 'w', encoding='utf-8') as f:
-        json.dump(history, f, ensure_ascii=False, indent=2)
-
-
-def add_record(sector_indices: Dict[str, Dict], analysis_results: Dict):
-    """添加一条历史记录"""
-    history = load_history()
-    
-    record = {
-        "date": datetime.now().strftime("%Y-%m-%d"),
-        "timestamp": datetime.now().isoformat(),
-        "sectors": sector_indices,
-    }
-    
-    # 如果今天已有记录，更新而非新增
-    today = record["date"]
-    existing = [r for r in history["records"] if r["date"] == today]
-    if existing:
-        history["records"] = [r for r in history["records"] if r["date"] != today]
-    
-    history["records"].append(record)
-    history["records"].sort(key=lambda r: r["date"])
-    save_history(history)
-
-
-def get_dashboard_data() -> Dict:
-    """获取前端所需的完整数据"""
-    history = load_history()
-    records = history.get("records", [])
-    
-    # 最新一条
-    latest = records[-1] if records else None
-    
-    # 为每个板块准备历史曲线数据
-    sector_history = {
-        "nasdaq": [],
-        "gold": [],
-        "cpo": [],
-        "semiconductor": [],
-    }
-    
-    for r in records:
-        for sector, data in r.get("sectors", {}).items():
-            if sector in sector_history:
-                sector_history[sector].append({
-                    "date": r["date"],
-                    "index": data["index"],
-                })
-    
-    return {
-        "latest": latest,
-        "sector_history": sector_history,
-        "record_count": len(records),
-    }

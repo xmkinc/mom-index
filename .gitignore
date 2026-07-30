@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
 dist/
 build/
 *.egg
@@ -14,9 +17,10 @@ build/
 *.swp
 *.swo
 
-# 数据文件（可选 — 如果要跟踪数据则删除下面几行）
-# data/*.json
-# frontend/data/*.json
+# Generated/intermediate data
+data/collection.json
+frontend/data/
+_site/
 
 # 环境
 .env
