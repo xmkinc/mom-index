@@ -24,6 +24,7 @@ from mom_index.config import (
 _ALLOWED_POST_HOSTS = {
     "guba.eastmoney.com",
     "caifuhao.eastmoney.com",
+    "xiaohongshu.com",
     "www.xiaohongshu.com",
 }
 _DETAIL_FIELDS = {
@@ -87,8 +88,22 @@ def _public_error(value: str) -> str:
 def _public_url(value: Any) -> str:
     if not isinstance(value, str) or not value:
         return ""
-    parsed = urlparse(value)
-    if parsed.scheme != "https" or parsed.hostname not in _ALLOWED_POST_HOSTS:
+    if any(character.isspace() or ord(character) < 32 for character in value):
+        return ""
+    try:
+        parsed = urlparse(value)
+        port = parsed.port
+    except ValueError:
+        return ""
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname not in _ALLOWED_POST_HOSTS
+        or parsed.username is not None
+        or parsed.password is not None
+        or port is not None
+        or parsed.netloc.lower() != parsed.hostname
+        or not parsed.path.startswith("/")
+    ):
         return ""
     return value
 

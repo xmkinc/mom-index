@@ -9,7 +9,7 @@ import pytest
 
 from mom_index.collectors import SourceResult
 from mom_index.config import MARKET_REFERENCES, PROJECT_ROOT
-from mom_index.export import build_payload
+from mom_index.export import _public_url, build_payload
 from mom_index.storage import empty_history, merge_success
 from mom_index.validation import PayloadValidationError, validate_payload
 
@@ -295,6 +295,31 @@ class TestPrivacy:
         encoded = json.dumps(payload, ensure_ascii=False)
         assert "abcdefghijklmnopqrstuvwxyz" not in encoded
         assert "[redacted credential]" in encoded
+
+    @pytest.mark.parametrize(
+        "source_url",
+        [
+            "https://xiaohongshu.com/explore/bare-host",
+            "https://www.xiaohongshu.com/explore/www-host",
+        ],
+    )
+    def test_safe_xhs_source_hosts_are_public(self, source_url):
+        assert _public_url(source_url) == source_url
+
+    @pytest.mark.parametrize(
+        "source_url",
+        [
+            "http://xiaohongshu.com/explore/insecure",
+            "https://evil.xiaohongshu.com/explore/deceptive",
+            "https://xiaohongshu.com.evil.example/explore/deceptive",
+            "https://user:password@xiaohongshu.com/explore/credentials",
+            "https://xiaohongshu.com:443/explore/port",
+            "https://xiaohongshu.com/explore/has space",
+            "javascript:alert(1)",
+        ],
+    )
+    def test_unsafe_xhs_source_urls_are_rejected(self, source_url):
+        assert _public_url(source_url) == ""
 
 
 class TestFreshness:
