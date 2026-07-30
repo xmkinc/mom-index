@@ -11,3 +11,4 @@
 
 - T-005 was explicitly reassigned to Codex as T-005R after the WorkBuddy background CLI refused Bash in non-interactive `acceptEdits` mode. No bypass or full-access permission was enabled.
 - T-003 implementation was produced by WorkBuddy but left unverified and uncommitted for the same Bash restriction. T-003R assigns Codex to review, test, repair, and commit that bounded delivery; WorkBuddy's original handoff is preserved.
+- T-007 closes the integration finding that the sanitized importer/schema accepted the bare Xiaohongshu host while public URL export retained only the `www` host.

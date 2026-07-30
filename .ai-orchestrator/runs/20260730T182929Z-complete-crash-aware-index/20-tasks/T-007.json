@@ -1,0 +1,17 @@
+{
+  "id": "T-007",
+  "title": "Align imported Xiaohongshu URL export allowlist",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "objective": "Preserve safe bare-host Xiaohongshu source links already accepted by the schema/importer while retaining fail-closed URL validation.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/10-design/accepted-design.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/handoffs/T-003R-codex.md"],
+  "write_scope": ["mom_index/export.py", "tests/test_export.py"],
+  "read_only_scope": ["mom_index/collectors/xhs_import.py", "schema/xhs_import.schema.json"],
+  "forbidden_changes": ["Do not broaden URLs beyond exact HTTPS xiaohongshu.com and www.xiaohongshu.com hosts.", "Do not change scoring or workflows."],
+  "deliverables": ["Implementation", "Regression test", "Atomic commit", "Handoff"],
+  "acceptance_criteria": ["Safe bare-host and www Xiaohongshu links export.", "HTTP, deceptive subdomains, credentials, and non-XHS hosts remain rejected."],
+  "verification_commands": ["python -m pytest -q tests/test_export.py tests/test_xhs_import.py"],
+  "dependencies": ["T-003R", "T-006"]
+}
