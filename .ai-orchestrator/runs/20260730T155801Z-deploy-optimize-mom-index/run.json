@@ -8,7 +8,7 @@
   "base_commit": "0c68a455b60a973c6e31ea7c8c335c868ba346f2",
   "design_revision": "D-001@1",
   "integration_branch": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
-  "final_review_verdict": null,
+  "final_review_verdict": "APPROVE_WITH_NOTES",
   "state_history": [
     {
       "from": "INTAKE",
