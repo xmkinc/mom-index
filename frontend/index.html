@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="宝妈指数 — 当小白开始讨论投资，就是该警惕的时候。基于东方财富股吧公开数据的散户情绪指数。">
+  <meta name="color-scheme" content="dark">
+  <title>宝妈指数 · Mom Index</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" href="data:,">
+</head>
+<body>
+  <noscript>
+    <div class="noscript-notice">
+      本面板需要 JavaScript 才能渲染图表与动态状态。请在浏览器中启用 JavaScript，或直接查看
+      <a href="data/dashboard_data.json">原始数据 (JSON)</a>。
+    </div>
+  </noscript>
+
+  <header class="header">
+    <h1>👩‍👧 宝妈指数</h1>
+    <div class="subtitle">当小白开始讨论投资，就是该警惕的时候</div>
+    <div class="update-time" id="update-time" aria-live="polite"></div>
+  </header>
+
+  <main class="container" id="container">
+    <section class="status-bar" id="status-bar" aria-live="polite"><!-- badges + banners --></section>
+
+    <section class="cards" id="cards" aria-busy="true" aria-live="polite">
+      <div class="state"><span class="icon skeleton" style="display:inline-block;width:120px;height:18px"></span>加载中…</div>
+    </section>
+
+    <section class="charts" id="charts" aria-live="polite"></section>
+
+    <section class="top-posts" id="top-posts" aria-live="polite">
+      <h3>🔥 今日最"小白"的帖子</h3>
+      <div class="state" id="top-posts-state">加载中…</div>
+    </section>
+
+    <section class="methodology" id="methodology" hidden>
+      <h3>📖 指数说明</h3>
+      <div id="methodology-body"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="sources" id="footer-sources">数据来源将在数据加载后显示</div>
+    <div class="disclaimer">
+      宝妈指数 · schema v2 · 指数越高 = 小白越活跃 = 市场情绪越危险<br>
+      ⚠️ 仅供参考，不构成投资建议。数据可能存在延迟或不可用状态。
+    </div>
+  </footer>
+
+  <script src="assets/chart.umd.min.js" onerror="window.__chartJsFailed=true;"></script>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

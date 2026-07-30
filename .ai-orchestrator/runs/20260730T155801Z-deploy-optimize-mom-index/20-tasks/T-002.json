@@ -1,0 +1,62 @@
+{
+  "id": "T-002",
+  "title": "Correct deterministic scoring and add comprehensive tests",
+  "owner": "kimi",
+  "status": "completed",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
+  "objective": "Correct the deterministic classifier and scoring semantics within schema v2, and establish a comprehensive pytest suite covering the analysis, collector parser, storage/export, validation, and degraded-path contracts.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/charter.md",
+    ".ai-orchestrator/roles/kimi-worker.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/decisions.md"
+  ],
+  "write_scope": [
+    "mom_index/analysis/**",
+    "tests/**"
+  ],
+  "read_only_scope": [
+    "mom_index/collectors/**",
+    "mom_index/config.py",
+    "mom_index/storage.py",
+    "mom_index/export.py",
+    "mom_index/validation.py",
+    "schema/**",
+    "data/**"
+  ],
+  "forbidden_changes": [
+    "Do not change schema v2, collection/storage/export public interfaces, source modes, workflows, frontend, dependencies, docs, or orchestration control files.",
+    "Do not silently weaken privacy or degraded-state validation to make a test pass.",
+    "Do not introduce an LLM or probabilistic classifier; the engine remains deterministic and documented.",
+    "Do not modify or merge into the default branch."
+  ],
+  "deliverables": [
+    "Post deduplication by stable identity before sector analysis",
+    "Correct intent matching that avoids overlapping-keyword double counting and deterministic tie handling",
+    "Consistent non-spam scoring denominators and explicit spam behavior",
+    "Removal of unused activity output or a contract-compatible resolution that does not change files outside scope",
+    "Honest null buy/sell ratio when there are buys but zero sells, with deterministic zero/zero behavior",
+    "One canonical interpret_index implementation",
+    "Pytest coverage for classifier/scoring thresholds and formulas, malformed/empty data, parser row alignment, storage LKG, schema/privacy export, timezone boundary, forced failure, and explicit simulation labels",
+    "Atomic implementation commit and handoff report"
+  ],
+  "acceptance_criteria": [
+    "Spam records never enter newbie counts, purity counts, sentiment, intent, or denominators.",
+    "Duplicate post identities are counted once per sector and ordering is deterministic.",
+    "A buy count above zero with sell count zero exports buy_sell_ratio=null; zero buys and zero sells has a documented deterministic value covered by tests.",
+    "Scoring weights and interpretation boundaries have direct unit tests, including 0, 20, 40, 60, and 75.",
+    "Guba parser, LKG preservation, schema validation, public privacy, Shanghai day boundary, unavailable source, and explicit simulation behaviors are tested without live network access.",
+    "The full suite passes on Python 3.11 and changes remain inside declared write scope."
+  ],
+  "verification_commands": [
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m pytest -q",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m compileall -q mom_index tests",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m mom_index validate data/dashboard_data.json"
+  ],
+  "dependencies": [
+    "T-001"
+  ]
+}

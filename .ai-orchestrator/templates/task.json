@@ -1,0 +1,35 @@
+{
+  "id": "T-000",
+  "title": "Replace with a bounded task title",
+  "owner": "kimi",
+  "status": "draft",
+  "design_revision": "D-000@1",
+  "base_ref": "ai/RUN_ID/integration",
+  "objective": "Replace with one testable outcome.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/runs/RUN_ID/10-design/accepted-design.md"
+  ],
+  "write_scope": [
+    "REPLACE/WITH/ALLOWED/**"
+  ],
+  "read_only_scope": [],
+  "forbidden_changes": [
+    "Do not change public contracts unless this task explicitly owns them.",
+    "Do not modify main or integrate another worker's changes."
+  ],
+  "deliverables": [
+    "Implementation",
+    "Tests",
+    "Atomic commit",
+    "Handoff report"
+  ],
+  "acceptance_criteria": [
+    "Replace with a measurable criterion."
+  ],
+  "verification_commands": [
+    "Replace with a repository command."
+  ],
+  "dependencies": []
+}

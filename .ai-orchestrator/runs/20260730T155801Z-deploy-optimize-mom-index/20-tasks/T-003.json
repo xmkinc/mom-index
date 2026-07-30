@@ -1,0 +1,61 @@
+{
+  "id": "T-003",
+  "title": "Rebuild the static dashboard and deterministic site assembly",
+  "owner": "workbuddy",
+  "status": "completed",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
+  "objective": "Build an accessible, responsive schema-v2 dashboard and deterministic static-site assembly/smoke tooling that truthfully exposes source modes, freshness, degraded states, methodology, and sparse history on GitHub Pages.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/charter.md",
+    ".ai-orchestrator/roles/workbuddy-worker.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/decisions.md",
+    "schema/dashboard.schema.json",
+    "data/dashboard_data.json"
+  ],
+  "write_scope": [
+    "frontend/**",
+    "scripts/**"
+  ],
+  "read_only_scope": [
+    "mom_index/**",
+    "schema/**",
+    "data/**",
+    "README.md"
+  ],
+  "forbidden_changes": [
+    "Do not change schema v2, Python code, scoring behavior, data source policy, workflows, dependencies, README/docs, or orchestration control files.",
+    "Do not use CDN-hosted runtime assets, absolute /mom-index paths, external analytics, cookies, or inline fabricated readings.",
+    "Do not hide unavailable, simulated, stale, error, loading, empty, or insufficient-history states.",
+    "Do not modify or merge into the default branch."
+  ],
+  "deliverables": [
+    "frontend/index.html with semantic Chinese UI and noscript fallback",
+    "Split responsive CSS and JavaScript assets plus vendored Chart.js 4.x runtime and license notice",
+    "Schema-v2 rendering for four indices, buy/sell metrics, history, top posts, source badges, generated/last-success time, warnings, and plain-language methodology",
+    "Client-side staleness recomputation and graceful loading/error/empty/insufficient-history/chart-failure states",
+    "Mobile layout verified at 375 CSS pixels and accessible keyboard/focus/color behavior",
+    "scripts/build_site.py assembling a clean _site artifact with relative paths and one copied public payload",
+    "scripts/check_site.py validating payload/schema, asset references, no CDN dependency, truthful labels, and secret-like content",
+    "Removal of tracked frontend/data duplicates from source and atomic implementation commit plus handoff report"
+  ],
+  "acceptance_criteria": [
+    "The built artifact contains index.html, all locally referenced assets, and data/dashboard_data.json with only relative subpath-safe references.",
+    "The dashboard renders a useful shell and source/freshness state even when Chart.js fails; empty payloads do not display invented charts or readings.",
+    "Unavailable and simulated sources are visibly distinct, and stale state is recalculated in the browser from last_success_at.",
+    "The page no longer claims Douyin or any source absent from the payload and never describes Xiaohongshu as live when unavailable.",
+    "No loading spinner remains after success/error, no grid overflows at 375px, and links to source posts are safe external links.",
+    "Site build and smoke commands pass and changes remain inside declared write scope."
+  ],
+  "verification_commands": [
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python scripts/build_site.py --out _site",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python scripts/check_site.py _site",
+    "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index/.venv/bin/python -m compileall -q scripts"
+  ],
+  "dependencies": [
+    "T-001"
+  ]
+}

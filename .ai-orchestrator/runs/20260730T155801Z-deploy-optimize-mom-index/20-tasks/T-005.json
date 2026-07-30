@@ -1,0 +1,47 @@
+{
+  "id": "T-005",
+  "title": "Repair visual balance and Chinese degraded-state copy",
+  "owner": "codex",
+  "status": "completed",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T155801Z-deploy-optimize-mom-index/integration",
+  "objective": "Resolve integration visual-QA findings without changing schema or behavior: use a balanced desktop chart grid and present public unavailable/stale/simulated messages consistently in Chinese.",
+  "required_reading": [
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260730T155801Z-deploy-optimize-mom-index/handoffs/T-003-glm52.md"
+  ],
+  "write_scope": [
+    "mom_index/cli.py",
+    "mom_index/export.py",
+    "data/dashboard_data.json",
+    "frontend/assets/app.js",
+    "frontend/assets/styles.css"
+  ],
+  "read_only_scope": [
+    "schema/**",
+    "tests/**",
+    "scripts/**"
+  ],
+  "forbidden_changes": [
+    "Do not change schema, scoring, source modes, workflow behavior, or collection policy."
+  ],
+  "deliverables": [
+    "Balanced two-column desktop chart layout with the existing one-column mobile breakpoint",
+    "Chinese public source/freshness warning copy and clearer methodology wording",
+    "Passing full tests, site checks, JavaScript syntax, and desktop/mobile browser QA"
+  ],
+  "acceptance_criteria": [
+    "Four desktop charts render as a balanced two-by-two grid and mobile remains one column without horizontal overflow.",
+    "The default seed and normal Guba-only live build show no English degraded-state warning.",
+    "All existing executable quality gates remain green."
+  ],
+  "verification_commands": [
+    ".venv/bin/python -m pytest -q",
+    ".venv/bin/python scripts/build_site.py --out _site",
+    ".venv/bin/python scripts/check_site.py _site",
+    "node --check frontend/assets/app.js"
+  ],
+  "dependencies": [
+    "T-004"
+  ]
+}

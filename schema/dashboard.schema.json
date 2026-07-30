@@ -1,0 +1,509 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xmkinc.github.io/mom-index/schema/dashboard.schema.json",
+  "title": "Mom Index public dashboard payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "display_timezone",
+    "sources",
+    "freshness",
+    "warnings",
+    "methodology",
+    "latest",
+    "sector_history",
+    "record_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "generated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "display_timezone": {
+      "const": "Asia/Shanghai"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "freshness": {
+      "$ref": "#/$defs/freshness"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 300
+      }
+    },
+    "methodology": {
+      "$ref": "#/$defs/methodology"
+    },
+    "latest": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/latest"
+        }
+      ]
+    },
+    "sector_history": {
+      "$ref": "#/$defs/sectorHistory"
+    },
+    "record_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "mode",
+        "collected_at",
+        "post_count",
+        "errors"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "enum": [
+            "live",
+            "simulated",
+            "unavailable"
+          ]
+        },
+        "collected_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/timestamp"
+            }
+          ]
+        },
+        "post_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "unavailable"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "collected_at": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "collected_at": {
+                "$ref": "#/$defs/timestamp"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "is_stale",
+        "last_success_at",
+        "stale_after_hours"
+      ],
+      "properties": {
+        "is_stale": {
+          "type": "boolean"
+        },
+        "last_success_at": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/timestamp"
+            }
+          ]
+        },
+        "stale_after_hours": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formula_version",
+        "weights"
+      ],
+      "properties": {
+        "formula_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "newbie_ratio",
+            "newbie_intensity",
+            "sentiment_extremity",
+            "purity"
+          ],
+          "properties": {
+            "newbie_ratio": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "newbie_intensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "sentiment_extremity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "purity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "activity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      }
+    },
+    "latest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "date",
+        "sectors"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "sectors": {
+          "$ref": "#/$defs/sectors"
+        }
+      }
+    },
+    "sectors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nasdaq",
+        "gold",
+        "cpo",
+        "semiconductor"
+      ],
+      "properties": {
+        "nasdaq": {
+          "$ref": "#/$defs/sector"
+        },
+        "gold": {
+          "$ref": "#/$defs/sector"
+        },
+        "cpo": {
+          "$ref": "#/$defs/sector"
+        },
+        "semiconductor": {
+          "$ref": "#/$defs/sector"
+        }
+      }
+    },
+    "sector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "interpretation",
+        "details",
+        "top_newbie_posts"
+      ],
+      "properties": {
+        "index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "interpretation": {
+          "type": "string"
+        },
+        "details": {
+          "$ref": "#/$defs/details"
+        },
+        "top_newbie_posts": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/post"
+          }
+        }
+      }
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_posts",
+        "valid_posts",
+        "spam_posts",
+        "newbie_posts",
+        "pure_newbie",
+        "newbie_ratio",
+        "avg_newbie_score",
+        "avg_sentiment",
+        "purity_signal",
+        "mom_buy_index",
+        "mom_sell_index",
+        "buy_sell_ratio",
+        "buy_count",
+        "sell_count"
+      ],
+      "properties": {
+        "total_posts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "valid_posts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "spam_posts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "newbie_posts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pure_newbie": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "newbie_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "avg_newbie_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "avg_sentiment": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "purity_signal": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "activity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "mom_buy_index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "mom_sell_index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "buy_sell_ratio": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "buy_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sell_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "post": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "score",
+        "level",
+        "reasoning",
+        "intent",
+        "key_signals",
+        "source_url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "level": {
+          "type": "string"
+        },
+        "reasoning": {
+          "type": "string",
+          "maxLength": 150
+        },
+        "intent": {
+          "enum": [
+            "buy",
+            "sell",
+            "neutral"
+          ]
+        },
+        "key_signals": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "source_url": {
+          "oneOf": [
+            {
+              "const": ""
+            },
+            {
+              "type": "string",
+              "format": "uri"
+            }
+          ]
+        }
+      }
+    },
+    "sectorHistory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nasdaq",
+        "gold",
+        "cpo",
+        "semiconductor"
+      ],
+      "properties": {
+        "nasdaq": {
+          "$ref": "#/$defs/historyPoints"
+        },
+        "gold": {
+          "$ref": "#/$defs/historyPoints"
+        },
+        "cpo": {
+          "$ref": "#/$defs/historyPoints"
+        },
+        "semiconductor": {
+          "$ref": "#/$defs/historyPoints"
+        }
+      }
+    },
+    "historyPoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "index",
+          "source_mode"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "index": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "source_mode": {
+            "enum": [
+              "live",
+              "simulated"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
