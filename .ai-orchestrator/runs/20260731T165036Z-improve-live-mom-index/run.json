@@ -6,7 +6,7 @@
   "repo": "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/.agent-worktrees/mom-index/improve-system-control",
   "base_branch": "master",
   "base_commit": "90449c1cd595ab0dc333d15f6964c37b921c800d",
-  "design_revision": null,
+  "design_revision": "D-001@1",
   "integration_branch": "ai/20260731T165036Z-improve-live-mom-index/integration",
   "final_review_verdict": null,
   "state_history": [
