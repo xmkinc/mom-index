@@ -3,8 +3,8 @@
 
 Verifies, against the accepted design contract:
   * ``index.html`` and the single public payload ``data/dashboard_data.json``
-    exist and the schema-v3 payload validates against
-    ``schema/dashboard.schema.json``;
+    exist and a supported schema-v2/v3 payload passes the strict compatibility
+    validator against ``schema/dashboard.schema.json``;
   * every relative asset reference in ``index.html`` resolves inside the site;
   * no CDN / absolute-URL runtime dependencies (``https://``/``http://`` in
     ``src``/``href``), no absolute ``/mom-index/`` paths; ``data:`` URIs allowed;
@@ -31,7 +31,10 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SCHEMA_PATH = REPO_ROOT / "schema" / "dashboard.schema.json"
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from mom_index.validation import PayloadValidationError, validate_payload
 
 # Patterns that should never appear in a published artifact.
 SECRET_PATTERNS = [
@@ -86,27 +89,10 @@ def _check_payload(site: Path) -> dict:
     except json.JSONDecodeError as exc:
         raise Failure(f"payload is not valid JSON: {exc}") from exc
 
-    if not SCHEMA_PATH.is_file():
-        raise Failure(f"schema not found: {SCHEMA_PATH}")
     try:
-        import jsonschema  # type: ignore
-    except ImportError as exc:
-        raise Failure(f"jsonschema package not available: {exc}") from exc
-
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
-    validator = jsonschema.Draft202012Validator(
-        schema, format_checker=jsonschema.Draft202012Validator.FORMAT_CHECKER
-    )
-    errors = sorted(validator.iter_errors(payload), key=lambda e: list(e.absolute_path))
-    if errors:
-        msgs = []
-        for err in errors:
-            loc = ".".join(str(p) for p in err.absolute_path) or "<root>"
-            msgs.append(f"  {loc}: {err.message}")
-        raise Failure("payload failed schema validation:\n" + "\n".join(msgs))
-
-    if payload.get("schema_version") != 3:
-        raise Failure("public site payload must use schema v3")
+        validate_payload(payload)
+    except PayloadValidationError as exc:
+        raise Failure(f"payload failed schema validation: {exc}") from exc
 
     # Truthful-source consistency: an unavailable source must not be described
     # as live; xiaohongshu must not be reported as live in the public payload.

@@ -190,7 +190,7 @@ def _cmd_build(args: argparse.Namespace) -> int:
 def _cmd_validate(args: argparse.Namespace) -> int:
     payload = _path(args.payload)
     engine = validate_payload_file(payload)
-    print(f"valid schema-v3 payload: {payload} ({engine})")
+    print(f"valid dashboard payload: {payload} ({engine})")
     return 0
 
 
