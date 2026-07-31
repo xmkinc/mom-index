@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-31T09:19:43.441744+00:00",
+  "generated_at": "2026-07-31T14:39:42.032388+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-07-31T09:19:35.841405+00:00",
-      "post_count": 301,
+      "collected_at": "2026-07-31T14:39:35.427379+00:00",
+      "post_count": 295,
       "errors": []
     },
     {
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-07-31T09:19:35.841405+00:00",
+    "last_success_at": "2026-07-31T14:39:35.427379+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -43,24 +43,24 @@
     "date": "2026-07-31",
     "sectors": {
       "nasdaq": {
-        "index": 16.9,
+        "index": 18.5,
         "interpretation": "🔵 极度冷清 — 小白沉默不语，可能是市场底部信号",
         "details": {
-          "activity": 96.2,
-          "valid_posts": 77,
-          "newbie_posts": 13,
-          "avg_newbie_score": 28.5,
-          "mom_sell_index": 12.0,
-          "total_posts": 77,
-          "newbie_ratio": 16.9,
-          "buy_sell_ratio": 6.0,
-          "mom_buy_index": 28.3,
-          "sell_count": 1,
-          "avg_sentiment": 15.4,
-          "spam_posts": 0,
-          "pure_newbie": 0,
           "purity_signal": 0.0,
-          "buy_count": 6
+          "buy_sell_ratio": 4.0,
+          "valid_posts": 77,
+          "activity": 96.2,
+          "avg_sentiment": 33.3,
+          "pure_newbie": 0,
+          "newbie_posts": 9,
+          "avg_newbie_score": 28.7,
+          "sell_count": 1,
+          "spam_posts": 0,
+          "buy_count": 4,
+          "mom_buy_index": 27.4,
+          "mom_sell_index": 13.8,
+          "newbie_ratio": 11.7,
+          "total_posts": 77
         },
         "top_newbie_posts": [
           {
@@ -75,17 +75,6 @@
             "source_url": "https://guba.eastmoney.com/news,sz159941,1752466610.html"
           },
           {
-            "title": "1.570清仓，卖了就涨，尾盘看看能不能接回来",
-            "score": 38.0,
-            "level": "偏小白",
-            "reasoning": "帖子「1.570清仓，卖了就涨，尾盘看看能不能接回来...」 命中1个小信号: 决策依赖(7分)。 综合得分38.0分， 判定为「偏小白」 (置信度: low)。",
-            "intent": "sell",
-            "key_signals": [
-              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 能不能)"
-            ],
-            "source_url": "https://guba.eastmoney.com/news,sz159941,1752384275.html"
-          },
-          {
             "title": "大哥能不能拉高一下",
             "score": 38.0,
             "level": "偏小白",
@@ -97,17 +86,6 @@
             "source_url": "https://guba.eastmoney.com/news,sz159941,1752699226.html"
           },
           {
-            "title": "要不要上车",
-            "score": 38.0,
-            "level": "偏小白",
-            "reasoning": "帖子「要不要上车...」 命中1个小信号: 决策依赖(7分)。 综合得分38.0分， 判定为「偏小白」 (置信度: low)。",
-            "intent": "buy",
-            "key_signals": [
-              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 要不要)"
-            ],
-            "source_url": "https://guba.eastmoney.com/news,sz159941,1752369164.html"
-          },
-          {
             "title": "又冲高了，周一高开多少个点呢",
             "score": 34.0,
             "level": "中间派",
@@ -117,28 +95,50 @@
               "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
             ],
             "source_url": "https://guba.eastmoney.com/news,sz159941,1752871730.html"
+          },
+          {
+            "title": "已经到底，干就完了，加仓10万元",
+            "score": 30.0,
+            "level": "中间派",
+            "reasoning": "帖子「已经到底，干就完了，加仓10万元...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "buy",
+            "key_signals": [
+              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sz159941,1752335964.html"
+          },
+          {
+            "title": "割肉了。事到如今最对不起的还是家人",
+            "score": 30.0,
+            "level": "中间派",
+            "reasoning": "帖子「割肉了。事到如今最对不起的还是家人...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "sell",
+            "key_signals": [
+              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sz159941,1752913160.html"
           }
         ]
       },
       "gold": {
-        "index": 21.0,
+        "index": 21.2,
         "interpretation": "🟢 正常区间 — 小白参与度适中，无需特别操作",
         "details": {
-          "activity": 88.8,
-          "valid_posts": 71,
+          "purity_signal": 0.0,
+          "buy_sell_ratio": 0.0,
+          "valid_posts": 69,
+          "activity": 86.2,
+          "avg_sentiment": 44.4,
+          "pure_newbie": 0,
           "newbie_posts": 9,
           "avg_newbie_score": 28.2,
-          "mom_sell_index": 9.8,
-          "total_posts": 71,
-          "newbie_ratio": 12.7,
-          "buy_sell_ratio": 0.0,
-          "mom_buy_index": 0.0,
           "sell_count": 1,
-          "avg_sentiment": 44.4,
           "spam_posts": 0,
-          "pure_newbie": 0,
-          "purity_signal": 0.0,
-          "buy_count": 0
+          "buy_count": 0,
+          "mom_buy_index": 0.0,
+          "mom_sell_index": 9.8,
+          "newbie_ratio": 13.0,
+          "total_posts": 69
         },
         "top_newbie_posts": [
           {
@@ -200,21 +200,21 @@
         "index": 23.0,
         "interpretation": "🟢 正常区间 — 小白参与度适中，无需特别操作",
         "details": {
-          "activity": 96.2,
-          "valid_posts": 77,
-          "newbie_posts": 14,
-          "avg_newbie_score": 28.6,
-          "mom_sell_index": 7.8,
-          "total_posts": 77,
-          "newbie_ratio": 18.2,
-          "buy_sell_ratio": 3.0,
-          "mom_buy_index": 16.6,
-          "sell_count": 1,
-          "avg_sentiment": 42.9,
-          "spam_posts": 0,
-          "pure_newbie": 0,
           "purity_signal": 0.0,
-          "buy_count": 3
+          "buy_sell_ratio": 4.0,
+          "valid_posts": 76,
+          "activity": 95.0,
+          "avg_sentiment": 42.9,
+          "pure_newbie": 0,
+          "newbie_posts": 14,
+          "avg_newbie_score": 28.3,
+          "sell_count": 1,
+          "spam_posts": 0,
+          "buy_count": 4,
+          "mom_buy_index": 20.0,
+          "mom_sell_index": 7.8,
+          "newbie_ratio": 18.4,
+          "total_posts": 76
         },
         "top_newbie_posts": [
           {
@@ -275,24 +275,24 @@
         ]
       },
       "semiconductor": {
-        "index": 20.2,
+        "index": 20.4,
         "interpretation": "🟢 正常区间 — 小白参与度适中，无需特别操作",
         "details": {
-          "activity": 95.0,
-          "valid_posts": 76,
+          "purity_signal": 9.1,
+          "buy_sell_ratio": null,
+          "valid_posts": 73,
+          "activity": 91.2,
+          "avg_sentiment": 27.3,
+          "pure_newbie": 1,
           "newbie_posts": 11,
           "avg_newbie_score": 30.4,
-          "mom_sell_index": 0.0,
-          "total_posts": 76,
-          "newbie_ratio": 14.5,
-          "buy_sell_ratio": null,
-          "mom_buy_index": 13.6,
           "sell_count": 0,
-          "avg_sentiment": 27.3,
           "spam_posts": 0,
-          "pure_newbie": 1,
-          "purity_signal": 9.1,
-          "buy_count": 2
+          "buy_count": 2,
+          "mom_buy_index": 13.6,
+          "mom_sell_index": 0.0,
+          "newbie_ratio": 15.1,
+          "total_posts": 73
         },
         "top_newbie_posts": [
           {
@@ -359,14 +359,14 @@
     "nasdaq": [
       {
         "date": "2026-07-31",
-        "index": 16.9,
+        "index": 18.5,
         "source_mode": "live"
       }
     ],
     "gold": [
       {
         "date": "2026-07-31",
-        "index": 21.0,
+        "index": 21.2,
         "source_mode": "live"
       }
     ],
@@ -380,7 +380,7 @@
     "semiconductor": [
       {
         "date": "2026-07-31",
-        "index": 20.2,
+        "index": 20.4,
         "source_mode": "live"
       }
     ]
