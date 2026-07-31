@@ -1,0 +1,17 @@
+{
+  "id": "T-003",
+  "title": "Complete schema-v2 static-site release compatibility",
+  "owner": "codex",
+  "status": "integrated",
+  "design_revision": "D-002@2",
+  "base_ref": "ai/20260730T194610Z-fable5-consensus-improvement/integration",
+  "objective": "Allow the existing schema-v2 data branch to pass static-site build and smoke checks through the strict compatibility validator, and remove misleading schema-v3-only CLI wording.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T194610Z-fable5-consensus-improvement/10-design/release-repair.md"],
+  "write_scope": ["scripts/build_site.py", "scripts/check_site.py", "mom_index/cli.py", "tests/test_site_compatibility.py"],
+  "read_only_scope": ["mom_index/validation.py", "schema/dashboard.schema.json", ".github/workflows/deploy.yml", "frontend/assets/app.js"],
+  "forbidden_changes": ["Do not change schemas, validation semantics, scoring, collectors, frontend, workflows, credentials, or data files."],
+  "deliverables": ["Build/check compatibility", "Truthful CLI output", "Regression tests", "Atomic commit", "Handoff"],
+  "acceptance_criteria": ["Schema-v2 site builds and passes check_site.", "Schema-v3 site behavior remains unchanged.", "Unknown versions fail before copy.", "Site checks reuse the strict privacy/schema validator.", "CLI output does not mislabel v2 as v3."],
+  "verification_commands": ["python -m pytest -q tests/test_site_compatibility.py", "python -m pytest -q", "python scripts/build_site.py --out _site && python scripts/check_site.py _site"],
+  "dependencies": ["T-002"]
+}

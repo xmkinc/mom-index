@@ -1,0 +1,17 @@
+{
+  "id": "T-001",
+  "title": "Scope compound overrides to Xiaohongshu",
+  "owner": "codex",
+  "status": "integrated",
+  "design_revision": "D-002@1",
+  "base_ref": "ai/20260730T194610Z-fable5-consensus-improvement/integration",
+  "objective": "Make compound overrides platform-scoped so Xiaohongshu crash-language correction no longer changes Guba behavior.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T194610Z-fable5-consensus-improvement/10-design/accepted-design.md"],
+  "write_scope": ["mom_index/analysis/signals.py", "mom_index/analysis/classifier.py", "tests/test_classifier.py"],
+  "read_only_scope": ["mom_index/analysis/scoring.py", "tests/conftest.py"],
+  "forbidden_changes": ["Do not change compute_sector_index, formula 1.1, global legacy keywords, workflows, schemas, or collectors."],
+  "deliverables": ["Implementation", "Regression tests", "Atomic commit", "Handoff"],
+  "acceptance_criteria": ["XHS compound remains sell/panic.", "Guba same phrase preserves legacy behavior.", "Unknown platforms have no compound overrides."],
+  "verification_commands": ["python -m pytest -q tests/test_classifier.py tests/test_scoring.py", "python -m pytest -q"],
+  "dependencies": []
+}

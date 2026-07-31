@@ -1,0 +1,17 @@
+{
+  "id": "T-003R",
+  "title": "Review and complete WorkBuddy Xiaohongshu import delivery",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "objective": "Explicitly take over T-003 after WorkBuddy implemented files but could not run Bash. Review every uncommitted line, repair if needed, execute tests, and commit a verified fail-closed sanitized Xiaohongshu importer.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/10-design/accepted-design.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/handoffs/T-003-glm52.md"],
+  "write_scope": ["mom_index/collectors/xhs_import.py", "tests/test_xhs_import.py"],
+  "read_only_scope": ["mom_index/collectors/__init__.py", "mom_index/config.py", "schema/xhs_import.schema.json"],
+  "forbidden_changes": ["Do not read browser profiles, cookies, credentials, or network resources.", "Do not modify public collectors or workflows."],
+  "deliverables": ["Reviewed implementation", "Tests", "Atomic commit", "Codex takeover handoff"],
+  "acceptance_criteria": ["Sanitized JSON and JSONL import successfully.", "Identity and credential fields fail closed.", "Zero valid records returns unavailable.", "All inherited WorkBuddy code is explicitly reviewed and tested."],
+  "verification_commands": ["python -m pytest -q tests/test_xhs_import.py"],
+  "dependencies": ["T-001"]
+}

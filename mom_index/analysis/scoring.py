@@ -134,14 +134,14 @@ def compute_sector_index(analysis_results: List) -> Dict:
 
 
 def interpret_index(index: float) -> str:
-    """Canonical interpretation of a Mom Index value."""
+    """Canonical, non-predictive interpretation of a Mom Index value."""
     if index >= 75:
-        return "🔴 极度狂热 — 擦鞋童时刻！小白情绪爆表，历史级别的危险信号"
+        return "🔴 极度狂热 — 小白情绪非常高，样本中追涨与冲动表达普遍"
     elif index >= 60:
-        return "🟠 高度警惕 — 小白大量涌入，市场情绪过热，建议大幅减仓"
+        return "🟠 高度警惕 — 小白参与度明显升高，跟风与买入语言增多"
     elif index >= 40:
-        return "🟡 开始升温 — 小白活跃度明显上升，需保持关注"
+        return "🟡 开始升温 — 小白活跃度上升，咨询与入场类讨论增多"
     elif index >= 20:
-        return "🟢 正常区间 — 小白参与度适中，无需特别操作"
+        return "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳"
     else:
-        return "🔵 极度冷清 — 小白沉默不语，可能是市场底部信号"
+        return "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎"

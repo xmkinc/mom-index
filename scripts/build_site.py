@@ -2,8 +2,9 @@
 """Assemble a clean static-site artifact for the 宝妈指数 dashboard.
 
 Copies ``frontend/*`` (excluding the gitignored ``frontend/data/`` build-output
-directory) and a single public payload ``data/dashboard_data.json`` into a
-deterministic ``_site/`` tree with only relative, subpath-safe references.
+directory) and a supported schema-v2/v3 public payload
+``data/dashboard_data.json`` into a deterministic ``_site/`` tree with only
+relative, subpath-safe references.
 
 Usage:
     python scripts/build_site.py --out _site
@@ -12,6 +13,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -53,6 +55,12 @@ def build(out_dir: Path) -> list[Path]:
         raise FileNotFoundError(f"frontend directory not found: {FRONTEND_DIR}")
     if not PAYLOAD_SRC.is_file():
         raise FileNotFoundError(f"public payload not found: {PAYLOAD_SRC}")
+    try:
+        payload = json.loads(PAYLOAD_SRC.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeError) as exc:
+        raise ValueError(f"public payload is not valid JSON: {exc}") from exc
+    if not isinstance(payload, dict) or payload.get("schema_version") not in {2, 3}:
+        raise ValueError("public payload must be a schema-v2 or schema-v3 object")
 
     if out_dir.exists():
         shutil.rmtree(out_dir)
@@ -86,7 +94,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         copied = build(out_dir)
-    except (FileNotFoundError, NotADirectoryError) as exc:
+    except (FileNotFoundError, NotADirectoryError, ValueError) as exc:
         print(f"build_site: ERROR: {exc}", file=sys.stderr)
         return 2
 

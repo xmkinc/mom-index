@@ -54,6 +54,12 @@ class TestInterpretBoundaries:
     def test_boundaries(self, index, expected_prefix):
         assert interpret_index(index).startswith(expected_prefix)
 
+    def test_low_index_has_no_bottom_or_trading_language(self):
+        text = interpret_index(9.4)
+        banned = ["底部", "减仓", "加仓", "建议", "信号", "买入", "卖出", "操作", "预测", "必"]
+        for word in banned:
+            assert word not in text, f"unexpected word {word!r} in {text!r}"
+
 
 class BuySellRatio:
     """Honest buy/sell ratio contracts."""

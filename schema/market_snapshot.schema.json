@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xmkinc.github.io/mom-index/schema/market_snapshot.schema.json",
+  "title": "Local market context snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider",
+    "imported_at",
+    "sectors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "imported_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "sectors": {
+      "$ref": "#/$defs/sectors"
+    }
+  },
+  "$defs": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sectors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nasdaq",
+        "gold",
+        "cpo",
+        "semiconductor"
+      ],
+      "properties": {
+        "nasdaq": {
+          "$ref": "#/$defs/nasdaqSector"
+        },
+        "gold": {
+          "$ref": "#/$defs/goldSector"
+        },
+        "cpo": {
+          "$ref": "#/$defs/cpoSector"
+        },
+        "semiconductor": {
+          "$ref": "#/$defs/semiconductorSector"
+        }
+      }
+    },
+    "sector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "name",
+        "as_of",
+        "returns"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "as_of": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "returns": {
+          "$ref": "#/$defs/returns"
+        }
+      }
+    },
+    "nasdaqSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "513100"
+            },
+            "name": {
+              "const": "纳斯达克ETF"
+            }
+          }
+        }
+      ]
+    },
+    "goldSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "518880"
+            },
+            "name": {
+              "const": "黄金ETF"
+            }
+          }
+        }
+      ]
+    },
+    "cpoSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "515880"
+            },
+            "name": {
+              "const": "CPO通信ETF"
+            }
+          }
+        }
+      ]
+    },
+    "semiconductorSector": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/sector"
+        },
+        {
+          "properties": {
+            "symbol": {
+              "const": "512480"
+            },
+            "name": {
+              "const": "半导体ETF"
+            }
+          }
+        }
+      ]
+    },
+    "returns": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "1d": {
+          "type": "number"
+        },
+        "5d": {
+          "type": "number"
+        },
+        "20d": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "T-004",
+  "title": "Implement market context snapshot boundary",
+  "owner": "kimi",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "objective": "Implement deterministic market snapshot validation/import/load with honest degraded states and no analysis dependency.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/10-design/accepted-design.md"],
+  "write_scope": ["mom_index/market/__init__.py", "tests/test_market_context.py"],
+  "read_only_scope": ["mom_index/config.py", "mom_index/storage.py", "schema/market_snapshot.schema.json"],
+  "forbidden_changes": ["Do not import or alter analysis/scoring.", "Do not add live network collection."],
+  "deliverables": ["Implementation", "Tests", "Atomic commit", "Handoff report"],
+  "acceptance_criteria": ["Valid snapshots round-trip.", "Missing/invalid snapshots return unavailable.", "Timestamps and window returns are validated deterministically."],
+  "verification_commands": ["python -m pytest -q tests/test_market_context.py"],
+  "dependencies": ["T-001"]
+}

@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from mom_index.collectors import SourceResult
 from mom_index.config import display_date
 from mom_index.storage import (
+    dominant_source_mode,
     empty_history,
     load_history,
     merge_success,
@@ -31,7 +31,7 @@ class TestHistoryLifecycle:
 
     def test_empty_history(self):
         history = empty_history()
-        assert history["schema_version"] == 2
+        assert history["schema_version"] == 3
         assert history["last_success_at"] is None
         assert history["records"] == []
 
@@ -70,8 +70,55 @@ class TestHistoryLifecycle:
 
     def test_merge_success_rejects_unavailable_mode(self):
         history = empty_history()
-        with pytest.raises(ValueError, match="Only live or explicit simulated"):
-            merge_success(history, _sector_indices(), collected_at="2026-07-30T12:00:00+00:00", source_mode="unavailable")
+        with pytest.raises(
+            ValueError,
+            match="Only live, imported, or explicit simulated",
+        ):
+            merge_success(
+                history,
+                _sector_indices(),
+                collected_at="2026-07-30T12:00:00+00:00",
+                source_mode="unavailable",
+            )
+
+    def test_merge_success_accepts_imported_mode(self):
+        history = merge_success(
+            empty_history(),
+            _sector_indices(),
+            collected_at="2026-07-30T12:00:00+00:00",
+            source_mode="imported",
+        )
+        assert history["records"][0]["source_mode"] == "imported"
+        assert history["records"][0]["sectors"]["nasdaq"]["sample_quality"] is None
+
+    def test_load_v2_history_upgrades_additively(self, tmp_path: Path):
+        legacy = {
+            "schema_version": 2,
+            "last_success_at": "2026-07-30T12:00:00+00:00",
+            "records": [
+                {
+                    "date": "2026-07-30",
+                    "timestamp": "2026-07-30T12:00:00+00:00",
+                    "source_mode": "live",
+                    "sectors": _sector_indices(),
+                }
+            ],
+        }
+        save_history(tmp_path, legacy)
+        loaded = load_history(tmp_path)
+        assert loaded["schema_version"] == 3
+        assert loaded["records"][0]["sectors"]["gold"]["sample_quality"] is None
+
+    @pytest.mark.parametrize(
+        "modes,expected",
+        [
+            (["live"], "live"),
+            (["live", "imported"], "imported"),
+            (["imported", "simulated", "live"], "simulated"),
+        ],
+    )
+    def test_dominant_source_mode(self, modes, expected):
+        assert dominant_source_mode(modes) == expected
 
     def test_save_and_load_roundtrip(self, tmp_path: Path):
         history = empty_history()

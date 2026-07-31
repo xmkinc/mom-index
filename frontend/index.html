@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="宝妈指数 — 当小白开始讨论投资，就是该警惕的时候。基于东方财富股吧公开数据的散户情绪指数。">
+  <meta name="description" content="宝妈指数 — 分开展示公开讨论中的社交指数、买卖语言证据、样本质量与独立市场背景。">
   <meta name="color-scheme" content="dark">
   <title>宝妈指数 · Mom Index</title>
   <link rel="stylesheet" href="assets/styles.css">
@@ -19,21 +19,21 @@
 
   <header class="header">
     <h1>👩‍👧 宝妈指数</h1>
-    <div class="subtitle">当小白开始讨论投资，就是该警惕的时候</div>
+    <div class="subtitle">公开讨论中的新手语言与样本质量观察面板</div>
     <div class="update-time" id="update-time" aria-live="polite"></div>
   </header>
 
   <main class="container" id="container">
     <section class="status-bar" id="status-bar" aria-live="polite"><!-- badges + banners --></section>
 
-    <section class="cards" id="cards" aria-busy="true" aria-live="polite">
+    <section class="dashboard-blocks" id="cards" aria-busy="true" aria-live="polite">
       <div class="state"><span class="icon skeleton" style="display:inline-block;width:120px;height:18px"></span>加载中…</div>
     </section>
 
     <section class="charts" id="charts" aria-live="polite"></section>
 
     <section class="top-posts" id="top-posts" aria-live="polite">
-      <h3>🔥 今日最"小白"的帖子</h3>
+      <h3>🔎 典型分类证据帖子</h3>
       <div class="state" id="top-posts-state">加载中…</div>
     </section>
 
@@ -46,8 +46,8 @@
   <footer class="footer">
     <div class="sources" id="footer-sources">数据来源将在数据加载后显示</div>
     <div class="disclaimer">
-      宝妈指数 · schema v2 · 指数越高 = 小白越活跃 = 市场情绪越危险<br>
-      ⚠️ 仅供参考，不构成投资建议。数据可能存在延迟或不可用状态。
+      宝妈指数 · <span id="footer-schema">等待数据版本</span> · 社交指数、语言证据、样本质量与市场背景彼此独立<br>
+      ⚠️ 仅用于观察公开讨论样本，不构成投资建议或涨跌预测。数据可能存在延迟或不可用状态。
     </div>
   </footer>
 

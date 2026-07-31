@@ -7,6 +7,8 @@ from .signals import (
     BUY_KEYWORDS,
     NEWBIE_KEYWORDS,
     NEWBIE_SIGNALS,
+    PLATFORM_COMPOUND_OVERRIDES,
+    PLATFORM_KEYWORD_EXTENSIONS,
     PRO_KEYWORDS,
     PRO_SIGNALS,
     SELL_KEYWORDS,
@@ -33,6 +35,10 @@ class AnalysisResult:
     # 命中信号
     matched_newbie: List[Tuple[str, str, float]] = field(default_factory=list)  
     matched_pro: List[Tuple[str, str, float]] = field(default_factory=list)
+    matched_extension_signals: List[Tuple[str, str, float]] = field(default_factory=list)
+
+    # 内容深度
+    has_content: bool = False
     
     # 判定
     level: str = "未判定"      # 纯小白/偏小白/中间派/偏专业/专业
@@ -64,11 +70,56 @@ def _is_spam(full_text: str) -> str | None:
     return None
 
 
+def _get_keywords_for_platform(platform: str):
+    """Return effective keyword tables and the raw extension tables for a platform."""
+    newbie_ext = dict(PLATFORM_KEYWORD_EXTENSIONS.get(platform, {}).get("newbie", {}))
+    buy_ext = list(PLATFORM_KEYWORD_EXTENSIONS.get(platform, {}).get("buy", []))
+    sell_ext = list(PLATFORM_KEYWORD_EXTENSIONS.get(platform, {}).get("sell", []))
+
+    newbie = {
+        name: list(kws) + newbie_ext.get(name, [])
+        for name, kws in NEWBIE_KEYWORDS.items()
+    }
+    pro = {name: list(kws) for name, kws in PRO_KEYWORDS.items()}
+    buy = list(BUY_KEYWORDS) + buy_ext
+    sell = list(SELL_KEYWORDS) + sell_ext
+
+    return newbie, pro, buy, sell, newbie_ext, buy_ext, sell_ext
+
+
+def _detect_compound_overrides(
+    text: str,
+    compound_overrides: List[Tuple[str, str]],
+) -> Tuple[List[str], str]:
+    """Detect ordered longest-match compound overrides.
+
+    Returns a list of matched compound strings and a masked copy of ``text``
+    where matched compounds are replaced with spaces so inner keywords do not
+    contribute to ordinary intent/sentiment matching.
+    """
+    matched: List[str] = []
+    masked_chars = list(text)
+    # Compounds are already ordered longest-first.
+    for compound, _side in compound_overrides:
+        start = 0
+        while True:
+            idx = text.find(compound, start)
+            if idx == -1:
+                break
+            matched.append(compound)
+            for i in range(idx, idx + len(compound)):
+                masked_chars[i] = " "
+            start = idx + len(compound)
+    return matched, "".join(masked_chars)
+
+
 def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     """分析单条帖子，返回详细判定"""
     title = post.get("title", "")
     content = post.get("content", "")
+    platform = post.get("platform", "unknown")
     full_text = f"{title} {content}" if content else title
+    has_content = bool(content and content.strip())
     
     # 0. 垃圾过滤 — 提前返回，不进入任何信号/意图/情绪计算
     spam = _is_spam(full_text)
@@ -76,9 +127,10 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
         return AnalysisResult(
             post_id=post.get("id", ""),
             title=title[:80],
-            platform=post.get("platform", "unknown"),
+            platform=platform,
             sector=sector,
             source_url=post.get("url", ""),
+            has_content=has_content,
             newbie_score=0,
             newbie_confidence="high",
             level="垃圾帖",
@@ -88,23 +140,41 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     result = AnalysisResult(
         post_id=post.get("id", ""),
         title=title[:80],
-        platform=post.get("platform", "unknown"),
+        platform=platform,
         sector=sector,
         source_url=post.get("url", ""),
+        has_content=has_content,
     )
     
-    # 1. 逐信号匹配
+    # Select platform-scoped keyword tables.
+    (
+        newbie_keywords,
+        pro_keywords,
+        buy_keywords,
+        sell_keywords,
+        newbie_ext,
+        buy_ext,
+        sell_ext,
+    ) = _get_keywords_for_platform(platform)
+    compound_overrides = PLATFORM_COMPOUND_OVERRIDES.get(platform, [])
+
+    # 1. 逐信号匹配（含平台扩展）
     matched_newbie = []
     matched_pro = []
+    matched_extensions = []
     
     for signal in NEWBIE_SIGNALS:
-        keywords = NEWBIE_KEYWORDS.get(signal.name, [])
+        keywords = newbie_keywords.get(signal.name, [])
         matched_kws = [kw for kw in keywords if kw.lower() in full_text.lower()]
         if matched_kws:
             matched_newbie.append((signal.name, signal.description, signal.weight, matched_kws))
+        # Track platform-specific extension hits separately.
+        ext_matched = [kw for kw in newbie_ext.get(signal.name, []) if kw.lower() in full_text.lower()]
+        if ext_matched:
+            matched_extensions.append((signal.name, signal.description, signal.weight))
     
     for signal in PRO_SIGNALS:
-        keywords = PRO_KEYWORDS.get(signal.name, [])
+        keywords = pro_keywords.get(signal.name, [])
         matched_kws = [kw for kw in keywords if kw.lower() in full_text.lower()]
         if matched_kws:
             matched_pro.append((signal.name, signal.description, signal.weight, matched_kws))
@@ -157,26 +227,56 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
         total_newbie, total_pro, result
     )
     
-    # 7. 情绪分析
-    result.sentiment_score = _analyze_sentiment(full_text)
-    
-    # 8. 买入/卖出意图判定
+    # 7. 复合覆盖：在普通意图/情绪匹配前评估有序最长匹配覆盖。
+    compound_matches, masked_text = _detect_compound_overrides(
+        full_text,
+        compound_overrides,
+    )
+    # Count actual matched compounds per side.
+    compound_buy = 0
+    compound_sell = 0
+    for compound, side in compound_overrides:
+        count = compound_matches.count(compound)
+        if side == "buy":
+            compound_buy += count
+        elif side == "sell":
+            compound_sell += count
+
+    # 8. 情绪分析（在已屏蔽复合覆盖的文本上进行）
+    result.sentiment_score = _analyze_sentiment(masked_text)
+    # Compound overrides contribute panic/fear sentiment directly.
+    if compound_sell:
+        result.sentiment_score = _blend_sentiment(result.sentiment_score, -0.5)
+
+    # 9. 买入/卖出意图判定（在已屏蔽复合覆盖的文本上进行）
     # 同一关键词只计一次，避免子串/重叠关键词的重复计数
-    buy_matches = {kw for kw in BUY_KEYWORDS if kw in full_text}
-    sell_matches = {kw for kw in SELL_KEYWORDS if kw in full_text}
+    buy_matches = {kw for kw in buy_keywords if kw in masked_text}
+    sell_matches = {kw for kw in sell_keywords if kw in masked_text}
+
+    # Track platform-specific buy/sell extension hits.
+    for kw in buy_ext:
+        if kw in masked_text:
+            matched_extensions.append(("buy", kw, 0.0))
+    for kw in sell_ext:
+        if kw in masked_text:
+            matched_extensions.append(("sell", kw, 0.0))
+
+    # Add compound override contributions to intent counts.
+    buy_count = len(buy_matches) + compound_buy
+    sell_count = len(sell_matches) + compound_sell
     
     # 确定性 tie 处理：买卖信号数相等时为 neutral
-    if len(buy_matches) > len(sell_matches):
+    if buy_count > sell_count:
         result.intent = "buy"
-        result.intent_strength = min(1.0, len(buy_matches) / 5)
-    elif len(sell_matches) > len(buy_matches):
+        result.intent_strength = min(1.0, buy_count / 5)
+    elif sell_count > buy_count:
         result.intent = "sell"
-        result.intent_strength = min(1.0, len(sell_matches) / 5)
+        result.intent_strength = min(1.0, sell_count / 5)
     else:
         result.intent = "neutral"
         result.intent_strength = 0
     
-    # 9. 关键信号摘要（用于前端卡片）
+    # 10. 关键信号摘要（用于前端卡片）
     result.key_signals = []
     for name, desc, weight, kws in matched_newbie[:3]:
         result.key_signals.append(f"「{name}」{desc} (命中: {', '.join(kws[:2])})")
@@ -185,6 +285,7 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     
     result.matched_newbie = [(n, d, w) for n, d, w, _ in matched_newbie]
     result.matched_pro = [(n, d, w) for n, d, w, _ in matched_pro]
+    result.matched_extension_signals = matched_extensions
     
     return result
 
@@ -243,6 +344,13 @@ def _analyze_sentiment(text: str) -> float:
     if total == 0:
         return 0.0
     return round((greed - fear) / total, 2)
+
+
+def _blend_sentiment(base: float, override: float) -> float:
+    """Blend ordinary sentiment with a compound-override sentiment nudge."""
+    # Weight the override at 0.4 so it is visible but does not dominate completely.
+    blended = base * 0.6 + override * 0.4
+    return round(max(-1.0, min(1.0, blended)), 2)
 
 
 # ============================================================

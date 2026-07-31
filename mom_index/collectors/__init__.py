@@ -7,7 +7,7 @@ from typing import Any
 
 from mom_index.config import SOURCE_LABELS, isoformat_utc
 
-VALID_SOURCE_MODES = {"live", "simulated", "unavailable"}
+VALID_SOURCE_MODES = {"live", "imported", "simulated", "unavailable"}
 
 
 @dataclass

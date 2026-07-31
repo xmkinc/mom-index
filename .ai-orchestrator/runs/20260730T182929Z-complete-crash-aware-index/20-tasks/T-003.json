@@ -1,0 +1,17 @@
+{
+  "id": "T-003",
+  "title": "Implement fail-closed sanitized Xiaohongshu import",
+  "owner": "workbuddy",
+  "status": "ready",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "objective": "Implement a local JSON/JSONL Xiaohongshu import collector that accepts only sanitized public fields and rejects identity or secret-bearing records.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T182929Z-complete-crash-aware-index/10-design/accepted-design.md"],
+  "write_scope": ["mom_index/collectors/xhs_import.py", "tests/test_xhs_import.py"],
+  "read_only_scope": ["mom_index/collectors/__init__.py", "mom_index/config.py", "schema/xhs_import.schema.json"],
+  "forbidden_changes": ["Do not read browser profiles, cookies, credentials, or network resources.", "Do not modify public collectors or workflows."],
+  "deliverables": ["Implementation", "Tests", "Atomic commit", "Handoff report"],
+  "acceptance_criteria": ["Sanitized JSON and JSONL import successfully.", "Identity and credential fields fail closed.", "Zero valid records returns unavailable."],
+  "verification_commands": ["python -m pytest -q tests/test_xhs_import.py"],
+  "dependencies": ["T-001"]
+}

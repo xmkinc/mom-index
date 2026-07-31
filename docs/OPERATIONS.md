@@ -12,7 +12,7 @@
 | `Refresh public data` | 每 6 小时、手动 | `contents: write` | 仅向 `data` 分支提交 `data/history.json`、`data/dashboard_data.json` |
 | `Deploy GitHub Pages` | `master` 推送、成功刷新、手动 | `contents: read`、`pages: write`、`id-token: write` | GitHub Pages artifact/deployment |
 
-公开刷新只运行 `python -m mom_index collect --sources guba`。它不进行小红书自动采集，不使用登录态、Cookie、浏览器配置或私有 API。`data/collection.json` 是被忽略的流水线中间文件：刷新工作流只把两个公开 JSON 复制到 `data` 分支，并在提交前校验暂存路径。
+公开刷新只运行 `python -m mom_index collect --sources guba`。它不传 `--xhs-import`、`--market-import` 或 `--allow-simulated`，不进行小红书自动采集，不使用登录态、Cookie、浏览器配置或私有 API。`data/collection.json` 是被忽略的流水线中间文件：刷新工作流只把两个公开 JSON 复制到 `data` 分支，并在提交前校验暂存路径。
 
 刷新和部署都使用 concurrency group，避免并发写入数据分支或交叉发布。刷新不会取消正在运行的前一轮任务；部署也不会中断正在发布的 Pages artifact。
 
@@ -39,7 +39,7 @@ node --check frontend/assets/app.js
 
 ### 2.2 初始化 `data` 分支
 
-`data` 分支是自动刷新唯一写入者和 LKG 存储。第一次启用工作流前，从已经包含 schema v2 种子数据的 `master` 创建它：
+`data` 分支是自动刷新唯一写入者和 LKG 存储。第一次启用工作流前，从已经包含 schema v3 种子数据的 `master` 创建它：
 
 ```bash
 git fetch origin master
@@ -131,6 +131,29 @@ gh workflow run deploy.yml \
 
 手动 ref 可以是分支、tag 或完整 commit SHA。Actions checkout 后会在 job summary 记录实际代码 SHA 和数据 SHA，便于重现发布输入。
 
+### 3.4 本地清洗数据和市场快照
+
+这两条路径仅用于维护者本地研究，不能加入公开刷新工作流。先创建独立目录，避免替换正式 `data/` 的 LKG：
+
+```bash
+LOCAL_DATA=/tmp/mom-index-local
+python -m mom_index collect \
+  --sources guba \
+  --xhs-import /absolute/path/to/sanitized-xhs.jsonl \
+  --out "$LOCAL_DATA"
+python -m mom_index build \
+  --data "$LOCAL_DATA" \
+  --market-import /absolute/path/to/market-snapshot.json \
+  --out "$LOCAL_DATA/dashboard_data.json"
+python -m mom_index validate "$LOCAL_DATA/dashboard_data.json"
+```
+
+小红书导入文件只允许稳定 ID、标题、正文、HTTPS 小红书 URL、板块、发布时间和采集时间。作者身份、用户资料、关注数据、浏览器状态、会话或凭据字段会使整次导入失败关闭；每个普通格式错误会明确出现在来源错误中。不要把导入文件或 `collection.json` 提交到 Git。
+
+市场快照必须包含 schema 版本 1、非空来源标签、带时区的导入时间、配置的四个参考标的，以及每个板块带时区的行情时间和至少一个 `1d`、`5d`、`20d` 数值窗口。`--market-import` 只影响当前一次 payload 构建；市场数据本身不写入 LKG，也不改变任何社交指数。缺失或无效快照降级为 `market_context.status=unavailable`，构建本身继续。
+
+若不希望本地请求股吧，可先用经过测试的 `collection.json` 工作副本调用 `build`；不要把本地来源伪装成 `live`。`--xhs-import` 与旧的 `xhs-rnote` 来源互斥。
+
 ## 4. 可观测性与成功判定
 
 列出和查看运行：
@@ -145,7 +168,7 @@ gh run view <run-id> --repo xmkinc/mom-index --log-failed
 刷新 job 日志应出现以下阶段：
 
 - 股吧来源的 `mode=live` 或明确的 `mode=unavailable`；
-- schema v2 验证成功；
+- schema v3 验证成功；
 - `check_site: OK`；
 - 仅两个允许路径进入暂存区；
 - 有变化时生成 `chore(data): refresh public dashboard` commit，无变化时明确报告 no data commit。
@@ -165,12 +188,22 @@ curl -fsSL https://xmkinc.github.io/mom-index/data/dashboard_data.json \
 - `freshness.is_stale`：超过 12 小时或从未成功时为 `true`。
 - `warnings`：逐来源错误和过期原因。
 - `record_count`、`latest`：LKG 记录数量和最近成功读数。
+- `latest.sectors.*.sample_quality`：样本量、仅标题比例、证据覆盖、时间覆盖、平台计数、置信度和原因代码。
+- `market_context`：独立行情背景的 `available` / `degraded` / `unavailable` 状态、来源、导入时间和各板块行情截至时间；该对象不参与社交指数。
 
 ## 5. 降级和失败语义
 
 ### 股吧请求失败或零有效帖子
 
 采集器返回 `unavailable`，不产生伪造读数。`build` 保留 `data` 分支已有的历史与 `last_success_at`，更新公开来源状态和警告；只要 schema、站点检查和安全检查通过，这个降级 payload 可以提交并部署。页面继续展示 LKG，同时显示降级；超过 12 小时后显示过期。
+
+### 本地小红书导入失败
+
+缺失文件、无效 JSON/JSONL 或零条有效记录会把小红书标为 `unavailable`。普通记录错误会逐条列出；一旦发现身份、资料、会话、凭据字段或疑似秘密值，整批导入失败关闭，之前已验证的记录也不会进入 `collection.json`。没有完整覆盖四个板块的成功样本时，`build` 不更新 LKG。
+
+### 市场快照缺失或无效
+
+`--market-import` 的缺失文件、无效结构、错误参考标的、无时区时间或无有效收益窗口都会产生不可用市场背景和可见警告。社交历史、样本质量和指数仍按其独立路径构建。不要为了让市场卡片出现而绕过校验或手工篡改 payload。
 
 ### schema、构建或站点检查失败
 
@@ -277,6 +310,7 @@ git push origin HEAD:data
 - 不使用 `pull_request_target`，不以写 token 执行 fork 提交。
 - 所有第三方 Actions 使用固定主版本：checkout v4、setup-python v5、Pages configure v5、upload v3、deploy v4。
 - 公开刷新只采集无需登录的股吧页面。
-- `collection.json`、原始帖子、作者身份、Cookie、token、代理凭据和本地浏览器状态不进入 Git 或 Pages artifact。
-- `scripts/check_site.py` 在发布前验证 schema、相对路径、vendored Chart.js、来源诚实性和常见秘密模式。
+- 小红书清洗导入和市场快照只能由本地显式参数启用，不能进入公开定时链路。
+- `collection.json`、导入文件、原始帖子、作者身份、Cookie、token、代理凭据和本地浏览器状态不进入 Git 或 Pages artifact。
+- `scripts/check_site.py` 在发布前验证 schema v3、相对路径、vendored Chart.js、来源/市场降级说明和常见秘密模式。
 - 任何权限扩大、来源变化、schema 变化或默认启用模拟数据都必须走新的架构决策和 PR 审查。

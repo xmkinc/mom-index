@@ -1,0 +1,12 @@
+{
+  "run_id": "20260730T194610Z-fable5-consensus-improvement",
+  "slug": "fable5-consensus-improvement",
+  "state": "COMPLETE",
+  "created_at": "2026-07-30T19:46:10.000000+00:00",
+  "repo": "/Users/zilongzhao/Documents/Codex/2026-07-30/ni-k/work/mom-index",
+  "base_branch": "ai/20260730T182929Z-complete-crash-aware-index/integration",
+  "base_commit": "ebaf29e9a5bf05f59d9eb6def7964fde17ac1654",
+  "design_revision": "D-002@2",
+  "integration_branch": "ai/20260730T194610Z-fable5-consensus-improvement/integration",
+  "final_review_verdict": "APPROVE_WITH_NOTES"
+}
