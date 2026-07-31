@@ -1,13 +1,13 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T16:21:36.671513+00:00",
+  "generated_at": "2026-07-31T17:31:39.431963+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-07-31T16:21:26.508210+00:00",
+      "collected_at": "2026-07-31T17:31:32.570427+00:00",
       "post_count": 294,
       "errors": []
     },
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-07-31T16:21:26.508210+00:00",
+    "last_success_at": "2026-07-31T17:31:32.570427+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -48,21 +48,21 @@
         "index": 20.3,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "mom_buy_index": 30.3,
-          "pure_newbie": 0,
-          "total_posts": 77,
+          "spam_posts": 0,
           "mom_sell_index": 13.3,
-          "buy_count": 5,
-          "activity": 96.2,
-          "valid_posts": 77,
           "newbie_posts": 10,
-          "buy_sell_ratio": 5.0,
+          "mom_buy_index": 30.3,
+          "buy_count": 5,
           "sell_count": 1,
-          "avg_newbie_score": 28.4,
           "avg_sentiment": 40.0,
+          "pure_newbie": 0,
+          "buy_sell_ratio": 5.0,
+          "valid_posts": 77,
           "purity_signal": 0.0,
+          "avg_newbie_score": 28.4,
+          "total_posts": 77,
           "newbie_ratio": 13.0,
-          "spam_posts": 0
+          "activity": 96.2
         },
         "top_newbie_posts": [
           {
@@ -137,6 +137,64 @@
             "title_only_ratio_above_0_8",
             "classifier_evidence_coverage_below_0_3",
             "known_in_window_ratio_below_0_6"
+          ],
+          "gates": [
+            {
+              "code": "sample_size_below_30",
+              "level": "low",
+              "passed": true,
+              "actual": 77,
+              "threshold": 30,
+              "comparator": "gte"
+            },
+            {
+              "code": "sample_size_below_60",
+              "level": "high",
+              "passed": true,
+              "actual": 77,
+              "threshold": 60,
+              "comparator": "gte"
+            },
+            {
+              "code": "title_only_ratio_above_0_8",
+              "level": "low",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.8,
+              "comparator": "lte"
+            },
+            {
+              "code": "title_only_ratio_above_0_4",
+              "level": "high",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.4,
+              "comparator": "lte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_3",
+              "level": "low",
+              "passed": false,
+              "actual": 0.1948,
+              "threshold": 0.3,
+              "comparator": "gte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_5",
+              "level": "high",
+              "passed": false,
+              "actual": 0.1948,
+              "threshold": 0.5,
+              "comparator": "gte"
+            },
+            {
+              "code": "known_in_window_ratio_below_0_6",
+              "level": "high",
+              "passed": false,
+              "actual": 0.0,
+              "threshold": 0.6,
+              "comparator": "gte"
+            }
           ]
         }
       },
@@ -144,21 +202,21 @@
         "index": 21.2,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "mom_buy_index": 0.0,
-          "pure_newbie": 0,
-          "total_posts": 69,
+          "spam_posts": 0,
           "mom_sell_index": 9.8,
-          "buy_count": 0,
-          "activity": 86.2,
-          "valid_posts": 69,
           "newbie_posts": 9,
-          "buy_sell_ratio": 0.0,
+          "mom_buy_index": 0.0,
+          "buy_count": 0,
           "sell_count": 1,
-          "avg_newbie_score": 28.2,
           "avg_sentiment": 44.4,
+          "pure_newbie": 0,
+          "buy_sell_ratio": 0.0,
+          "valid_posts": 69,
           "purity_signal": 0.0,
+          "avg_newbie_score": 28.2,
+          "total_posts": 69,
           "newbie_ratio": 13.0,
-          "spam_posts": 0
+          "activity": 86.2
         },
         "top_newbie_posts": [
           {
@@ -231,28 +289,86 @@
             "title_only_ratio_above_0_8",
             "classifier_evidence_coverage_below_0_3",
             "known_in_window_ratio_below_0_6"
+          ],
+          "gates": [
+            {
+              "code": "sample_size_below_30",
+              "level": "low",
+              "passed": true,
+              "actual": 69,
+              "threshold": 30,
+              "comparator": "gte"
+            },
+            {
+              "code": "sample_size_below_60",
+              "level": "high",
+              "passed": true,
+              "actual": 69,
+              "threshold": 60,
+              "comparator": "gte"
+            },
+            {
+              "code": "title_only_ratio_above_0_8",
+              "level": "low",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.8,
+              "comparator": "lte"
+            },
+            {
+              "code": "title_only_ratio_above_0_4",
+              "level": "high",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.4,
+              "comparator": "lte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_3",
+              "level": "low",
+              "passed": false,
+              "actual": 0.2319,
+              "threshold": 0.3,
+              "comparator": "gte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_5",
+              "level": "high",
+              "passed": false,
+              "actual": 0.2319,
+              "threshold": 0.5,
+              "comparator": "gte"
+            },
+            {
+              "code": "known_in_window_ratio_below_0_6",
+              "level": "high",
+              "passed": false,
+              "actual": 0.0,
+              "threshold": 0.6,
+              "comparator": "gte"
+            }
           ]
         }
       },
       "cpo": {
-        "index": 21.7,
+        "index": 21.6,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "mom_buy_index": 17.5,
-          "pure_newbie": 0,
-          "total_posts": 75,
-          "mom_sell_index": 8.0,
+          "spam_posts": 0,
+          "mom_sell_index": 8.4,
+          "newbie_posts": 12,
+          "mom_buy_index": 18.4,
           "buy_count": 3,
-          "activity": 93.8,
-          "valid_posts": 75,
-          "newbie_posts": 13,
-          "buy_sell_ratio": 3.0,
           "sell_count": 1,
-          "avg_newbie_score": 28.2,
-          "avg_sentiment": 38.5,
+          "avg_sentiment": 41.7,
+          "pure_newbie": 0,
+          "buy_sell_ratio": 3.0,
+          "valid_posts": 75,
           "purity_signal": 0.0,
-          "newbie_ratio": 17.3,
-          "spam_posts": 0
+          "avg_newbie_score": 27.3,
+          "total_posts": 75,
+          "newbie_ratio": 16.0,
+          "activity": 93.8
         },
         "top_newbie_posts": [
           {
@@ -265,17 +381,6 @@
               "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 能不能)"
             ],
             "source_url": "https://guba.eastmoney.com/news,sh515880,1752761680.html"
-          },
-          {
-            "title": "我接回来一半，下周一能不能高开就看今晚美股了。",
-            "score": 38.0,
-            "level": "偏小白",
-            "reasoning": "帖子「我接回来一半，下周一能不能高开就看今晚美股了。...」 命中1个小信号: 决策依赖(7分)。 综合得分38.0分， 判定为「偏小白」 (置信度: low)。",
-            "intent": "neutral",
-            "key_signals": [
-              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 能不能)"
-            ],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1752828012.html"
           },
           {
             "title": "下跌是正常的，关键是看年线支撑位，能不能稳住。不盲目乐观，也不悲观失望，主动做T",
@@ -309,6 +414,17 @@
               "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
             ],
             "source_url": "https://guba.eastmoney.com/news,sh515880,1752936929.html"
+          },
+          {
+            "title": "冲高回落，现在谁接谁被套",
+            "score": 26.0,
+            "level": "中间派",
+            "reasoning": "帖子「冲高回落，现在谁接谁被套...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "neutral",
+            "key_signals": [
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1752784481.html"
           }
         ],
         "sample_quality": {
@@ -316,7 +432,7 @@
           "confidence": "low",
           "valid_sample_size": 75,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.3333,
+          "classifier_evidence_coverage": 0.3467,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -327,28 +443,86 @@
             "title_only_ratio_above_0_8",
             "classifier_evidence_coverage_below_0_5",
             "known_in_window_ratio_below_0_6"
+          ],
+          "gates": [
+            {
+              "code": "sample_size_below_30",
+              "level": "low",
+              "passed": true,
+              "actual": 75,
+              "threshold": 30,
+              "comparator": "gte"
+            },
+            {
+              "code": "sample_size_below_60",
+              "level": "high",
+              "passed": true,
+              "actual": 75,
+              "threshold": 60,
+              "comparator": "gte"
+            },
+            {
+              "code": "title_only_ratio_above_0_8",
+              "level": "low",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.8,
+              "comparator": "lte"
+            },
+            {
+              "code": "title_only_ratio_above_0_4",
+              "level": "high",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.4,
+              "comparator": "lte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_3",
+              "level": "low",
+              "passed": true,
+              "actual": 0.3467,
+              "threshold": 0.3,
+              "comparator": "gte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_5",
+              "level": "high",
+              "passed": false,
+              "actual": 0.3467,
+              "threshold": 0.5,
+              "comparator": "gte"
+            },
+            {
+              "code": "known_in_window_ratio_below_0_6",
+              "level": "high",
+              "passed": false,
+              "actual": 0.0,
+              "threshold": 0.6,
+              "comparator": "gte"
+            }
           ]
         }
       },
       "semiconductor": {
-        "index": 20.3,
+        "index": 20.8,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "mom_buy_index": 14.5,
-          "pure_newbie": 1,
-          "total_posts": 73,
+          "spam_posts": 0,
           "mom_sell_index": 0.0,
+          "newbie_posts": 9,
+          "mom_buy_index": 15.7,
           "buy_count": 2,
-          "activity": 91.2,
-          "valid_posts": 73,
-          "newbie_posts": 10,
-          "buy_sell_ratio": null,
           "sell_count": 0,
-          "avg_newbie_score": 29.2,
-          "avg_sentiment": 30.0,
-          "purity_signal": 10.0,
-          "newbie_ratio": 13.7,
-          "spam_posts": 0
+          "avg_sentiment": 33.3,
+          "pure_newbie": 1,
+          "buy_sell_ratio": null,
+          "valid_posts": 73,
+          "purity_signal": 11.1,
+          "avg_newbie_score": 30.0,
+          "total_posts": 73,
+          "newbie_ratio": 12.3,
+          "activity": 91.2
         },
         "top_newbie_posts": [
           {
@@ -423,6 +597,64 @@
             "title_only_ratio_above_0_8",
             "classifier_evidence_coverage_below_0_3",
             "known_in_window_ratio_below_0_6"
+          ],
+          "gates": [
+            {
+              "code": "sample_size_below_30",
+              "level": "low",
+              "passed": true,
+              "actual": 73,
+              "threshold": 30,
+              "comparator": "gte"
+            },
+            {
+              "code": "sample_size_below_60",
+              "level": "high",
+              "passed": true,
+              "actual": 73,
+              "threshold": 60,
+              "comparator": "gte"
+            },
+            {
+              "code": "title_only_ratio_above_0_8",
+              "level": "low",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.8,
+              "comparator": "lte"
+            },
+            {
+              "code": "title_only_ratio_above_0_4",
+              "level": "high",
+              "passed": false,
+              "actual": 1.0,
+              "threshold": 0.4,
+              "comparator": "lte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_3",
+              "level": "low",
+              "passed": false,
+              "actual": 0.2603,
+              "threshold": 0.3,
+              "comparator": "gte"
+            },
+            {
+              "code": "classifier_evidence_coverage_below_0_5",
+              "level": "high",
+              "passed": false,
+              "actual": 0.2603,
+              "threshold": 0.5,
+              "comparator": "gte"
+            },
+            {
+              "code": "known_in_window_ratio_below_0_6",
+              "level": "high",
+              "passed": false,
+              "actual": 0.0,
+              "threshold": 0.6,
+              "comparator": "gte"
+            }
           ]
         }
       }
@@ -461,7 +693,7 @@
       },
       {
         "date": "2026-08-01",
-        "index": 21.7,
+        "index": 21.6,
         "source_mode": "live"
       }
     ],
@@ -473,7 +705,7 @@
       },
       {
         "date": "2026-08-01",
-        "index": 20.3,
+        "index": 20.8,
         "source_mode": "live"
       }
     ]
