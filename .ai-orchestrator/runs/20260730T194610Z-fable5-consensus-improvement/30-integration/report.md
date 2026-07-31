@@ -62,5 +62,39 @@ were not committed.
 
 ## Release boundary
 
-No push, pull request, merge, public deployment, workflow change, or credential
-use was performed. Release still requires explicit user approval.
+At the time of the initial integration, no push, pull request, merge, public
+deployment, workflow change, or credential use had been performed. The user
+subsequently gave explicit release approval; remote publication remains gated
+on the post-repair Fable 5 review and executable release rehearsal.
+
+## Post-approval release compatibility repair
+
+After the user explicitly approved release, Codex reproduced the exact Pages
+hydration path and found that `origin/data` still carried schema v2. The first
+approved integration could not deploy because CLI validation and static-site
+build/check contained independent v3-only gates.
+
+Two isolated repair tasks were integrated:
+
+- T-002 adds a non-mutating, additive schema-v2 validation view and runs it
+  through the complete strict v3 built-in, JSON Schema, and privacy validators.
+- T-003 allows build/check to accept only versions 2 or 3, makes check_site
+  reuse that strict validator, preserves all artifact/source/secret checks, and
+  removes misleading schema-v3-only CLI output.
+
+Post-repair executable evidence:
+
+- Full suite: 198 passed.
+- Python compile, pip dependency, JavaScript syntax, workflow YAML, and diff
+  whitespace gates: passed.
+- Scope verification for T-002 and T-003: passed with no outside-scope files.
+- Exact immutable rehearsal using the integration commit plus current
+  `origin/data` dashboard/history: validation passed using the legacy-v2
+  compatibility view; six-file site build passed; check_site passed; JavaScript
+  syntax passed.
+- Unknown dashboard schema versions remain rejected, v3 validation remains
+  unchanged, privacy scanning still applies to v2, and the input data file is
+  not mutated.
+
+No workflow, schema, frontend, scoring, collector, credential, or data-branch
+change was made by the repair.
