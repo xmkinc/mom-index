@@ -63,6 +63,8 @@ _QUALITY_NUMBER_FIELDS = (
     "unknown_time_ratio",
 )
 _MARKET_RETURN_WINDOWS = ("1d", "5d", "20d")
+_GATE_FIELDS = {"code", "level", "passed", "actual", "threshold", "comparator"}
+_MAX_GATES = 12
 
 
 def _parse_timestamp(value: str | None) -> datetime | None:
@@ -118,6 +120,53 @@ def _public_post(value: dict[str, Any]) -> dict[str, Any]:
         "key_signals": [str(item)[:160] for item in value.get("key_signals", [])[:2]],
         "source_url": _public_url(value.get("source_url")),
     }
+
+
+def _public_gate_number(raw: Any) -> int | float | None:
+    if not isinstance(raw, (int, float)) or isinstance(raw, bool):
+        return None
+    number = float(raw)
+    if not math.isfinite(number) or number < 0:
+        return None
+    return raw
+
+
+def _public_gates(value: Any) -> list[dict[str, Any]] | None:
+    """Return a sanitized gate list, or None when the optional list is unusable.
+
+    ``gates`` is additive evidence: any malformed entry invalidates only the
+    list itself, never the surrounding sample_quality object.
+    """
+    if not isinstance(value, list) or len(value) > _MAX_GATES:
+        return None
+    gates: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict) or set(item) != _GATE_FIELDS:
+            return None
+        code = item["code"]
+        if not isinstance(code, str) or not code or len(code) > 80:
+            return None
+        if item["level"] not in {"low", "high"}:
+            return None
+        if not isinstance(item["passed"], bool):
+            return None
+        actual = _public_gate_number(item["actual"])
+        threshold = _public_gate_number(item["threshold"])
+        if actual is None or threshold is None:
+            return None
+        if item["comparator"] not in {"gte", "lte"}:
+            return None
+        gates.append(
+            {
+                "code": code,
+                "level": item["level"],
+                "passed": item["passed"],
+                "actual": actual,
+                "threshold": threshold,
+                "comparator": item["comparator"],
+            }
+        )
+    return gates
 
 
 def _public_sample_quality(value: Any) -> dict[str, Any] | None:
@@ -182,7 +231,7 @@ def _public_sample_quality(value: Any) -> dict[str, Any] | None:
         isinstance(reason, str) for reason in raw_reasons
     ):
         return None
-    return {
+    public = {
         "model_version": model_version[:40],
         "confidence": value["confidence"],
         "valid_sample_size": valid_sample_size,
@@ -191,6 +240,11 @@ def _public_sample_quality(value: Any) -> dict[str, Any] | None:
         "window_hours": window_hours,
         "reason_codes": list(dict.fromkeys(reason[:80] for reason in raw_reasons))[:20],
     }
+    if "gates" in value:
+        gates = _public_gates(value["gates"])
+        if gates is not None:
+            public["gates"] = gates
+    return public
 
 
 def _public_sector(value: dict[str, Any]) -> dict[str, Any]:
