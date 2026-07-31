@@ -23,7 +23,8 @@
     "tests/test_quality.py",
     "tests/test_export.py",
     "tests/test_site_compatibility.py",
-    "README.md"
+    "README.md",
+    ".ai-orchestrator/runs/20260731T165036Z-improve-live-mom-index/handoffs/T-001-claude.md"
   ],
   "read_only_scope": [
     "mom_index/analysis/classifier.py",
