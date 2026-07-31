@@ -100,8 +100,12 @@ PLATFORM_KEYWORD_EXTENSIONS = {
     }
 }
 
-# Ordered longest-match compound overrides evaluated before ordinary intent/sentiment
-# matching.  Each tuple is (compound_text, intent_side).
-COMPOUND_OVERRIDES = [
-    ("抄底失败", "sell"),
-]
+# Platform-scoped, ordered longest-match compound overrides evaluated before
+# ordinary intent/sentiment matching.  Each tuple is
+# (compound_text, intent_side).  Unknown platforms intentionally receive no
+# overrides so platform-specific language cannot change legacy behavior.
+PLATFORM_COMPOUND_OVERRIDES = {
+    "xiaohongshu": [
+        ("抄底失败", "sell"),
+    ],
+}

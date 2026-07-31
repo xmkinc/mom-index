@@ -5,9 +5,9 @@ from typing import Dict, List, Tuple
 
 from .signals import (
     BUY_KEYWORDS,
-    COMPOUND_OVERRIDES,
     NEWBIE_KEYWORDS,
     NEWBIE_SIGNALS,
+    PLATFORM_COMPOUND_OVERRIDES,
     PLATFORM_KEYWORD_EXTENSIONS,
     PRO_KEYWORDS,
     PRO_SIGNALS,
@@ -87,7 +87,10 @@ def _get_keywords_for_platform(platform: str):
     return newbie, pro, buy, sell, newbie_ext, buy_ext, sell_ext
 
 
-def _detect_compound_overrides(text: str) -> Tuple[List[str], str]:
+def _detect_compound_overrides(
+    text: str,
+    compound_overrides: List[Tuple[str, str]],
+) -> Tuple[List[str], str]:
     """Detect ordered longest-match compound overrides.
 
     Returns a list of matched compound strings and a masked copy of ``text``
@@ -97,7 +100,7 @@ def _detect_compound_overrides(text: str) -> Tuple[List[str], str]:
     matched: List[str] = []
     masked_chars = list(text)
     # Compounds are already ordered longest-first.
-    for compound, _side in COMPOUND_OVERRIDES:
+    for compound, _side in compound_overrides:
         start = 0
         while True:
             idx = text.find(compound, start)
@@ -153,6 +156,7 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
         buy_ext,
         sell_ext,
     ) = _get_keywords_for_platform(platform)
+    compound_overrides = PLATFORM_COMPOUND_OVERRIDES.get(platform, [])
 
     # 1. 逐信号匹配（含平台扩展）
     matched_newbie = []
@@ -224,11 +228,14 @@ def analyze_post(post: Dict, sector: str) -> AnalysisResult:
     )
     
     # 7. 复合覆盖：在普通意图/情绪匹配前评估有序最长匹配覆盖。
-    compound_matches, masked_text = _detect_compound_overrides(full_text)
+    compound_matches, masked_text = _detect_compound_overrides(
+        full_text,
+        compound_overrides,
+    )
     # Count actual matched compounds per side.
     compound_buy = 0
     compound_sell = 0
-    for compound, side in COMPOUND_OVERRIDES:
+    for compound, side in compound_overrides:
         count = compound_matches.count(compound)
         if side == "buy":
             compound_buy += count

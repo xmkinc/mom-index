@@ -166,10 +166,33 @@ class TestCompoundOverrides:
         result = analyze_post(post, "nasdaq")
         assert result.intent == "sell"
         # Ordinary 抄底 buy signal is suppressed by the compound override.
-        buy_hits = [kw for kw in ("抄底",) if kw in f"{post['title']} {post['content']}"]
         # The only buy keyword in the text is the substring of the override.
         assert "抄底" in f"{post['title']} {post['content']}"
         assert result.sentiment_score <= 0
+
+    def test_chaodi_shibai_preserves_guba_legacy_behavior(self, make_post):
+        post = make_post(
+            post_id="compound-guba",
+            title="抄底失败",
+            content="",
+            platform="guba",
+        )
+        result = analyze_post(post, "nasdaq")
+        assert result.intent == "buy"
+        assert result.sentiment_score > 0
+        assert result.matched_extension_signals == []
+
+    def test_unknown_platform_receives_no_compound_override(self, make_post):
+        post = make_post(
+            post_id="compound-unknown",
+            title="抄底失败",
+            content="",
+            platform="unknown-source",
+        )
+        result = analyze_post(post, "nasdaq")
+        assert result.intent == "buy"
+        assert result.sentiment_score > 0
+        assert result.matched_extension_signals == []
 
     def test_xhs_panic_post_is_sell_side(self, xhs_panic_post):
         result = analyze_post(xhs_panic_post, "nasdaq")
