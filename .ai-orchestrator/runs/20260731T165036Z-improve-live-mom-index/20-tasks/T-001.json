@@ -2,7 +2,7 @@
   "id": "T-001",
   "title": "Implement explainable sample-quality gates",
   "owner": "claude-fable-5",
-  "status": "ready",
+  "status": "completed",
   "design_revision": "D-001@1",
   "base_ref": "ai/20260731T165036Z-improve-live-mom-index/integration",
   "objective": "Repair the backend/frontend quality-reason vocabulary mismatch and add privacy-safe machine-readable gate evidence plus honest per-sector confidence explanations without changing scoring or confidence decisions.",
