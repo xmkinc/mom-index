@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -61,6 +62,46 @@ _SECRET_VALUE = re.compile(
 
 class PayloadValidationError(ValueError):
     """Raised when a public payload violates schema or privacy constraints."""
+
+
+def _validation_view(payload: dict[str, Any]) -> tuple[dict[str, Any], bool]:
+    """Return a strict v3 validation view without mutating legacy v2 input.
+
+    The public data branch can temporarily lag one schema revision behind the
+    code branch during deployment.  Schema v2 is additive-upgraded in memory so
+    it still passes through the complete built-in and JSON Schema v3 validators.
+    """
+
+    version = payload.get("schema_version")
+    if version == PUBLIC_SCHEMA_VERSION:
+        return payload, False
+    if version != 2:
+        raise PayloadValidationError(
+            f"Unsupported schema_version: expected 2 or {PUBLIC_SCHEMA_VERSION}"
+        )
+
+    upgraded = deepcopy(payload)
+    upgraded["schema_version"] = PUBLIC_SCHEMA_VERSION
+
+    methodology = upgraded.get("methodology")
+    if isinstance(methodology, dict):
+        methodology.setdefault("confidence_model_version", "legacy-v2")
+
+    latest = upgraded.get("latest")
+    latest_sectors = latest.get("sectors") if isinstance(latest, dict) else None
+    if isinstance(latest_sectors, dict):
+        for sector_value in latest_sectors.values():
+            if isinstance(sector_value, dict):
+                sector_value.setdefault("sample_quality", None)
+
+    upgraded["market_context"] = {
+        "status": "unavailable",
+        "provider": None,
+        "imported_at": None,
+        "errors": ["Legacy schema v2 payload has no market context."],
+        "sectors": {sector: None for sector in SECTOR_KEYS},
+    }
+    return upgraded, True
 
 
 def _timezone_aware(value: Any, path: str) -> None:
@@ -270,17 +311,19 @@ def validate_payload(
 ) -> str:
     """Validate and return the schema engine used."""
 
-    _built_in_validate(payload)
+    validation_payload, legacy_v2 = _validation_view(payload)
+    _built_in_validate(validation_payload)
     _walk_public(payload)
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     try:
         from jsonschema import Draft202012Validator
     except ImportError:
-        return "built-in bootstrap validator (jsonschema not installed)"
+        suffix = " with legacy schema v2 compatibility view" if legacy_v2 else ""
+        return f"built-in bootstrap validator{suffix} (jsonschema not installed)"
 
     Draft202012Validator.check_schema(schema)
     errors = sorted(
-        Draft202012Validator(schema).iter_errors(payload),
+        Draft202012Validator(schema).iter_errors(validation_payload),
         key=lambda error: list(error.absolute_path),
     )
     if errors:
@@ -289,7 +332,8 @@ def validate_payload(
             for error in errors[:10]
         )
         raise PayloadValidationError(formatted)
-    return "jsonschema Draft 2020-12"
+    suffix = " with legacy schema v2 compatibility view" if legacy_v2 else ""
+    return f"jsonschema Draft 2020-12{suffix}"
 
 
 def validate_payload_file(path: Path, *, schema_path: Path = SCHEMA_PATH) -> str:

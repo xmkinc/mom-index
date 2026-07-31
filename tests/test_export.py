@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from datetime import datetime, timezone
 
 import pytest
@@ -122,6 +123,39 @@ class TestSchemaValidation:
         engine = validate_payload(payload)
         assert "jsonschema" in engine
         assert payload["freshness"]["is_stale"] is True
+
+    def test_legacy_v2_payload_validates_without_mutation(self):
+        payload = build_payload(_history(), [_live_result()])
+        payload["schema_version"] = 2
+        payload.pop("market_context")
+        payload["methodology"].pop("confidence_model_version")
+        for sector_value in payload["latest"]["sectors"].values():
+            sector_value.pop("sample_quality")
+        original = deepcopy(payload)
+
+        engine = validate_payload(payload)
+
+        assert "legacy schema v2 compatibility view" in engine
+        assert payload == original
+
+    def test_unknown_schema_version_is_rejected(self):
+        payload = build_payload(_history(), [_live_result()])
+        payload["schema_version"] = 99
+
+        with pytest.raises(PayloadValidationError, match="Unsupported schema_version"):
+            validate_payload(payload)
+
+    def test_legacy_v2_payload_still_enforces_privacy(self):
+        payload = build_payload(_history(), [_live_result()])
+        payload["schema_version"] = 2
+        payload.pop("market_context")
+        payload["methodology"].pop("confidence_model_version")
+        for sector_value in payload["latest"]["sectors"].values():
+            sector_value.pop("sample_quality")
+        payload["warnings"].append("api_key=secret123")
+
+        with pytest.raises(PayloadValidationError, match="Secret-like"):
+            validate_payload(payload)
 
     def test_simulated_payload_has_warning(self):
         payload = build_payload(empty_history(), [_simulated_result()])
