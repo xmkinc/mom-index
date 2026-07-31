@@ -2,7 +2,7 @@
   "id": "T-001",
   "title": "Scope compound overrides to Xiaohongshu",
   "owner": "codex",
-  "status": "ready",
+  "status": "integrated",
   "design_revision": "D-002@1",
   "base_ref": "ai/20260730T194610Z-fable5-consensus-improvement/integration",
   "objective": "Make compound overrides platform-scoped so Xiaohongshu crash-language correction no longer changes Guba behavior.",
