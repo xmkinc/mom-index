@@ -1,0 +1,17 @@
+{
+  "id": "T-002",
+  "title": "Restore schema-v2 deployment validation compatibility",
+  "owner": "codex",
+  "status": "ready",
+  "design_revision": "D-002@2",
+  "base_ref": "ai/20260730T194610Z-fable5-consensus-improvement/integration",
+  "objective": "Allow the strict deployment validator to accept the current schema-v2 data branch through an in-memory additive validation view without weakening schema-v3 or privacy checks.",
+  "required_reading": ["AGENTS.md", ".ai-orchestrator/agent-rules.md", ".ai-orchestrator/runs/20260730T194610Z-fable5-consensus-improvement/10-design/release-repair.md"],
+  "write_scope": ["mom_index/validation.py", "tests/test_export.py"],
+  "read_only_scope": ["schema/dashboard.schema.json", ".github/workflows/deploy.yml", "frontend/assets/app.js"],
+  "forbidden_changes": ["Do not change schemas, scoring, collectors, frontend, workflows, credentials, or data files."],
+  "deliverables": ["Compatibility implementation", "Regression tests", "Atomic commit", "Handoff"],
+  "acceptance_criteria": ["Current origin/data schema-v2 payload validates through the release command.", "Schema v3 remains strict.", "Unknown schema versions fail.", "Input payload is not mutated.", "Privacy checks still apply to v2."],
+  "verification_commands": ["python -m pytest -q tests/test_export.py", "python -m pytest -q"],
+  "dependencies": []
+}
