@@ -1,13 +1,13 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-07-31T17:31:39.431963+00:00",
+  "generated_at": "2026-07-31T19:55:57.759083+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-07-31T17:31:32.570427+00:00",
+      "collected_at": "2026-07-31T19:55:49.515203+00:00",
       "post_count": 294,
       "errors": []
     },
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-07-31T17:31:32.570427+00:00",
+    "last_success_at": "2026-07-31T19:55:49.515203+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -48,21 +48,21 @@
         "index": 20.3,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "spam_posts": 0,
-          "mom_sell_index": 13.3,
-          "newbie_posts": 10,
-          "mom_buy_index": 30.3,
-          "buy_count": 5,
-          "sell_count": 1,
-          "avg_sentiment": 40.0,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 5.0,
-          "valid_posts": 77,
           "purity_signal": 0.0,
-          "avg_newbie_score": 28.4,
-          "total_posts": 77,
+          "sell_count": 1,
+          "pure_newbie": 0,
+          "newbie_posts": 10,
           "newbie_ratio": 13.0,
-          "activity": 96.2
+          "total_posts": 77,
+          "buy_count": 5,
+          "mom_sell_index": 13.3,
+          "spam_posts": 0,
+          "avg_sentiment": 40.0,
+          "activity": 96.2,
+          "valid_posts": 77,
+          "buy_sell_ratio": 5.0,
+          "mom_buy_index": 30.3,
+          "avg_newbie_score": 28.4
         },
         "top_newbie_posts": [
           {
@@ -202,21 +202,21 @@
         "index": 21.2,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "spam_posts": 0,
-          "mom_sell_index": 9.8,
-          "newbie_posts": 9,
-          "mom_buy_index": 0.0,
-          "buy_count": 0,
-          "sell_count": 1,
-          "avg_sentiment": 44.4,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 0.0,
-          "valid_posts": 69,
           "purity_signal": 0.0,
-          "avg_newbie_score": 28.2,
-          "total_posts": 69,
+          "sell_count": 1,
+          "pure_newbie": 0,
+          "newbie_posts": 9,
           "newbie_ratio": 13.0,
-          "activity": 86.2
+          "total_posts": 69,
+          "buy_count": 0,
+          "mom_sell_index": 9.8,
+          "spam_posts": 0,
+          "avg_sentiment": 44.4,
+          "activity": 86.2,
+          "valid_posts": 69,
+          "buy_sell_ratio": 0.0,
+          "mom_buy_index": 0.0,
+          "avg_newbie_score": 28.2
         },
         "top_newbie_posts": [
           {
@@ -354,21 +354,21 @@
         "index": 21.6,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "spam_posts": 0,
-          "mom_sell_index": 8.4,
-          "newbie_posts": 12,
-          "mom_buy_index": 18.4,
-          "buy_count": 3,
-          "sell_count": 1,
-          "avg_sentiment": 41.7,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 3.0,
-          "valid_posts": 75,
           "purity_signal": 0.0,
-          "avg_newbie_score": 27.3,
-          "total_posts": 75,
+          "sell_count": 1,
+          "pure_newbie": 0,
+          "newbie_posts": 12,
           "newbie_ratio": 16.0,
-          "activity": 93.8
+          "total_posts": 75,
+          "buy_count": 3,
+          "mom_sell_index": 8.4,
+          "spam_posts": 0,
+          "avg_sentiment": 41.7,
+          "activity": 93.8,
+          "valid_posts": 75,
+          "buy_sell_ratio": 3.0,
+          "mom_buy_index": 18.4,
+          "avg_newbie_score": 27.3
         },
         "top_newbie_posts": [
           {
@@ -432,7 +432,7 @@
           "confidence": "low",
           "valid_sample_size": 75,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.3467,
+          "classifier_evidence_coverage": 0.36,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -481,7 +481,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": true,
-              "actual": 0.3467,
+              "actual": 0.36,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -489,7 +489,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.3467,
+              "actual": 0.36,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -508,21 +508,21 @@
         "index": 20.8,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "spam_posts": 0,
-          "mom_sell_index": 0.0,
-          "newbie_posts": 9,
-          "mom_buy_index": 15.7,
-          "buy_count": 2,
-          "sell_count": 0,
-          "avg_sentiment": 33.3,
-          "pure_newbie": 1,
-          "buy_sell_ratio": null,
-          "valid_posts": 73,
           "purity_signal": 11.1,
-          "avg_newbie_score": 30.0,
-          "total_posts": 73,
+          "sell_count": 0,
+          "pure_newbie": 1,
+          "newbie_posts": 9,
           "newbie_ratio": 12.3,
-          "activity": 91.2
+          "total_posts": 73,
+          "buy_count": 2,
+          "mom_sell_index": 0.0,
+          "spam_posts": 0,
+          "avg_sentiment": 33.3,
+          "activity": 91.2,
+          "valid_posts": 73,
+          "buy_sell_ratio": null,
+          "mom_buy_index": 15.7,
+          "avg_newbie_score": 30.0
         },
         "top_newbie_posts": [
           {
