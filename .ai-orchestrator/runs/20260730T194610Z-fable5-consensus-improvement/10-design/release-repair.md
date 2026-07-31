@@ -24,5 +24,11 @@ validation:
 5. No scoring, collection, frontend, workflow, credential, or data-branch
    change is authorized by this repair.
 
+The deployment rehearsal then demonstrated that `build_site.py` and
+`check_site.py` also enforced v3-only gates. They must accept v2 through the
+same strict compatibility validator; duplicating a weaker schema check is not
+acceptable. User-facing CLI output must say `dashboard payload` instead of
+mislabeling a validated v2 file as schema v3.
+
 This is within the previously accepted requirement to preserve v2 runtime
 compatibility and is necessary for the existing data-branch deployment model.
