@@ -181,6 +181,8 @@ def _check_index(site: Path) -> str:
         "独立市场背景",
         "旧版数据（schema v2）",
         "不支持的数据版本",
+        "quality-explanation",
+        "质量门槛说明",
     ]
     missing_markers = [
         marker for marker in required_ui_markers if marker not in app_source

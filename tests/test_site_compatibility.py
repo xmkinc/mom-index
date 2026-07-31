@@ -3,13 +3,18 @@
 from __future__ import annotations
 
 import json
+import re
+from datetime import datetime, timezone
 from types import SimpleNamespace
 
 import pytest
 
+from mom_index.analysis.quality import CANONICAL_REASON_CODES, compute_sample_quality
 from mom_index.cli import _cmd_validate
 from mom_index.config import PROJECT_ROOT
 from scripts import build_site, check_site
+
+APP_JS_PATH = PROJECT_ROOT / "frontend" / "assets" / "app.js"
 
 
 def _payload_copy(tmp_path, version: int):
@@ -55,6 +60,42 @@ def test_build_rejects_unknown_payload_version(tmp_path, monkeypatch):
 
     with pytest.raises(ValueError, match="schema-v2 or schema-v3"):
         build_site.build(tmp_path / "unsupported-site")
+
+
+def _frontend_object_keys(source: str, name: str) -> set[str]:
+    """Extract top-level keys of a `var NAME = {...};` literal in app.js."""
+    match = re.search(rf"var {name} = \{{(.*?)\n  \}};", source, re.DOTALL)
+    assert match, f"frontend/assets/app.js no longer defines {name}"
+    return set(re.findall(r"^\s{4}([A-Za-z0-9_]+)\s*:", match.group(1), re.MULTILINE))
+
+
+def test_frontend_labels_cover_canonical_reason_codes():
+    """Backend/frontend drift gate: every canonical backend reason code must
+    have a Chinese label in the dashboard renderer."""
+    source = APP_JS_PATH.read_text(encoding="utf-8")
+    label_keys = _frontend_object_keys(source, "QUALITY_REASON_LABELS")
+    missing = sorted(set(CANONICAL_REASON_CODES) - label_keys)
+    assert not missing, (
+        "frontend QUALITY_REASON_LABELS is missing canonical backend reason "
+        f"codes: {', '.join(missing)}"
+    )
+
+
+def test_frontend_gate_text_covers_backend_gate_codes():
+    """Every numeric gate the backend emits must have frontend gate metadata."""
+    emitted_gate_codes = {
+        gate["code"]
+        for gate in compute_sample_quality(
+            [], [], datetime(2026, 7, 30, 12, 0, tzinfo=timezone.utc)
+        )["gates"]
+    }
+    source = APP_JS_PATH.read_text(encoding="utf-8")
+    gate_text_keys = _frontend_object_keys(source, "QUALITY_GATE_TEXT")
+    missing = sorted(emitted_gate_codes - gate_text_keys)
+    assert not missing, (
+        f"frontend QUALITY_GATE_TEXT is missing backend gate codes: {', '.join(missing)}"
+    )
+    assert emitted_gate_codes <= set(CANONICAL_REASON_CODES)
 
 
 def test_cli_does_not_mislabel_legacy_payload(tmp_path, capsys):

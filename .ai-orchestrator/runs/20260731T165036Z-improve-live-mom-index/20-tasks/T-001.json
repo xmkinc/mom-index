@@ -1,0 +1,68 @@
+{
+  "id": "T-001",
+  "title": "Implement explainable sample-quality gates",
+  "owner": "claude-fable-5",
+  "status": "completed",
+  "design_revision": "D-001@1",
+  "base_ref": "ai/20260731T165036Z-improve-live-mom-index/integration",
+  "objective": "Repair the backend/frontend quality-reason vocabulary mismatch and add privacy-safe machine-readable gate evidence plus honest per-sector confidence explanations without changing scoring or confidence decisions.",
+  "required_reading": [
+    "AGENTS.md",
+    ".ai-orchestrator/agent-rules.md",
+    ".ai-orchestrator/charter.md",
+    ".ai-orchestrator/roles/claude-architect.md",
+    ".ai-orchestrator/runs/20260731T165036Z-improve-live-mom-index/10-design/accepted-design.md",
+    ".ai-orchestrator/runs/20260731T165036Z-improve-live-mom-index/10-design/decisions.md"
+  ],
+  "write_scope": [
+    "mom_index/analysis/quality.py",
+    "mom_index/export.py",
+    "schema/dashboard.schema.json",
+    "frontend/assets/app.js",
+    "scripts/check_site.py",
+    "tests/test_quality.py",
+    "tests/test_export.py",
+    "tests/test_site_compatibility.py",
+    "README.md",
+    ".ai-orchestrator/runs/20260731T165036Z-improve-live-mom-index/handoffs/T-001-claude.md"
+  ],
+  "read_only_scope": [
+    "mom_index/analysis/classifier.py",
+    "mom_index/analysis/scoring.py",
+    "mom_index/storage.py",
+    "mom_index/validation.py",
+    "frontend/index.html",
+    ".github/workflows/**"
+  ],
+  "forbidden_changes": [
+    "Do not change formula 1.1, classifier rules, scoring, confidence thresholds, confidence decisions, or existing reason-code emission semantics.",
+    "Do not modify collectors, providers, storage, CLI, workflows, frontend page structure, dependencies, or deployment behavior.",
+    "Do not add credentials, cookies, login-dependent automation, fabricated data, predictive claims, or personal data.",
+    "Do not modify the integration branch, merge, push, deploy, or publish."
+  ],
+  "deliverables": [
+    "Canonical backend reason-code contract and deterministic machine-readable gates",
+    "Additive optional schema/export support with malformed-gates omission and legacy compatibility",
+    "Chinese actual-versus-threshold dashboard explanations with safe fallbacks",
+    "Backend/frontend drift test and boundary/export/schema coverage",
+    "Accurate README update",
+    "Atomic implementation commit and handoff"
+  ],
+  "acceptance_criteria": [
+    "Existing confidence values and reason_codes are unchanged for identical inputs.",
+    "Payloads with and without gates validate, and malformed gates do not discard the remaining sample_quality object.",
+    "Every canonical backend reason code has an escaped Chinese frontend label.",
+    "The dashboard explains failed gates using only public aggregate evidence and preserves legacy fallback behavior.",
+    "All repository quality gates pass and the delivery stays inside write_scope."
+  ],
+  "verification_commands": [
+    "python -m pip check",
+    "python -m pytest -q",
+    "python -m compileall -q mom_index scripts tests pipeline.py",
+    "python scripts/build_site.py --out _site",
+    "python scripts/check_site.py _site",
+    "python -c \"import pathlib,yaml; [yaml.safe_load(p.read_text()) for p in pathlib.Path('.github/workflows').glob('*.yml')]; print('workflow yaml: OK')\"",
+    "node --check frontend/assets/app.js"
+  ],
+  "dependencies": []
+}

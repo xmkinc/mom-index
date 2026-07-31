@@ -26,16 +26,36 @@
 
   var DATA_PATH = "data/dashboard_data.json";
   var chartInstances = {};
+  /* Canonical backend reason-code vocabulary (mom_index/analysis/quality.py,
+   * CANONICAL_REASON_CODES). tests/test_site_compatibility.py fails if any
+   * canonical code is missing here. */
   var QUALITY_REASON_LABELS = {
-    LOW_SAMPLE_SIZE: "有效样本少于 30 条",
-    HIGH_SAMPLE_SIZE_NOT_MET: "有效样本少于高置信门槛 60 条",
-    HIGH_TITLE_ONLY_RATIO_NOT_MET: "仅标题样本比例高于高置信门槛 40%",
-    LOW_TITLE_ONLY_RATIO: "仅标题样本比例超过 80%",
-    HIGH_EVIDENCE_COVERAGE_NOT_MET: "分类器证据覆盖率低于高置信门槛 50%",
-    LOW_EVIDENCE_COVERAGE: "分类器证据覆盖率低于 30%",
-    HIGH_IN_WINDOW_RATIO_NOT_MET: "已知时间样本的 72 小时窗口内比例低于 60%",
-    UNKNOWN_POST_TIME: "部分样本发布时间未知",
+    empty_sample: "本期没有可用的有效样本",
+    sample_size_below_30: "有效样本少于 30 条（触发低置信度）",
+    sample_size_below_60: "有效样本少于高置信门槛 60 条",
+    title_only_ratio_above_0_8: "仅标题样本比例超过 80%（触发低置信度）",
+    title_only_ratio_above_0_4: "仅标题样本比例高于高置信门槛 40%",
+    classifier_evidence_coverage_below_0_3: "分类器证据覆盖率低于 30%（触发低置信度）",
+    classifier_evidence_coverage_below_0_5: "分类器证据覆盖率低于高置信门槛 50%",
+    known_in_window_ratio_below_0_6: "已知时间样本的观察窗口内比例低于 60%",
   };
+  /* Quality-model versions whose gate semantics this renderer understands.
+   * Unknown versions fall back to labeled reason codes. */
+  var KNOWN_QUALITY_MODELS = { "1.0": true };
+  /* Presentation metadata for numeric gates emitted by known models. */
+  var QUALITY_GATE_TEXT = {
+    sample_size_below_30: { metric: "有效样本", kind: "count" },
+    sample_size_below_60: { metric: "有效样本", kind: "count" },
+    title_only_ratio_above_0_8: { metric: "仅标题样本比例", kind: "ratio" },
+    title_only_ratio_above_0_4: { metric: "仅标题样本比例", kind: "ratio" },
+    classifier_evidence_coverage_below_0_3: { metric: "分类器证据覆盖率", kind: "ratio" },
+    classifier_evidence_coverage_below_0_5: { metric: "分类器证据覆盖率", kind: "ratio" },
+    known_in_window_ratio_below_0_6: { metric: "观察窗口内已知时间样本比例", kind: "ratio" },
+  };
+
+  function hasOwn(obj, key) {
+    return Object.prototype.hasOwnProperty.call(obj, String(key));
+  }
 
   function $(id) { return document.getElementById(id); }
 
@@ -260,16 +280,93 @@
     }).join(" · ");
   }
 
+  function reasonLineHtml(code) {
+    var rawCode = String(code);
+    var label = hasOwn(QUALITY_REASON_LABELS, rawCode) ? QUALITY_REASON_LABELS[rawCode] : rawCode;
+    return '<li class="quality-reason">' + escapeHtml(label) +
+      (label === rawCode ? "" : ' <code>' + escapeHtml(rawCode) + "</code>") + "</li>";
+  }
+
   function qualityReasonsHtml(reasonCodes) {
     if (!Array.isArray(reasonCodes) || !reasonCodes.length) {
       return '<li class="quality-reason met">未记录未通过的质量门槛</li>';
     }
-    return reasonCodes.map(function (code) {
-      var rawCode = String(code);
-      var label = QUALITY_REASON_LABELS[rawCode] || rawCode;
-      return '<li class="quality-reason">' + escapeHtml(label) +
-        (label === rawCode ? "" : ' <code>' + escapeHtml(rawCode) + "</code>") + "</li>";
-    }).join("");
+    return reasonCodes.map(reasonLineHtml).join("");
+  }
+
+  /* Validate the optional machine-readable gate list; unusable lists are
+   * ignored entirely so the reason-code fallback still renders. */
+  function validGates(gates) {
+    if (!Array.isArray(gates) || gates.length > 12) return null;
+    for (var i = 0; i < gates.length; i++) {
+      var g = gates[i];
+      if (!g || typeof g !== "object" || Array.isArray(g)) return null;
+      if (typeof g.code !== "string" || !g.code) return null;
+      if (g.level !== "low" && g.level !== "high") return null;
+      if (typeof g.passed !== "boolean") return null;
+      if (typeof g.actual !== "number" || !Number.isFinite(g.actual) || g.actual < 0) return null;
+      if (typeof g.threshold !== "number" || !Number.isFinite(g.threshold) || g.threshold < 0) return null;
+      if (g.comparator !== "gte" && g.comparator !== "lte") return null;
+    }
+    return gates;
+  }
+
+  function gateRatioText(value) {
+    var n = finiteNumber(value);
+    if (n == null) return "—";
+    var pct = n * 100;
+    var rounded = Math.round(pct);
+    return (Math.abs(pct - rounded) < 1e-9 ? String(rounded) : pct.toFixed(1)) + "%";
+  }
+
+  function gateLineHtml(g) {
+    var comparatorSymbol = g.comparator === "lte" ? "≤" : "≥";
+    var levelText = g.level === "low" ? "（触发低置信度）" : "（未达到高置信门槛）";
+    if (!hasOwn(QUALITY_GATE_TEXT, g.code)) {
+      // Unknown gate codes stay visible with their raw evidence.
+      return '<li class="quality-reason"><code>' + escapeHtml(g.code) + "</code> 实际 " +
+        escapeHtml(String(g.actual)) + "，要求 " + comparatorSymbol + " " +
+        escapeHtml(String(g.threshold)) + levelText + "</li>";
+    }
+    var meta = QUALITY_GATE_TEXT[g.code];
+    var actualText = meta.kind === "ratio" ? gateRatioText(g.actual) : numberText(g.actual, 0, "0") + " 条";
+    var thresholdText = meta.kind === "ratio" ? gateRatioText(g.threshold) : numberText(g.threshold, 0, "0") + " 条";
+    return '<li class="quality-reason">' + meta.metric + " " + actualText +
+      "，未满足 " + comparatorSymbol + " " + thresholdText + " 的要求" + levelText + "</li>";
+  }
+
+  /* Short evidence-availability note built only from public payload
+   * aggregates; it describes sample coverage, never inferred causes. */
+  function evidenceNoteHtml(quality) {
+    var parts = [
+      "样本分布 " + platformCountsHtml(quality.platform_counts),
+      "仅标题可分析 " + ratioPercent(quality.title_only_ratio),
+      "发布时间未知 " + ratioPercent(quality.unknown_time_ratio),
+    ];
+    return '<li class="quality-reason met">证据说明：' + parts.join("，") +
+      "。以上只描述样本覆盖与时效，不推断原因。</li>";
+  }
+
+  function qualityExplanationHtml(quality) {
+    var items;
+    var gates = hasOwn(KNOWN_QUALITY_MODELS, quality.model_version)
+      ? validGates(quality.gates)
+      : null;
+    if (gates) {
+      var gateCodes = {};
+      gates.forEach(function (g) { gateCodes[g.code] = true; });
+      // Canonical codes without a numeric gate (e.g. empty_sample) still
+      // surface through their reason-code label.
+      var extraReasons = (Array.isArray(quality.reason_codes) ? quality.reason_codes : [])
+        .filter(function (code) { return !hasOwn(gateCodes, code); });
+      var failed = gates.filter(function (g) { return !g.passed; });
+      items = extraReasons.map(reasonLineHtml).join("") + failed.map(gateLineHtml).join("");
+      if (!items) items = '<li class="quality-reason met">全部质量门槛均已通过</li>';
+    } else {
+      items = qualityReasonsHtml(quality.reason_codes);
+    }
+    return '<div class="quality-reasons quality-explanation"><div class="mini-heading">质量门槛说明</div><ul>' +
+      items + evidenceNoteHtml(quality) + "</ul></div>";
   }
 
   function renderSampleQuality(payload, version) {
@@ -302,8 +399,7 @@
             '<div><dt>观察窗口</dt><dd>' + numberText(quality.window_hours, 0) + " 小时</dd></div>" +
             '<div class="wide"><dt>平台样本</dt><dd>' + platformCountsHtml(quality.platform_counts) + "</dd></div>" +
           "</dl>" +
-          '<div class="quality-reasons"><div class="mini-heading">质量门槛说明</div><ul>' +
-            qualityReasonsHtml(quality.reason_codes) + "</ul></div>" +
+          qualityExplanationHtml(quality) +
           '<div class="model-version">质量模型 ' + escapeHtml(quality.model_version || "—") + "</div>" +
         "</article>";
       }).join("") + "</div>";

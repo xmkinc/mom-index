@@ -389,6 +389,55 @@
             "minLength": 1,
             "maxLength": 80
           }
+        },
+        "gates": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/qualityGate"
+          }
+        }
+      }
+    },
+    "qualityGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "level",
+        "passed",
+        "actual",
+        "threshold",
+        "comparator"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "level": {
+          "enum": [
+            "low",
+            "high"
+          ]
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "actual": {
+          "type": "number",
+          "minimum": 0
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0
+        },
+        "comparator": {
+          "enum": [
+            "gte",
+            "lte"
+          ]
         }
       }
     },

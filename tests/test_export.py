@@ -45,6 +45,14 @@ def _imported_result() -> SourceResult:
     )
 
 
+def _gates() -> list[dict]:
+    return [
+        {"code": "sample_size_below_30", "level": "low", "passed": True, "actual": 40, "threshold": 30, "comparator": "gte"},
+        {"code": "sample_size_below_60", "level": "high", "passed": False, "actual": 40, "threshold": 60, "comparator": "gte"},
+        {"code": "title_only_ratio_above_0_8", "level": "low", "passed": True, "actual": 0.5, "threshold": 0.8, "comparator": "lte"},
+    ]
+
+
 def _sample_quality() -> dict:
     return {
         "model_version": "1.0",
@@ -56,7 +64,8 @@ def _sample_quality() -> dict:
         "known_in_window_ratio": 0.7,
         "unknown_time_ratio": 0.1,
         "window_hours": 72,
-        "reason_codes": ["HIGH_SAMPLE_SIZE_NOT_MET"],
+        "reason_codes": ["sample_size_below_60"],
+        "gates": _gates(),
     }
 
 
@@ -289,6 +298,116 @@ class TestSchemaValidation:
         }
         with pytest.raises(jsonschema.ValidationError):
             jsonschema.Draft202012Validator(schema).validate([record])
+
+
+def _history_with_gates(gates_value) -> dict:
+    history = _history()
+    for sector_value in history["records"][0]["sectors"].values():
+        sector_value["sample_quality"]["gates"] = gates_value
+    return history
+
+
+class TestQualityGatesExport:
+    """Optional machine-readable gates: strict pass-through or clean omission."""
+
+    def test_valid_gates_pass_through_and_validate(self):
+        payload = build_payload(_history(), [_live_result()])
+        engine = validate_payload(payload)
+        assert "jsonschema" in engine
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality["gates"] == _gates()
+
+    def test_absent_gates_preserve_legacy_shape(self):
+        history = _history()
+        for sector_value in history["records"][0]["sectors"].values():
+            sector_value["sample_quality"].pop("gates")
+        payload = build_payload(history, [_live_result()])
+        validate_payload(payload)
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality is not None
+        assert "gates" not in quality
+        assert quality["confidence"] == "medium"
+
+    @pytest.mark.parametrize(
+        "malformed",
+        [
+            "not-a-list",
+            {"code": "sample_size_below_30"},
+            [{}],
+            [{**_gates()[0], "extra": 1}],
+            [{key: value for key, value in _gates()[0].items() if key != "passed"}],
+            [{**_gates()[0], "code": ""}],
+            [{**_gates()[0], "code": "x" * 81}],
+            [{**_gates()[0], "code": 30}],
+            [{**_gates()[0], "level": "medium"}],
+            [{**_gates()[0], "passed": "yes"}],
+            [{**_gates()[0], "actual": -1}],
+            [{**_gates()[0], "actual": True}],
+            [{**_gates()[0], "threshold": float("nan")}],
+            [{**_gates()[0], "threshold": float("inf")}],
+            [{**_gates()[0], "comparator": "eq"}],
+            [_gates()[0]] * 13,
+            _gates() + ["not-a-gate"],
+        ],
+    )
+    def test_malformed_gates_are_omitted_without_discarding_quality(self, malformed):
+        payload = build_payload(_history_with_gates(malformed), [_live_result()])
+        validate_payload(payload)
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality is not None
+        assert "gates" not in quality
+        assert quality["confidence"] == "medium"
+        assert quality["reason_codes"] == ["sample_size_below_60"]
+
+    def test_twelve_gates_are_the_maximum_passed_through(self):
+        exactly_twelve = [_gates()[0]] * 12
+        payload = build_payload(_history_with_gates(exactly_twelve), [_live_result()])
+        validate_payload(payload)
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality["gates"] == exactly_twelve
+
+    def test_empty_gate_list_passes_through(self):
+        payload = build_payload(_history_with_gates([]), [_live_result()])
+        validate_payload(payload)
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality["gates"] == []
+
+    def test_dashboard_schema_rejects_malformed_gate_items(self):
+        jsonschema = pytest.importorskip("jsonschema")
+        schema = json.loads(
+            (PROJECT_ROOT / "schema" / "dashboard.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        payload = build_payload(_history(), [_live_result()])
+        for bad_gates in (
+            [{**_gates()[0], "actual": -1}],
+            [{**_gates()[0], "extra": 1}],
+            [{**_gates()[0], "comparator": "eq"}],
+            [_gates()[0]] * 13,
+        ):
+            broken = deepcopy(payload)
+            broken["latest"]["sectors"]["nasdaq"]["sample_quality"]["gates"] = bad_gates
+            errors = list(
+                jsonschema.Draft202012Validator(schema).iter_errors(broken)
+            )
+            assert errors, f"schema accepted malformed gates: {bad_gates!r}"
+
+    def test_computed_quality_gates_export_end_to_end(self):
+        from mom_index.analysis.quality import compute_sample_quality
+
+        computed = compute_sample_quality(
+            [], [], datetime(2026, 7, 30, 12, 0, tzinfo=timezone.utc)
+        )
+        history = _history()
+        for sector_value in history["records"][0]["sectors"].values():
+            sector_value["sample_quality"] = computed
+        payload = build_payload(history, [_live_result()])
+        validate_payload(payload)
+        quality = payload["latest"]["sectors"]["nasdaq"]["sample_quality"]
+        assert quality["gates"] == computed["gates"]
+        assert quality["reason_codes"] == computed["reason_codes"]
+        assert quality["confidence"] == computed["confidence"]
 
 
 class TestPrivacy:

@@ -7,6 +7,38 @@ from typing import Any, Dict, List
 
 from mom_index.config import CONFIDENCE_MODEL_VERSION
 
+# Canonical vocabulary of every reason code this module can emit, in the
+# fixed order they may appear in ``reason_codes``.  The frontend label map
+# and the drift test in tests/test_site_compatibility.py are keyed on this.
+CANONICAL_REASON_CODES = (
+    "empty_sample",
+    "sample_size_below_30",
+    "sample_size_below_60",
+    "title_only_ratio_above_0_8",
+    "title_only_ratio_above_0_4",
+    "classifier_evidence_coverage_below_0_3",
+    "classifier_evidence_coverage_below_0_5",
+    "known_in_window_ratio_below_0_6",
+)
+
+
+def _gate(
+    code: str,
+    level: str,
+    passed: bool,
+    actual: int | float,
+    threshold: int | float,
+    comparator: str,
+) -> dict[str, Any]:
+    return {
+        "code": code,
+        "level": level,
+        "passed": passed,
+        "actual": actual,
+        "threshold": threshold,
+        "comparator": comparator,
+    }
+
 
 def _parse_post_time(post: dict[str, Any]) -> datetime | None:
     """Return a timezone-aware UTC timestamp or None if unknown/unparseable."""
@@ -126,6 +158,42 @@ def compute_sample_quality(
     else:
         confidence = "medium"
 
+    # Machine-readable evidence for the numeric confidence tests above, in a
+    # fixed order locked by tests/test_quality.py.  ``passed`` is evaluated on
+    # the unrounded aggregates (identical to the reason-code decisions);
+    # ``actual`` reports ratios rounded to four decimals like the other public
+    # ratio fields.  ``empty_sample`` is canonical but has no numeric gate.
+    gates = [
+        _gate(
+            "sample_size_below_30", "low",
+            valid_sample_size >= 30, valid_sample_size, 30, "gte",
+        ),
+        _gate(
+            "sample_size_below_60", "high",
+            valid_sample_size >= 60, valid_sample_size, 60, "gte",
+        ),
+        _gate(
+            "title_only_ratio_above_0_8", "low",
+            title_only_ratio <= 0.8, round(title_only_ratio, 4), 0.8, "lte",
+        ),
+        _gate(
+            "title_only_ratio_above_0_4", "high",
+            title_only_ratio <= 0.4, round(title_only_ratio, 4), 0.4, "lte",
+        ),
+        _gate(
+            "classifier_evidence_coverage_below_0_3", "low",
+            evidence_coverage >= 0.3, round(evidence_coverage, 4), 0.3, "gte",
+        ),
+        _gate(
+            "classifier_evidence_coverage_below_0_5", "high",
+            evidence_coverage >= 0.5, round(evidence_coverage, 4), 0.5, "gte",
+        ),
+        _gate(
+            "known_in_window_ratio_below_0_6", "high",
+            known_in_window_ratio >= 0.6, round(known_in_window_ratio, 4), 0.6, "gte",
+        ),
+    ]
+
     return {
         "model_version": CONFIDENCE_MODEL_VERSION,
         "confidence": confidence,
@@ -137,4 +205,5 @@ def compute_sample_quality(
         "unknown_time_ratio": round(unknown_time_ratio, 4),
         "window_hours": window_hours,
         "reason_codes": reason_codes,
+        "gates": gates,
     }
