@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-08-01T08:35:48.510168+00:00",
+  "last_success_at": "2026-08-01T13:59:01.890759+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -326,23 +326,23 @@
     },
     {
       "date": "2026-08-01",
-      "timestamp": "2026-08-01T08:35:48.510168+00:00",
+      "timestamp": "2026-08-01T13:59:01.890759+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
-          "index": 18.5,
+          "index": 18.6,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 75,
-            "valid_posts": 75,
+            "total_posts": 74,
+            "valid_posts": 74,
             "spam_posts": 0,
             "newbie_posts": 9,
             "pure_newbie": 0,
-            "newbie_ratio": 12.0,
+            "newbie_ratio": 12.2,
             "avg_newbie_score": 28.2,
             "avg_sentiment": 33.3,
             "purity_signal": 0.0,
-            "activity": 93.8,
+            "activity": 92.5,
             "mom_buy_index": 27.4,
             "mom_sell_index": 13.8,
             "buy_sell_ratio": 4.0,
@@ -409,12 +409,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 75,
+            "valid_sample_size": 74,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 75
+              "guba": 74
             },
-            "classifier_evidence_coverage": 0.1867,
+            "classifier_evidence_coverage": 0.2027,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -428,7 +428,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 75,
+                "actual": 74,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -436,7 +436,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 75,
+                "actual": 74,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -460,7 +460,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.1867,
+                "actual": 0.2027,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -468,7 +468,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.1867,
+                "actual": 0.2027,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -484,19 +484,19 @@
           }
         },
         "gold": {
-          "index": 18.8,
+          "index": 18.9,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 69,
-            "valid_posts": 69,
+            "total_posts": 68,
+            "valid_posts": 68,
             "spam_posts": 0,
             "newbie_posts": 9,
             "pure_newbie": 0,
-            "newbie_ratio": 13.0,
+            "newbie_ratio": 13.2,
             "avg_newbie_score": 27.8,
             "avg_sentiment": 33.3,
             "purity_signal": 0.0,
-            "activity": 86.2,
+            "activity": 85.0,
             "mom_buy_index": 0.0,
             "mom_sell_index": 9.8,
             "buy_sell_ratio": 0.0,
@@ -562,12 +562,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 69,
+            "valid_sample_size": 68,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 69
+              "guba": 68
             },
-            "classifier_evidence_coverage": 0.2609,
+            "classifier_evidence_coverage": 0.2647,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -581,7 +581,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 69,
+                "actual": 68,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -589,7 +589,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 69,
+                "actual": 68,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -613,7 +613,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2609,
+                "actual": 0.2647,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -621,7 +621,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2609,
+                "actual": 0.2647,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -719,7 +719,7 @@
             "platform_counts": {
               "guba": 73
             },
-            "classifier_evidence_coverage": 0.3836,
+            "classifier_evidence_coverage": 0.3973,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -765,7 +765,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3836,
+                "actual": 0.3973,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -773,7 +773,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3836,
+                "actual": 0.3973,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -871,7 +871,7 @@
             "platform_counts": {
               "guba": 71
             },
-            "classifier_evidence_coverage": 0.3099,
+            "classifier_evidence_coverage": 0.338,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -917,7 +917,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3099,
+                "actual": 0.338,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -925,7 +925,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3099,
+                "actual": 0.338,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
