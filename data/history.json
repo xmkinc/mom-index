@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-08-08T19:01:24.948895+00:00",
+  "last_success_at": "2026-08-09T02:31:49.640419+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -5126,23 +5126,23 @@
     },
     {
       "date": "2026-08-09",
-      "timestamp": "2026-08-08T19:01:24.948895+00:00",
+      "timestamp": "2026-08-09T02:31:49.640419+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
-          "index": 10.0,
+          "index": 9.9,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 72,
-            "valid_posts": 72,
+            "total_posts": 74,
+            "valid_posts": 74,
             "spam_posts": 0,
             "newbie_posts": 4,
             "pure_newbie": 0,
-            "newbie_ratio": 5.6,
+            "newbie_ratio": 5.4,
             "avg_newbie_score": 31.0,
             "avg_sentiment": 0.0,
             "purity_signal": 0.0,
-            "activity": 90.0,
+            "activity": 92.5,
             "mom_buy_index": 17.2,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
@@ -5194,12 +5194,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 72,
+            "valid_sample_size": 74,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 72
+              "guba": 74
             },
-            "classifier_evidence_coverage": 0.3056,
+            "classifier_evidence_coverage": 0.3108,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -5213,7 +5213,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 72,
+                "actual": 74,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -5221,7 +5221,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 72,
+                "actual": 74,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -5245,7 +5245,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3056,
+                "actual": 0.3108,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -5253,7 +5253,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3056,
+                "actual": 0.3108,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -5269,37 +5269,26 @@
           }
         },
         "gold": {
-          "index": 16.4,
-          "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
+          "index": 20.5,
+          "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
-            "total_posts": 46,
-            "valid_posts": 46,
+            "total_posts": 48,
+            "valid_posts": 48,
             "spam_posts": 0,
             "newbie_posts": 4,
             "pure_newbie": 0,
-            "newbie_ratio": 8.7,
-            "avg_newbie_score": 31.8,
-            "avg_sentiment": 25.0,
+            "newbie_ratio": 8.3,
+            "avg_newbie_score": 28.8,
+            "avg_sentiment": 50.0,
             "purity_signal": 0.0,
-            "activity": 57.5,
-            "mom_buy_index": 17.2,
+            "activity": 60.0,
+            "mom_buy_index": 17.1,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
             "buy_count": 1,
             "sell_count": 0
           },
           "top_newbie_posts": [
-            {
-              "title": "溢价有问题，有没有人发现？",
-              "score": 42.0,
-              "level": "偏小白",
-              "reasoning": "帖子「溢价有问题，有没有人发现？...」 命中1个小信号: 知识求助(6分)。 以问句结尾，在寻求答案 综合得分42.0分， 判定为「偏小白」 (置信度: low)。",
-              "intent": "neutral",
-              "key_signals": [
-                "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 有没有人)"
-              ],
-              "source_url": "https://guba.eastmoney.com/news,sh518880,1756234249.html"
-            },
             {
               "title": "现在这个价格要不要拿住",
               "score": 38.0,
@@ -5310,6 +5299,17 @@
                 "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 要不要)"
               ],
               "source_url": "https://guba.eastmoney.com/news,sh518880,1755862514.html"
+            },
+            {
+              "title": "完了礼拜一要退市了",
+              "score": 30.0,
+              "level": "中间派",
+              "reasoning": "帖子「完了礼拜一要退市了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
+              "intent": "neutral",
+              "key_signals": [
+                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
+              ],
+              "source_url": "https://guba.eastmoney.com/news,sh518880,1756280988.html"
             },
             {
               "title": "冲高冲对了",
@@ -5338,12 +5338,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 46,
+            "valid_sample_size": 48,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 46
+              "guba": 48
             },
-            "classifier_evidence_coverage": 0.3043,
+            "classifier_evidence_coverage": 0.3125,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -5358,7 +5358,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 46,
+                "actual": 48,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -5366,7 +5366,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": false,
-                "actual": 46,
+                "actual": 48,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -5390,7 +5390,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3043,
+                "actual": 0.3125,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -5398,7 +5398,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3043,
+                "actual": 0.3125,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -5414,38 +5414,26 @@
           }
         },
         "cpo": {
-          "index": 21.9,
-          "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
+          "index": 19.9,
+          "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
             "total_posts": 75,
             "valid_posts": 75,
             "spam_posts": 0,
-            "newbie_posts": 12,
-            "pure_newbie": 1,
-            "newbie_ratio": 16.0,
-            "avg_newbie_score": 30.3,
-            "avg_sentiment": 33.3,
-            "purity_signal": 8.3,
+            "newbie_posts": 11,
+            "pure_newbie": 0,
+            "newbie_ratio": 14.7,
+            "avg_newbie_score": 27.1,
+            "avg_sentiment": 36.4,
+            "purity_signal": 0.0,
             "activity": 93.8,
-            "mom_buy_index": 8.4,
-            "mom_sell_index": 14.8,
+            "mom_buy_index": 8.8,
+            "mom_sell_index": 15.5,
             "buy_sell_ratio": 0.5,
             "buy_count": 1,
             "sell_count": 2
           },
           "top_newbie_posts": [
-            {
-              "title": "为啥有这么多人买，有大佬解答一下不。小白不太懂围观一下",
-              "score": 66.0,
-              "level": "纯小白",
-              "reasoning": "帖子「为啥有这么多人买，有大佬解答一下不。小白不太懂围观一下...」 命中2个小信号: 身份自述(8分), 知识求助(6分)。 综合得分66.0分， 判定为「纯小白」 (置信度: medium)。",
-              "intent": "neutral",
-              "key_signals": [
-                "「身份自述」明确自称小白/新手/刚入门/宝妈 (命中: 小白)",
-                "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 大佬)"
-              ],
-              "source_url": "https://guba.eastmoney.com/news,sh515880,1756050922.html"
-            },
             {
               "title": "Cpo是不是下周一要完蛋？这盘中来回跳水的？有谁知道？",
               "score": 42.0,
@@ -5489,6 +5477,17 @@
                 "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
               ],
               "source_url": "https://guba.eastmoney.com/news,sh515880,1756243706.html"
+            },
+            {
+              "title": "怕了你了",
+              "score": 30.0,
+              "level": "中间派",
+              "reasoning": "帖子「怕了你了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
+              "intent": "neutral",
+              "key_signals": [
+                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 怕了)"
+              ],
+              "source_url": "https://guba.eastmoney.com/news,sh515880,1756053096.html"
             }
           ],
           "sample_quality": {
@@ -5499,7 +5498,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.2133,
+            "classifier_evidence_coverage": 0.2267,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -5545,7 +5544,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2267,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -5553,7 +5552,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2267,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -5569,24 +5568,24 @@
           }
         },
         "semiconductor": {
-          "index": 21.4,
+          "index": 20.0,
           "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
-            "total_posts": 73,
-            "valid_posts": 73,
+            "total_posts": 70,
+            "valid_posts": 70,
             "spam_posts": 0,
-            "newbie_posts": 13,
+            "newbie_posts": 12,
             "pure_newbie": 0,
-            "newbie_ratio": 17.8,
-            "avg_newbie_score": 26.3,
-            "avg_sentiment": 38.5,
+            "newbie_ratio": 17.1,
+            "avg_newbie_score": 26.0,
+            "avg_sentiment": 33.3,
             "purity_signal": 0.0,
-            "activity": 91.2,
-            "mom_buy_index": 8.0,
-            "mom_sell_index": 20.1,
-            "buy_sell_ratio": 0.3,
+            "activity": 87.5,
+            "mom_buy_index": 8.4,
+            "mom_sell_index": 16.7,
+            "buy_sell_ratio": 0.5,
             "buy_count": 1,
-            "sell_count": 3
+            "sell_count": 2
           },
           "top_newbie_posts": [
             {
@@ -5634,26 +5633,26 @@
               "source_url": "https://guba.eastmoney.com/news,sh512480,1756143161.html"
             },
             {
-              "title": "看了，感觉上面的散户都被利空吓得割肉了，所以才会这么强，涨上去散户又要追高了",
-              "score": 30.0,
+              "title": "板块资金净流入，又起飞了。",
+              "score": 26.0,
               "level": "中间派",
-              "reasoning": "帖子「看了，感觉上面的散户都被利空吓得割肉了，所以才会这么强，涨上去散户又要追高了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-              "intent": "sell",
+              "reasoning": "帖子「板块资金净流入，又起飞了。...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
+              "intent": "neutral",
               "key_signals": [
-                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
+                "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 起飞)"
               ],
-              "source_url": "https://guba.eastmoney.com/news,sh512480,1755832046.html"
+              "source_url": "https://guba.eastmoney.com/news,sh512480,1755890287.html"
             }
           ],
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 73,
+            "valid_sample_size": 70,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 73
+              "guba": 70
             },
-            "classifier_evidence_coverage": 0.1507,
+            "classifier_evidence_coverage": 0.1571,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -5667,7 +5666,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 73,
+                "actual": 70,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -5675,7 +5674,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 73,
+                "actual": 70,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -5699,7 +5698,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.1507,
+                "actual": 0.1571,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -5707,7 +5706,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.1507,
+                "actual": 0.1571,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
