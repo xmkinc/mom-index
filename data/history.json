@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-09-04T16:26:01.681727+00:00",
+  "last_success_at": "2026-09-04T20:48:43.254113+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -21448,7 +21448,7 @@
     },
     {
       "date": "2026-09-05",
-      "timestamp": "2026-09-04T16:26:01.681727+00:00",
+      "timestamp": "2026-09-04T20:48:43.254113+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -21585,16 +21585,16 @@
           "index": 16.7,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 62,
-            "valid_posts": 62,
+            "total_posts": 63,
+            "valid_posts": 63,
             "spam_posts": 0,
             "newbie_posts": 7,
             "pure_newbie": 0,
-            "newbie_ratio": 11.3,
+            "newbie_ratio": 11.1,
             "avg_newbie_score": 26.0,
             "avg_sentiment": 28.6,
             "purity_signal": 0.0,
-            "activity": 77.5,
+            "activity": 78.8,
             "mom_buy_index": 11.5,
             "mom_sell_index": 19.0,
             "buy_sell_ratio": 0.5,
@@ -21657,12 +21657,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 62,
+            "valid_sample_size": 63,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 62
+              "guba": 63
             },
-            "classifier_evidence_coverage": 0.2419,
+            "classifier_evidence_coverage": 0.2381,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -21676,7 +21676,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 62,
+                "actual": 63,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -21684,7 +21684,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 62,
+                "actual": 63,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -21708,7 +21708,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2419,
+                "actual": 0.2381,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -21716,7 +21716,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2419,
+                "actual": 0.2381,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -21732,24 +21732,24 @@
           }
         },
         "cpo": {
-          "index": 19.4,
+          "index": 17.6,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
             "total_posts": 77,
             "valid_posts": 77,
             "spam_posts": 0,
-            "newbie_posts": 12,
+            "newbie_posts": 11,
             "pure_newbie": 1,
-            "newbie_ratio": 15.6,
-            "avg_newbie_score": 27.7,
-            "avg_sentiment": 25.0,
-            "purity_signal": 8.3,
+            "newbie_ratio": 14.3,
+            "avg_newbie_score": 27.5,
+            "avg_sentiment": 18.2,
+            "purity_signal": 9.1,
             "activity": 96.2,
-            "mom_buy_index": 8.4,
-            "mom_sell_index": 23.5,
-            "buy_sell_ratio": 0.2,
+            "mom_buy_index": 8.8,
+            "mom_sell_index": 19.6,
+            "buy_sell_ratio": 0.3,
             "buy_count": 1,
-            "sell_count": 4
+            "sell_count": 3
           },
           "top_newbie_posts": [
             {
@@ -21787,17 +21787,6 @@
               "source_url": "https://guba.eastmoney.com/news,sh515880,1769023724.html"
             },
             {
-              "title": "，受不鸟，割肉",
-              "score": 30.0,
-              "level": "中间派",
-              "reasoning": "帖子「，受不鸟，割肉...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-              "intent": "sell",
-              "key_signals": [
-                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
-              ],
-              "source_url": "https://guba.eastmoney.com/news,sh515880,1768999538.html"
-            },
-            {
               "title": "千年不变的剧本，冲高就回落",
               "score": 26.0,
               "level": "中间派",
@@ -21807,6 +21796,15 @@
                 "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
               ],
               "source_url": "https://guba.eastmoney.com/news,sh515880,1769081878.html"
+            },
+            {
+              "title": "美股涨了，玛的",
+              "score": 22.0,
+              "level": "中间派",
+              "reasoning": "帖子「美股涨了，玛的...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
+              "intent": "neutral",
+              "key_signals": [],
+              "source_url": "https://guba.eastmoney.com/news,sh515880,1769211637.html"
             }
           ],
           "sample_quality": {
