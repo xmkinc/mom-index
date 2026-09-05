@@ -1,13 +1,13 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-05T15:18:27.099535+00:00",
+  "generated_at": "2026-09-05T20:26:33.514782+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-09-05T15:18:19.258581+00:00",
+      "collected_at": "2026-09-05T20:26:25.980066+00:00",
       "post_count": 287,
       "errors": []
     },
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-09-05T15:18:19.258581+00:00",
+    "last_success_at": "2026-09-05T20:26:25.980066+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -42,26 +42,26 @@
     }
   },
   "latest": {
-    "date": "2026-09-05",
+    "date": "2026-09-06",
     "sectors": {
       "nasdaq": {
         "index": 14.4,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "mom_sell_index": 0.0,
-          "avg_sentiment": 20.0,
-          "pure_newbie": 0,
-          "spam_posts": 0,
-          "buy_count": 1,
-          "total_posts": 75,
-          "newbie_posts": 5,
-          "newbie_ratio": 6.7,
-          "buy_sell_ratio": null,
           "avg_newbie_score": 30.8,
+          "activity": 93.8,
+          "buy_sell_ratio": null,
           "valid_posts": 75,
           "mom_buy_index": 14.6,
-          "activity": 93.8,
+          "spam_posts": 0,
           "purity_signal": 0.0,
+          "mom_sell_index": 0.0,
+          "buy_count": 1,
+          "total_posts": 75,
+          "pure_newbie": 0,
+          "newbie_posts": 5,
+          "newbie_ratio": 6.7,
+          "avg_sentiment": 20.0,
           "sell_count": 0
         },
         "top_newbie_posts": [
@@ -198,20 +198,20 @@
         "index": 16.4,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "mom_sell_index": 11.5,
-          "avg_sentiment": 28.6,
-          "pure_newbie": 0,
-          "spam_posts": 0,
-          "buy_count": 1,
-          "total_posts": 63,
-          "newbie_posts": 7,
-          "newbie_ratio": 11.1,
-          "buy_sell_ratio": 1.0,
           "avg_newbie_score": 24.9,
+          "activity": 78.8,
+          "buy_sell_ratio": 1.0,
           "valid_posts": 63,
           "mom_buy_index": 11.5,
-          "activity": 78.8,
+          "spam_posts": 0,
           "purity_signal": 0.0,
+          "mom_sell_index": 11.5,
+          "buy_count": 1,
+          "total_posts": 63,
+          "pure_newbie": 0,
+          "newbie_posts": 7,
+          "newbie_ratio": 11.1,
+          "avg_sentiment": 28.6,
           "sell_count": 1
         },
         "top_newbie_posts": [
@@ -346,20 +346,20 @@
         "index": 15.6,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "mom_sell_index": 9.2,
-          "avg_sentiment": 10.0,
-          "pure_newbie": 1,
-          "spam_posts": 0,
-          "buy_count": 1,
-          "total_posts": 76,
-          "newbie_posts": 10,
-          "newbie_ratio": 13.2,
-          "buy_sell_ratio": 1.0,
           "avg_newbie_score": 27.2,
+          "activity": 95.0,
+          "buy_sell_ratio": 1.0,
           "valid_posts": 76,
           "mom_buy_index": 9.2,
-          "activity": 95.0,
+          "spam_posts": 0,
           "purity_signal": 10.0,
+          "mom_sell_index": 9.2,
+          "buy_count": 1,
+          "total_posts": 76,
+          "pure_newbie": 1,
+          "newbie_posts": 10,
+          "newbie_ratio": 13.2,
+          "avg_sentiment": 10.0,
           "sell_count": 1
         },
         "top_newbie_posts": [
@@ -497,20 +497,20 @@
         "index": 24.4,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "mom_sell_index": 14.8,
-          "avg_sentiment": 26.3,
-          "pure_newbie": 2,
-          "spam_posts": 0,
-          "buy_count": 2,
-          "total_posts": 73,
-          "newbie_posts": 19,
-          "newbie_ratio": 26.0,
-          "buy_sell_ratio": 2.0,
           "avg_newbie_score": 28.7,
+          "activity": 91.2,
+          "buy_sell_ratio": 2.0,
           "valid_posts": 73,
           "mom_buy_index": 9.5,
-          "activity": 91.2,
+          "spam_posts": 0,
           "purity_signal": 10.5,
+          "mom_sell_index": 14.8,
+          "buy_count": 2,
+          "total_posts": 73,
+          "pure_newbie": 2,
+          "newbie_posts": 19,
+          "newbie_ratio": 26.0,
+          "avg_sentiment": 26.3,
           "sell_count": 1
         },
         "top_newbie_posts": [
@@ -576,7 +576,7 @@
           "confidence": "low",
           "valid_sample_size": 73,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.1644,
+          "classifier_evidence_coverage": 0.1781,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -625,7 +625,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.1644,
+              "actual": 0.1781,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -633,7 +633,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.1644,
+              "actual": 0.1781,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -836,6 +836,11 @@
         "date": "2026-09-05",
         "index": 14.4,
         "source_mode": "live"
+      },
+      {
+        "date": "2026-09-06",
+        "index": 14.4,
+        "source_mode": "live"
       }
     ],
     "gold": [
@@ -1021,6 +1026,11 @@
       },
       {
         "date": "2026-09-05",
+        "index": 16.4,
+        "source_mode": "live"
+      },
+      {
+        "date": "2026-09-06",
         "index": 16.4,
         "source_mode": "live"
       }
@@ -1210,6 +1220,11 @@
         "date": "2026-09-05",
         "index": 15.6,
         "source_mode": "live"
+      },
+      {
+        "date": "2026-09-06",
+        "index": 15.6,
+        "source_mode": "live"
       }
     ],
     "semiconductor": [
@@ -1397,6 +1412,11 @@
         "date": "2026-09-05",
         "index": 24.4,
         "source_mode": "live"
+      },
+      {
+        "date": "2026-09-06",
+        "index": 24.4,
+        "source_mode": "live"
       }
     ]
   },
@@ -1414,5 +1434,5 @@
       "semiconductor": null
     }
   },
-  "record_count": 37
+  "record_count": 38
 }
