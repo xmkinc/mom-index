@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-09-06T11:03:04.436494+00:00",
+  "last_success_at": "2026-09-06T15:31:16.995157+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -22059,7 +22059,7 @@
     },
     {
       "date": "2026-09-06",
-      "timestamp": "2026-09-06T11:03:04.436494+00:00",
+      "timestamp": "2026-09-06T15:31:16.995157+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -22132,7 +22132,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.3467,
+            "classifier_evidence_coverage": 0.3333,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -22178,7 +22178,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3467,
+                "actual": 0.3333,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -22186,7 +22186,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3467,
+                "actual": 0.3333,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -22350,19 +22350,19 @@
           }
         },
         "cpo": {
-          "index": 15.6,
+          "index": 15.5,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 76,
-            "valid_posts": 76,
+            "total_posts": 77,
+            "valid_posts": 77,
             "spam_posts": 0,
             "newbie_posts": 9,
             "pure_newbie": 1,
-            "newbie_ratio": 11.8,
+            "newbie_ratio": 11.7,
             "avg_newbie_score": 27.8,
             "avg_sentiment": 11.1,
             "purity_signal": 11.1,
-            "activity": 95.0,
+            "activity": 96.2,
             "mom_buy_index": 9.8,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
@@ -22426,12 +22426,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 76,
+            "valid_sample_size": 77,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 76
+              "guba": 77
             },
-            "classifier_evidence_coverage": 0.2763,
+            "classifier_evidence_coverage": 0.2857,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -22445,7 +22445,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 76,
+                "actual": 77,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -22453,7 +22453,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 76,
+                "actual": 77,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -22477,7 +22477,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2763,
+                "actual": 0.2857,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -22485,7 +22485,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2763,
+                "actual": 0.2857,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -22501,21 +22501,21 @@
           }
         },
         "semiconductor": {
-          "index": 20.1,
-          "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
+          "index": 18.7,
+          "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 73,
-            "valid_posts": 73,
+            "total_posts": 72,
+            "valid_posts": 72,
             "spam_posts": 0,
-            "newbie_posts": 16,
+            "newbie_posts": 15,
             "pure_newbie": 1,
-            "newbie_ratio": 21.9,
-            "avg_newbie_score": 26.5,
-            "avg_sentiment": 18.8,
-            "purity_signal": 6.2,
-            "activity": 91.2,
-            "mom_buy_index": 7.3,
-            "mom_sell_index": 15.3,
+            "newbie_ratio": 20.8,
+            "avg_newbie_score": 26.8,
+            "avg_sentiment": 13.3,
+            "purity_signal": 6.7,
+            "activity": 90.0,
+            "mom_buy_index": 7.5,
+            "mom_sell_index": 15.5,
             "buy_sell_ratio": 1.0,
             "buy_count": 1,
             "sell_count": 1
@@ -22578,12 +22578,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 73,
+            "valid_sample_size": 72,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 73
+              "guba": 72
             },
-            "classifier_evidence_coverage": 0.1644,
+            "classifier_evidence_coverage": 0.1667,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -22597,7 +22597,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 73,
+                "actual": 72,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -22605,7 +22605,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 73,
+                "actual": 72,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -22629,7 +22629,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.1644,
+                "actual": 0.1667,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -22637,7 +22637,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.1644,
+                "actual": 0.1667,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
