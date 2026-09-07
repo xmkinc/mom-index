@@ -1,14 +1,14 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-09-06T20:28:20.579887+00:00",
+  "generated_at": "2026-09-07T04:49:20.575326+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-09-06T20:28:12.969479+00:00",
-      "post_count": 286,
+      "collected_at": "2026-09-07T04:49:11.813283+00:00",
+      "post_count": 289,
       "errors": []
     },
     {
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-09-06T20:28:12.969479+00:00",
+    "last_success_at": "2026-09-07T04:49:11.813283+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -45,24 +45,24 @@
     "date": "2026-09-07",
     "sectors": {
       "nasdaq": {
-        "index": 10.1,
+        "index": 14.3,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "activity": 93.8,
-          "mom_sell_index": 0.0,
-          "buy_count": 1,
-          "spam_posts": 0,
-          "newbie_posts": 4,
-          "mom_buy_index": 17.2,
-          "purity_signal": 0.0,
-          "total_posts": 75,
-          "buy_sell_ratio": null,
+          "avg_sentiment": 12.5,
+          "mom_buy_index": 10.6,
+          "activity": 92.5,
+          "buy_sell_ratio": 1.0,
+          "total_posts": 74,
+          "avg_newbie_score": 30.0,
+          "mom_sell_index": 10.6,
+          "sell_count": 1,
           "pure_newbie": 0,
-          "valid_posts": 75,
-          "avg_sentiment": 0.0,
-          "newbie_ratio": 5.3,
-          "sell_count": 0,
-          "avg_newbie_score": 32.0
+          "newbie_ratio": 10.8,
+          "buy_count": 1,
+          "newbie_posts": 8,
+          "valid_posts": 74,
+          "spam_posts": 0,
+          "purity_signal": 0.0
         },
         "top_newbie_posts": [
           {
@@ -77,6 +77,17 @@
             "source_url": "https://guba.eastmoney.com/news,sz159941,1769275793.html"
           },
           {
+            "title": "一天天稳得不要不要的",
+            "score": 38.0,
+            "level": "偏小白",
+            "reasoning": "帖子「一天天稳得不要不要的...」 命中1个小信号: 决策依赖(7分)。 综合得分38.0分， 判定为「偏小白」 (置信度: low)。",
+            "intent": "neutral",
+            "key_signals": [
+              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 要不要)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sz159941,1769536299.html"
+          },
+          {
             "title": "哪位给解答下这盘后到底怎么买好几次了都买不了啊",
             "score": 34.0,
             "level": "中间派",
@@ -88,6 +99,17 @@
             "source_url": "https://guba.eastmoney.com/news,sz159941,1769103952.html"
           },
           {
+            "title": "完了完了美国鬼子完蛋了",
+            "score": 30.0,
+            "level": "中间派",
+            "reasoning": "帖子「完了完了美国鬼子完蛋了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "neutral",
+            "key_signals": [
+              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sz159941,1769378593.html"
+          },
+          {
             "title": "这溢价这么高，敢买吗？",
             "score": 30.0,
             "level": "中间派",
@@ -95,27 +117,18 @@
             "intent": "neutral",
             "key_signals": [],
             "source_url": "https://guba.eastmoney.com/news,sz159941,1769259111.html"
-          },
-          {
-            "title": "追涨买进上山顶看月亮",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「追涨买进上山顶看月亮...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "buy",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sz159941,1768894916.html"
           }
         ],
         "sample_quality": {
           "model_version": "1.0",
           "confidence": "low",
-          "valid_sample_size": 75,
+          "valid_sample_size": 74,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.3333,
+          "classifier_evidence_coverage": 0.3919,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
-            "guba": 75
+            "guba": 74
           },
           "window_hours": 72,
           "reason_codes": [
@@ -128,7 +141,7 @@
               "code": "sample_size_below_30",
               "level": "low",
               "passed": true,
-              "actual": 75,
+              "actual": 74,
               "threshold": 30,
               "comparator": "gte"
             },
@@ -136,7 +149,7 @@
               "code": "sample_size_below_60",
               "level": "high",
               "passed": true,
-              "actual": 75,
+              "actual": 74,
               "threshold": 60,
               "comparator": "gte"
             },
@@ -160,7 +173,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": true,
-              "actual": 0.3333,
+              "actual": 0.3919,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -168,7 +181,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.3333,
+              "actual": 0.3919,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -187,21 +200,21 @@
         "index": 16.4,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "activity": 77.5,
-          "mom_sell_index": 11.5,
-          "buy_count": 1,
-          "spam_posts": 0,
-          "newbie_posts": 7,
-          "mom_buy_index": 11.5,
-          "purity_signal": 0.0,
-          "total_posts": 62,
-          "buy_sell_ratio": 1.0,
-          "pure_newbie": 0,
-          "valid_posts": 62,
           "avg_sentiment": 28.6,
-          "newbie_ratio": 11.3,
+          "mom_buy_index": 11.5,
+          "activity": 77.5,
+          "buy_sell_ratio": 1.0,
+          "total_posts": 62,
+          "avg_newbie_score": 24.9,
+          "mom_sell_index": 11.5,
           "sell_count": 1,
-          "avg_newbie_score": 24.9
+          "pure_newbie": 0,
+          "newbie_ratio": 11.3,
+          "buy_count": 1,
+          "newbie_posts": 7,
+          "valid_posts": 62,
+          "spam_posts": 0,
+          "purity_signal": 0.0
         },
         "top_newbie_posts": [
           {
@@ -259,7 +272,7 @@
           "confidence": "low",
           "valid_sample_size": 62,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.2258,
+          "classifier_evidence_coverage": 0.1935,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -308,7 +321,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.2258,
+              "actual": 0.1935,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -316,7 +329,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.2258,
+              "actual": 0.1935,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -332,92 +345,93 @@
         }
       },
       "cpo": {
-        "index": 13.0,
-        "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
+        "index": 25.6,
+        "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "activity": 96.2,
-          "mom_sell_index": 0.0,
-          "buy_count": 0,
+          "avg_sentiment": 47.4,
+          "mom_buy_index": 24.4,
+          "activity": 97.5,
+          "buy_sell_ratio": 2.3,
+          "total_posts": 78,
+          "avg_newbie_score": 25.6,
+          "mom_sell_index": 12.3,
+          "sell_count": 3,
+          "pure_newbie": 0,
+          "newbie_ratio": 24.4,
+          "buy_count": 7,
+          "newbie_posts": 19,
+          "valid_posts": 78,
           "spam_posts": 0,
-          "newbie_posts": 7,
-          "mom_buy_index": 0.0,
-          "purity_signal": 14.3,
-          "total_posts": 77,
-          "buy_sell_ratio": 0.0,
-          "pure_newbie": 1,
-          "valid_posts": 77,
-          "avg_sentiment": 0.0,
-          "newbie_ratio": 9.1,
-          "sell_count": 0,
-          "avg_newbie_score": 28.9
+          "purity_signal": 0.0
         },
         "top_newbie_posts": [
           {
-            "title": "早上还想着要不要跑路，后悔死了",
-            "score": 58.0,
-            "level": "纯小白",
-            "reasoning": "帖子「早上还想着要不要跑路，后悔死了...」 命中2个小信号: 决策依赖(7分), 情绪恐慌(5分)。 综合得分58.0分， 判定为「纯小白」 (置信度: medium)。",
+            "title": "梭哈了，史诗级暴涨来了",
+            "score": 38.0,
+            "level": "偏小白",
+            "reasoning": "帖子「梭哈了，史诗级暴涨来了...」 命中1个小信号: 过度乐观(4分)。 标题极短+情绪化，典型小白特征 综合得分38.0分， 判定为「偏小白」 (置信度: low)。",
+            "intent": "buy",
+            "key_signals": [
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 梭哈)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1769606074.html"
+          },
+          {
+            "title": "看看下午套不套人就完了，看看明天套不套人就完了",
+            "score": 30.0,
+            "level": "中间派",
+            "reasoning": "帖子「看看下午套不套人就完了，看看明天套不套人就完了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
             "intent": "neutral",
             "key_signals": [
-              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 要不要)",
-              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 后悔)"
+              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
             ],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1769139052.html"
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1769551681.html"
           },
           {
-            "title": "周一怎么走，有大佬说下哈",
-            "score": 34.0,
+            "title": "能涨停不？",
+            "score": 30.0,
             "level": "中间派",
-            "reasoning": "帖子「周一怎么走，有大佬说下哈...」 命中1个小信号: 知识求助(6分)。 综合得分34.0分， 判定为「中间派」 (置信度: low)。",
+            "reasoning": "帖子「能涨停不？...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
             "intent": "neutral",
+            "key_signals": [],
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1769543493.html"
+          },
+          {
+            "title": "回本卖吗？",
+            "score": 30.0,
+            "level": "中间派",
+            "reasoning": "帖子「回本卖吗？...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
+            "intent": "neutral",
+            "key_signals": [],
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1769543350.html"
+          },
+          {
+            "title": "满仓干主力冲鸭",
+            "score": 26.0,
+            "level": "中间派",
+            "reasoning": "帖子「满仓干主力冲鸭...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "buy",
             "key_signals": [
-              "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 大佬)"
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲, 满仓干)"
             ],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1769215599.html"
-          },
-          {
-            "title": "周一继续跌停",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「周一继续跌停...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "neutral",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1769263329.html"
-          },
-          {
-            "title": "美股涨了，玛的",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「美股涨了，玛的...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "neutral",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1769211637.html"
-          },
-          {
-            "title": "周一大涨",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「周一大涨...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "neutral",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1769204242.html"
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1769616607.html"
           }
         ],
         "sample_quality": {
           "model_version": "1.0",
           "confidence": "low",
-          "valid_sample_size": 77,
+          "valid_sample_size": 78,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.3247,
+          "classifier_evidence_coverage": 0.141,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
-            "guba": 77
+            "guba": 78
           },
           "window_hours": 72,
           "reason_codes": [
             "title_only_ratio_above_0_8",
-            "classifier_evidence_coverage_below_0_5",
+            "classifier_evidence_coverage_below_0_3",
             "known_in_window_ratio_below_0_6"
           ],
           "gates": [
@@ -425,7 +439,7 @@
               "code": "sample_size_below_30",
               "level": "low",
               "passed": true,
-              "actual": 77,
+              "actual": 78,
               "threshold": 30,
               "comparator": "gte"
             },
@@ -433,7 +447,7 @@
               "code": "sample_size_below_60",
               "level": "high",
               "passed": true,
-              "actual": 77,
+              "actual": 78,
               "threshold": 60,
               "comparator": "gte"
             },
@@ -456,8 +470,8 @@
             {
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
-              "passed": true,
-              "actual": 0.3247,
+              "passed": false,
+              "actual": 0.141,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -465,7 +479,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.3247,
+              "actual": 0.141,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -481,24 +495,24 @@
         }
       },
       "semiconductor": {
-        "index": 18.2,
-        "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
+        "index": 26.1,
+        "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "activity": 90.0,
-          "mom_sell_index": 15.7,
-          "buy_count": 1,
-          "spam_posts": 0,
-          "newbie_posts": 14,
-          "mom_buy_index": 7.7,
-          "purity_signal": 7.1,
-          "total_posts": 72,
-          "buy_sell_ratio": 1.0,
-          "pure_newbie": 1,
-          "valid_posts": 72,
-          "avg_sentiment": 14.3,
-          "newbie_ratio": 19.4,
+          "avg_sentiment": 50.0,
+          "mom_buy_index": 14.6,
+          "activity": 93.8,
+          "buy_sell_ratio": 2.0,
+          "total_posts": 75,
+          "avg_newbie_score": 31.2,
+          "mom_sell_index": 9.3,
           "sell_count": 1,
-          "avg_newbie_score": 26.0
+          "pure_newbie": 2,
+          "newbie_ratio": 13.3,
+          "buy_count": 2,
+          "newbie_posts": 10,
+          "valid_posts": 75,
+          "spam_posts": 0,
+          "purity_signal": 20.0
         },
         "top_newbie_posts": [
           {
@@ -513,56 +527,61 @@
             "source_url": "https://guba.eastmoney.com/news,sh512480,1769242173.html"
           },
           {
-            "title": "美股硬科技起飞了，周一能跟上不？",
+            "title": "今天能不能冲破一块",
+            "score": 54.0,
+            "level": "纯小白",
+            "reasoning": "帖子「今天能不能冲破一块...」 命中2个小信号: 决策依赖(7分), 过度乐观(4分)。 综合得分54.0分， 判定为「纯小白」 (置信度: medium)。",
+            "intent": "buy",
+            "key_signals": [
+              "「决策依赖」请求他人替自己做投资决策（该不该/要不要/能不能） (命中: 能不能)",
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sh512480,1769594083.html"
+          },
+          {
+            "title": "好好冲上去涨一下怎么就这么难呢",
             "score": 34.0,
             "level": "中间派",
-            "reasoning": "帖子「美股硬科技起飞了，周一能跟上不？...」 命中1个小信号: 过度乐观(4分)。 以问句结尾，在寻求答案 综合得分34.0分， 判定为「中间派」 (置信度: low)。",
+            "reasoning": "帖子「好好冲上去涨一下怎么就这么难呢...」 命中1个小信号: 过度乐观(4分)。 以问句结尾，在寻求答案 综合得分34.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "buy",
+            "key_signals": [
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sh512480,1769456252.html"
+          },
+          {
+            "title": "今天反包不了周五阴线，还是反弹冲高要减仓",
+            "score": 26.0,
+            "level": "中间派",
+            "reasoning": "帖子「今天反包不了周五阴线，还是反弹冲高要减仓...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
             "intent": "neutral",
             "key_signals": [
-              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 起飞)"
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
             ],
-            "source_url": "https://guba.eastmoney.com/news,sh512480,1769203615.html"
+            "source_url": "https://guba.eastmoney.com/news,sh512480,1769498562.html"
           },
           {
-            "title": "今天尾盘全部割肉了，亏了15%！太不舍了。",
-            "score": 30.0,
+            "title": "半导体资金流入太小只是反弹，周五阴线都反包不了！冲高减仓",
+            "score": 26.0,
             "level": "中间派",
-            "reasoning": "帖子「今天尾盘全部割肉了，亏了15%！太不舍了。...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-            "intent": "sell",
+            "reasoning": "帖子「半导体资金流入太小只是反弹，周五阴线都反包不了！冲高减仓...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
+            "intent": "neutral",
             "key_signals": [
-              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
+              "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
             ],
-            "source_url": "https://guba.eastmoney.com/news,sh512480,1769172718.html"
-          },
-          {
-            "title": "这下该涨了吧",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「这下该涨了吧...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "neutral",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sh512480,1769214040.html"
-          },
-          {
-            "title": "1.0买的，服了",
-            "score": 22.0,
-            "level": "中间派",
-            "reasoning": "帖子「1.0买的，服了...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-            "intent": "neutral",
-            "key_signals": [],
-            "source_url": "https://guba.eastmoney.com/news,sh512480,1769074238.html"
+            "source_url": "https://guba.eastmoney.com/news,sh512480,1769494961.html"
           }
         ],
         "sample_quality": {
           "model_version": "1.0",
           "confidence": "low",
-          "valid_sample_size": 72,
+          "valid_sample_size": 75,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.2083,
+          "classifier_evidence_coverage": 0.2533,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
-            "guba": 72
+            "guba": 75
           },
           "window_hours": 72,
           "reason_codes": [
@@ -575,7 +594,7 @@
               "code": "sample_size_below_30",
               "level": "low",
               "passed": true,
-              "actual": 72,
+              "actual": 75,
               "threshold": 30,
               "comparator": "gte"
             },
@@ -583,7 +602,7 @@
               "code": "sample_size_below_60",
               "level": "high",
               "passed": true,
-              "actual": 72,
+              "actual": 75,
               "threshold": 60,
               "comparator": "gte"
             },
@@ -607,7 +626,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.2083,
+              "actual": 0.2533,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -615,7 +634,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.2083,
+              "actual": 0.2533,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -826,7 +845,7 @@
       },
       {
         "date": "2026-09-07",
-        "index": 10.1,
+        "index": 14.3,
         "source_mode": "live"
       }
     ],
@@ -1220,7 +1239,7 @@
       },
       {
         "date": "2026-09-07",
-        "index": 13.0,
+        "index": 25.6,
         "source_mode": "live"
       }
     ],
@@ -1417,7 +1436,7 @@
       },
       {
         "date": "2026-09-07",
-        "index": 18.2,
+        "index": 26.1,
         "source_mode": "live"
       }
     ]
