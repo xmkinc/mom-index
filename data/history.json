@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-09-09T16:42:48.856569+00:00",
+  "last_success_at": "2026-09-09T20:59:08.253823+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -24448,7 +24448,7 @@
     },
     {
       "date": "2026-09-10",
-      "timestamp": "2026-09-09T16:42:48.856569+00:00",
+      "timestamp": "2026-09-09T20:59:08.253823+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -24681,7 +24681,7 @@
             "platform_counts": {
               "guba": 63
             },
-            "classifier_evidence_coverage": 0.2222,
+            "classifier_evidence_coverage": 0.2381,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -24727,7 +24727,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2222,
+                "actual": 0.2381,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -24735,7 +24735,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2222,
+                "actual": 0.2381,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
