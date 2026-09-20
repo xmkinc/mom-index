@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-09-20T16:12:25.849971+00:00",
+  "last_success_at": "2026-09-20T20:53:20.188206+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -31178,7 +31178,7 @@
     },
     {
       "date": "2026-09-21",
-      "timestamp": "2026-09-20T16:12:25.849971+00:00",
+      "timestamp": "2026-09-20T20:53:20.188206+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -31567,7 +31567,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.2133,
+            "classifier_evidence_coverage": 0.2,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -31613,7 +31613,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -31621,7 +31621,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -31719,7 +31719,7 @@
             "platform_counts": {
               "guba": 73
             },
-            "classifier_evidence_coverage": 0.2329,
+            "classifier_evidence_coverage": 0.2466,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -31765,7 +31765,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2329,
+                "actual": 0.2466,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -31773,7 +31773,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2329,
+                "actual": 0.2466,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
