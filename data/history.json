@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-09-26T05:06:10.105351+00:00",
+  "last_success_at": "2026-09-26T11:30:58.278001+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -34228,23 +34228,23 @@
     },
     {
       "date": "2026-09-26",
-      "timestamp": "2026-09-26T05:06:10.105351+00:00",
+      "timestamp": "2026-09-26T11:30:58.278001+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
-          "index": 21.6,
+          "index": 21.7,
           "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
-            "total_posts": 70,
-            "valid_posts": 70,
+            "total_posts": 69,
+            "valid_posts": 69,
             "spam_posts": 0,
             "newbie_posts": 9,
             "pure_newbie": 1,
-            "newbie_ratio": 12.9,
+            "newbie_ratio": 13.0,
             "avg_newbie_score": 32.7,
             "avg_sentiment": 33.3,
             "purity_signal": 11.1,
-            "activity": 87.5,
+            "activity": 86.2,
             "mom_buy_index": 23.0,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
@@ -34310,12 +34310,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 70,
+            "valid_sample_size": 69,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 70
+              "guba": 69
             },
-            "classifier_evidence_coverage": 0.2857,
+            "classifier_evidence_coverage": 0.2899,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -34329,7 +34329,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 70,
+                "actual": 69,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -34337,7 +34337,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 70,
+                "actual": 69,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -34361,7 +34361,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2857,
+                "actual": 0.2899,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -34369,7 +34369,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2857,
+                "actual": 0.2899,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
