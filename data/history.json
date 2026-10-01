@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-10-01T06:03:34.105618+00:00",
+  "last_success_at": "2026-10-01T13:26:13.831804+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -37236,7 +37236,7 @@
     },
     {
       "date": "2026-10-01",
-      "timestamp": "2026-10-01T06:03:34.105618+00:00",
+      "timestamp": "2026-10-01T13:26:13.831804+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -37324,7 +37324,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.24,
+            "classifier_evidence_coverage": 0.2667,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -37370,7 +37370,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.24,
+                "actual": 0.2667,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -37378,7 +37378,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.24,
+                "actual": 0.2667,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -37542,7 +37542,7 @@
           }
         },
         "cpo": {
-          "index": 22.7,
+          "index": 22.6,
           "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
             "total_posts": 79,
@@ -37551,28 +37551,17 @@
             "newbie_posts": 8,
             "pure_newbie": 0,
             "newbie_ratio": 10.1,
-            "avg_newbie_score": 24.5,
+            "avg_newbie_score": 24.0,
             "avg_sentiment": 62.5,
             "purity_signal": 0.0,
             "activity": 98.8,
             "mom_buy_index": 0.0,
-            "mom_sell_index": 21.1,
+            "mom_sell_index": 21.0,
             "buy_sell_ratio": 0.0,
             "buy_count": 0,
             "sell_count": 2
           },
           "top_newbie_posts": [
-            {
-              "title": "科技完了",
-              "score": 30.0,
-              "level": "中间派",
-              "reasoning": "帖子「科技完了...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-              "intent": "neutral",
-              "key_signals": [
-                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 完了)"
-              ],
-              "source_url": "https://guba.eastmoney.com/news,sh515880,1779188167.html"
-            },
             {
               "title": "割肉走人了，主力比较坏，",
               "score": 30.0,
@@ -37594,6 +37583,17 @@
                 "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 冲)"
               ],
               "source_url": "https://guba.eastmoney.com/news,sh515880,1778955433.html"
+            },
+            {
+              "title": "节后要起飞了啊！！！！恭喜长线投资者",
+              "score": 26.0,
+              "level": "中间派",
+              "reasoning": "帖子「节后要起飞了啊！！！！恭喜长线投资者...」 命中1个小信号: 过度乐观(4分)。 综合得分26.0分， 判定为「中间派」 (置信度: low)。",
+              "intent": "neutral",
+              "key_signals": [
+                "「过度乐观」非理性乐观（梭哈/稳赚/必涨/躺赚） (命中: 起飞)"
+              ],
+              "source_url": "https://guba.eastmoney.com/news,sh515880,1779470432.html"
             },
             {
               "title": "这货还在装跌不下去",
@@ -37622,7 +37622,7 @@
             "platform_counts": {
               "guba": 79
             },
-            "classifier_evidence_coverage": 0.1519,
+            "classifier_evidence_coverage": 0.1772,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -37668,7 +37668,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.1519,
+                "actual": 0.1772,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -37676,7 +37676,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.1519,
+                "actual": 0.1772,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
