@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-10-06T18:26:22.699087+00:00",
+  "last_success_at": "2026-10-07T06:07:11.805542+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -40826,24 +40826,24 @@
     },
     {
       "date": "2026-10-07",
-      "timestamp": "2026-10-06T18:26:22.699087+00:00",
+      "timestamp": "2026-10-07T06:07:11.805542+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
-          "index": 24.3,
+          "index": 22.6,
           "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
-            "total_posts": 76,
-            "valid_posts": 76,
+            "total_posts": 77,
+            "valid_posts": 77,
             "spam_posts": 0,
-            "newbie_posts": 6,
+            "newbie_posts": 7,
             "pure_newbie": 1,
-            "newbie_ratio": 7.9,
-            "avg_newbie_score": 34.7,
-            "avg_sentiment": 50.0,
-            "purity_signal": 16.7,
-            "activity": 95.0,
-            "mom_buy_index": 21.7,
+            "newbie_ratio": 9.1,
+            "avg_newbie_score": 32.9,
+            "avg_sentiment": 42.9,
+            "purity_signal": 14.3,
+            "activity": 96.2,
+            "mom_buy_index": 19.1,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
             "buy_count": 2,
@@ -40874,16 +40874,15 @@
               "source_url": "https://guba.eastmoney.com/news,sz159941,1779572079.html"
             },
             {
-              "title": "新手，溢价率这么高，值得买吗？",
+              "title": "现在还能进吗？大佬们",
               "score": 34.0,
               "level": "中间派",
-              "reasoning": "帖子「新手，溢价率这么高，值得买吗？...」 命中1个小信号: 身份自述(8分)。 命中1个专业信号: 专业术语(-5分)。 以问句结尾，在寻求答案 综合得分34.0分， 判定为「中间派」 (置信度: medium)。",
+              "reasoning": "帖子「现在还能进吗？大佬们...」 命中1个小信号: 知识求助(6分)。 综合得分34.0分， 判定为「中间派」 (置信度: low)。",
               "intent": "neutral",
               "key_signals": [
-                "「身份自述」明确自称小白/新手/刚入门/宝妈 (命中: 新手)",
-                "「专业术语」使用PE/PB/ROE/基本面/技术面/估值等专业词汇 (命中: 溢价率)"
+                "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 大佬)"
               ],
-              "source_url": "https://guba.eastmoney.com/news,sz159941,1779454790.html"
+              "source_url": "https://guba.eastmoney.com/news,sz159941,1779732711.html"
             },
             {
               "title": "美股科技暴涨，抄底的大佬们准备拿麻袋装钱吧",
@@ -40909,12 +40908,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 76,
+            "valid_sample_size": 77,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 76
+              "guba": 77
             },
-            "classifier_evidence_coverage": 0.3816,
+            "classifier_evidence_coverage": 0.3506,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -40928,7 +40927,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 76,
+                "actual": 77,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -40936,7 +40935,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 76,
+                "actual": 77,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -40960,7 +40959,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3816,
+                "actual": 0.3506,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -40968,7 +40967,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3816,
+                "actual": 0.3506,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -40987,16 +40986,16 @@
           "index": 8.4,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 75,
-            "valid_posts": 75,
+            "total_posts": 77,
+            "valid_posts": 77,
             "spam_posts": 0,
             "newbie_posts": 3,
             "pure_newbie": 0,
-            "newbie_ratio": 4.0,
+            "newbie_ratio": 3.9,
             "avg_newbie_score": 27.3,
             "avg_sentiment": 0.0,
             "purity_signal": 0.0,
-            "activity": 93.8,
+            "activity": 96.2,
             "mom_buy_index": 21.5,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
@@ -41037,12 +41036,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 75,
+            "valid_sample_size": 77,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 75
+              "guba": 77
             },
-            "classifier_evidence_coverage": 0.3867,
+            "classifier_evidence_coverage": 0.4156,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -41056,7 +41055,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 75,
+                "actual": 77,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -41064,7 +41063,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 75,
+                "actual": 77,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -41088,7 +41087,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.3867,
+                "actual": 0.4156,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -41096,7 +41095,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.3867,
+                "actual": 0.4156,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -41194,7 +41193,7 @@
             "platform_counts": {
               "guba": 80
             },
-            "classifier_evidence_coverage": 0.4375,
+            "classifier_evidence_coverage": 0.425,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -41240,7 +41239,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": true,
-                "actual": 0.4375,
+                "actual": 0.425,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -41248,7 +41247,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.4375,
+                "actual": 0.425,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -41264,20 +41263,20 @@
           }
         },
         "semiconductor": {
-          "index": 14.0,
+          "index": 17.0,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
             "total_posts": 78,
             "valid_posts": 78,
             "spam_posts": 0,
-            "newbie_posts": 3,
+            "newbie_posts": 2,
             "pure_newbie": 0,
-            "newbie_ratio": 3.8,
-            "avg_newbie_score": 23.3,
-            "avg_sentiment": 33.3,
+            "newbie_ratio": 2.6,
+            "avg_newbie_score": 24.0,
+            "avg_sentiment": 50.0,
             "purity_signal": 0.0,
             "activity": 97.5,
-            "mom_buy_index": 21.4,
+            "mom_buy_index": 30.1,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
             "buy_count": 1,
@@ -41303,15 +41302,6 @@
               "intent": "neutral",
               "key_signals": [],
               "source_url": "https://guba.eastmoney.com/news,sh512480,1779405073.html"
-            },
-            {
-              "title": "都去买五粮液了",
-              "score": 22.0,
-              "level": "中间派",
-              "reasoning": "帖子「都去买五粮液了...」 未命中明确的信号词，内容较短或信息不足。 根据有限信息判定为中间派。",
-              "intent": "neutral",
-              "key_signals": [],
-              "source_url": "https://guba.eastmoney.com/news,sh512480,1779224701.html"
             }
           ],
           "sample_quality": {
@@ -41322,7 +41312,7 @@
             "platform_counts": {
               "guba": 78
             },
-            "classifier_evidence_coverage": 0.2821,
+            "classifier_evidence_coverage": 0.2949,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -41368,7 +41358,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2821,
+                "actual": 0.2949,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -41376,7 +41366,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2821,
+                "actual": 0.2949,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
