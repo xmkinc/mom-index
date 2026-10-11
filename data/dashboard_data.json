@@ -1,14 +1,14 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-10-10T21:49:20.843247+00:00",
+  "generated_at": "2026-10-11T05:55:04.670632+00:00",
   "display_timezone": "Asia/Shanghai",
   "sources": [
     {
       "id": "guba",
       "label": "东方财富股吧",
       "mode": "live",
-      "collected_at": "2026-10-10T21:49:13.540473+00:00",
-      "post_count": 287,
+      "collected_at": "2026-10-11T05:54:53.525640+00:00",
+      "post_count": 286,
       "errors": []
     },
     {
@@ -24,7 +24,7 @@
   ],
   "freshness": {
     "is_stale": false,
-    "last_success_at": "2026-10-10T21:49:13.540473+00:00",
+    "last_success_at": "2026-10-11T05:54:53.525640+00:00",
     "stale_after_hours": 12
   },
   "warnings": [
@@ -48,21 +48,21 @@
         "index": 17.1,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "newbie_posts": 6,
-          "sell_count": 0,
-          "total_posts": 70,
-          "newbie_ratio": 8.6,
-          "valid_posts": 70,
-          "avg_newbie_score": 28.0,
           "purity_signal": 0.0,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 0.0,
+          "newbie_ratio": 8.6,
           "buy_count": 0,
-          "mom_sell_index": 0.0,
-          "mom_buy_index": 0.0,
           "activity": 87.5,
+          "spam_posts": 0,
+          "total_posts": 70,
           "avg_sentiment": 33.3,
-          "spam_posts": 0
+          "buy_sell_ratio": 0.0,
+          "newbie_posts": 6,
+          "avg_newbie_score": 28.0,
+          "sell_count": 0,
+          "valid_posts": 70,
+          "pure_newbie": 0,
+          "mom_sell_index": 0.0,
+          "mom_buy_index": 0.0
         },
         "top_newbie_posts": [
           {
@@ -195,24 +195,24 @@
         }
       },
       "gold": {
-        "index": 18.9,
+        "index": 19.0,
         "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
         "details": {
-          "newbie_posts": 8,
-          "sell_count": 1,
-          "total_posts": 64,
-          "newbie_ratio": 12.5,
-          "valid_posts": 64,
-          "avg_newbie_score": 25.5,
           "purity_signal": 0.0,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 1.0,
+          "newbie_ratio": 12.7,
           "buy_count": 1,
-          "mom_sell_index": 18.5,
-          "mom_buy_index": 10.5,
-          "activity": 80.0,
+          "activity": 78.8,
+          "spam_posts": 0,
+          "total_posts": 63,
           "avg_sentiment": 37.5,
-          "spam_posts": 0
+          "buy_sell_ratio": 1.0,
+          "newbie_posts": 8,
+          "avg_newbie_score": 25.5,
+          "sell_count": 1,
+          "valid_posts": 63,
+          "pure_newbie": 0,
+          "mom_sell_index": 18.5,
+          "mom_buy_index": 10.5
         },
         "top_newbie_posts": [
           {
@@ -273,13 +273,13 @@
         "sample_quality": {
           "model_version": "1.0",
           "confidence": "low",
-          "valid_sample_size": 64,
+          "valid_sample_size": 63,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.25,
+          "classifier_evidence_coverage": 0.2222,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
-            "guba": 64
+            "guba": 63
           },
           "window_hours": 72,
           "reason_codes": [
@@ -292,7 +292,7 @@
               "code": "sample_size_below_30",
               "level": "low",
               "passed": true,
-              "actual": 64,
+              "actual": 63,
               "threshold": 30,
               "comparator": "gte"
             },
@@ -300,7 +300,7 @@
               "code": "sample_size_below_60",
               "level": "high",
               "passed": true,
-              "actual": 64,
+              "actual": 63,
               "threshold": 60,
               "comparator": "gte"
             },
@@ -324,7 +324,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.25,
+              "actual": 0.2222,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -332,7 +332,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.25,
+              "actual": 0.2222,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -348,26 +348,37 @@
         }
       },
       "cpo": {
-        "index": 23.6,
+        "index": 22.7,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "newbie_posts": 9,
-          "sell_count": 2,
-          "total_posts": 77,
-          "newbie_ratio": 11.7,
-          "valid_posts": 77,
-          "avg_newbie_score": 28.2,
           "purity_signal": 0.0,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 2.0,
-          "buy_count": 4,
-          "mom_sell_index": 19.7,
-          "mom_buy_index": 29.4,
+          "newbie_ratio": 10.4,
+          "buy_count": 2,
           "activity": 96.2,
-          "avg_sentiment": 59.2,
-          "spam_posts": 0
+          "spam_posts": 0,
+          "total_posts": 77,
+          "avg_sentiment": 54.1,
+          "buy_sell_ratio": 1.0,
+          "newbie_posts": 8,
+          "avg_newbie_score": 31.0,
+          "sell_count": 2,
+          "valid_posts": 77,
+          "pure_newbie": 0,
+          "mom_sell_index": 21.2,
+          "mom_buy_index": 21.2
         },
         "top_newbie_posts": [
+          {
+            "title": "搞不明白这些舅子三瓜二栆天天晒图的是什么意思？",
+            "score": 42.0,
+            "level": "偏小白",
+            "reasoning": "帖子「搞不明白这些舅子三瓜二栆天天晒图的是什么意思？...」 命中1个小信号: 知识求助(6分)。 以问句结尾，在寻求答案 综合得分42.0分， 判定为「偏小白」 (置信度: low)。",
+            "intent": "neutral",
+            "key_signals": [
+              "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 什么意思)"
+            ],
+            "source_url": "https://guba.eastmoney.com/news,sh515880,1780955690.html"
+          },
           {
             "title": "预期修复到下跌缺口附近，12%，我就跑，可以吗，主力，我很乖的，不要打我",
             "score": 38.0,
@@ -411,17 +422,6 @@
               "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
             ],
             "source_url": "https://guba.eastmoney.com/news,sh515880,1780361573.html"
-          },
-          {
-            "title": "割肉了，",
-            "score": 30.0,
-            "level": "中间派",
-            "reasoning": "帖子「割肉了，...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-            "intent": "sell",
-            "key_signals": [
-              "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
-            ],
-            "source_url": "https://guba.eastmoney.com/news,sh515880,1780713771.html"
           }
         ],
         "sample_quality": {
@@ -429,7 +429,7 @@
           "confidence": "low",
           "valid_sample_size": 77,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.2208,
+          "classifier_evidence_coverage": 0.2468,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -478,7 +478,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.2208,
+              "actual": 0.2468,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -486,7 +486,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.2208,
+              "actual": 0.2468,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -505,21 +505,21 @@
         "index": 22.1,
         "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
         "details": {
-          "newbie_posts": 14,
-          "sell_count": 2,
-          "total_posts": 76,
-          "newbie_ratio": 18.4,
-          "valid_posts": 76,
-          "avg_newbie_score": 24.6,
           "purity_signal": 0.0,
-          "pure_newbie": 0,
-          "buy_sell_ratio": 2.0,
+          "newbie_ratio": 18.4,
           "buy_count": 4,
-          "mom_sell_index": 13.5,
-          "mom_buy_index": 18.9,
           "activity": 95.0,
+          "spam_posts": 0,
+          "total_posts": 76,
           "avg_sentiment": 42.9,
-          "spam_posts": 0
+          "buy_sell_ratio": 2.0,
+          "newbie_posts": 14,
+          "avg_newbie_score": 24.6,
+          "sell_count": 2,
+          "valid_posts": 76,
+          "pure_newbie": 0,
+          "mom_sell_index": 13.5,
+          "mom_buy_index": 18.9
         },
         "top_newbie_posts": [
           {
@@ -583,7 +583,7 @@
           "confidence": "low",
           "valid_sample_size": 76,
           "title_only_ratio": 1.0,
-          "classifier_evidence_coverage": 0.1316,
+          "classifier_evidence_coverage": 0.1579,
           "known_in_window_ratio": 0.0,
           "unknown_time_ratio": 1.0,
           "platform_counts": {
@@ -632,7 +632,7 @@
               "code": "classifier_evidence_coverage_below_0_3",
               "level": "low",
               "passed": false,
-              "actual": 0.1316,
+              "actual": 0.1579,
               "threshold": 0.3,
               "comparator": "gte"
             },
@@ -640,7 +640,7 @@
               "code": "classifier_evidence_coverage_below_0_5",
               "level": "high",
               "passed": false,
-              "actual": 0.1316,
+              "actual": 0.1579,
               "threshold": 0.5,
               "comparator": "gte"
             },
@@ -1388,7 +1388,7 @@
       },
       {
         "date": "2026-10-11",
-        "index": 18.9,
+        "index": 19.0,
         "source_mode": "live"
       }
     ],
@@ -1755,7 +1755,7 @@
       },
       {
         "date": "2026-10-11",
-        "index": 23.6,
+        "index": 22.7,
         "source_mode": "live"
       }
     ],

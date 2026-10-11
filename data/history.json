@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-10-10T21:49:13.540473+00:00",
+  "last_success_at": "2026-10-11T05:54:53.525640+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -43236,7 +43236,7 @@
     },
     {
       "date": "2026-10-11",
-      "timestamp": "2026-10-10T21:49:13.540473+00:00",
+      "timestamp": "2026-10-11T05:54:53.525640+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -43390,19 +43390,19 @@
           }
         },
         "gold": {
-          "index": 18.9,
+          "index": 19.0,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
-            "total_posts": 64,
-            "valid_posts": 64,
+            "total_posts": 63,
+            "valid_posts": 63,
             "spam_posts": 0,
             "newbie_posts": 8,
             "pure_newbie": 0,
-            "newbie_ratio": 12.5,
+            "newbie_ratio": 12.7,
             "avg_newbie_score": 25.5,
             "avg_sentiment": 37.5,
             "purity_signal": 0.0,
-            "activity": 80.0,
+            "activity": 78.8,
             "mom_buy_index": 10.5,
             "mom_sell_index": 18.5,
             "buy_sell_ratio": 1.0,
@@ -43468,12 +43468,12 @@
           "sample_quality": {
             "model_version": "1.0",
             "confidence": "low",
-            "valid_sample_size": 64,
+            "valid_sample_size": 63,
             "title_only_ratio": 1.0,
             "platform_counts": {
-              "guba": 64
+              "guba": 63
             },
-            "classifier_evidence_coverage": 0.25,
+            "classifier_evidence_coverage": 0.2222,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -43487,7 +43487,7 @@
                 "code": "sample_size_below_30",
                 "level": "low",
                 "passed": true,
-                "actual": 64,
+                "actual": 63,
                 "threshold": 30,
                 "comparator": "gte"
               },
@@ -43495,7 +43495,7 @@
                 "code": "sample_size_below_60",
                 "level": "high",
                 "passed": true,
-                "actual": 64,
+                "actual": 63,
                 "threshold": 60,
                 "comparator": "gte"
               },
@@ -43519,7 +43519,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.25,
+                "actual": 0.2222,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -43527,7 +43527,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.25,
+                "actual": 0.2222,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -43543,26 +43543,37 @@
           }
         },
         "cpo": {
-          "index": 23.6,
+          "index": 22.7,
           "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
           "details": {
             "total_posts": 77,
             "valid_posts": 77,
             "spam_posts": 0,
-            "newbie_posts": 9,
+            "newbie_posts": 8,
             "pure_newbie": 0,
-            "newbie_ratio": 11.7,
-            "avg_newbie_score": 28.2,
-            "avg_sentiment": 59.2,
+            "newbie_ratio": 10.4,
+            "avg_newbie_score": 31.0,
+            "avg_sentiment": 54.1,
             "purity_signal": 0.0,
             "activity": 96.2,
-            "mom_buy_index": 29.4,
-            "mom_sell_index": 19.7,
-            "buy_sell_ratio": 2.0,
-            "buy_count": 4,
+            "mom_buy_index": 21.2,
+            "mom_sell_index": 21.2,
+            "buy_sell_ratio": 1.0,
+            "buy_count": 2,
             "sell_count": 2
           },
           "top_newbie_posts": [
+            {
+              "title": "搞不明白这些舅子三瓜二栆天天晒图的是什么意思？",
+              "score": 42.0,
+              "level": "偏小白",
+              "reasoning": "帖子「搞不明白这些舅子三瓜二栆天天晒图的是什么意思？...」 命中1个小信号: 知识求助(6分)。 以问句结尾，在寻求答案 综合得分42.0分， 判定为「偏小白」 (置信度: low)。",
+              "intent": "neutral",
+              "key_signals": [
+                "「知识求助」在问基础问题（怎么买/在哪看/什么意思） (命中: 什么意思)"
+              ],
+              "source_url": "https://guba.eastmoney.com/news,sh515880,1780955690.html"
+            },
             {
               "title": "预期修复到下跌缺口附近，12%，我就跑，可以吗，主力，我很乖的，不要打我",
               "score": 38.0,
@@ -43606,17 +43617,6 @@
                 "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
               ],
               "source_url": "https://guba.eastmoney.com/news,sh515880,1780361573.html"
-            },
-            {
-              "title": "割肉了，",
-              "score": 30.0,
-              "level": "中间派",
-              "reasoning": "帖子「割肉了，...」 命中1个小信号: 情绪恐慌(5分)。 综合得分30.0分， 判定为「中间派」 (置信度: low)。",
-              "intent": "sell",
-              "key_signals": [
-                "「情绪恐慌」表达明显的恐惧/焦虑/后悔情绪 (命中: 割肉)"
-              ],
-              "source_url": "https://guba.eastmoney.com/news,sh515880,1780713771.html"
             }
           ],
           "sample_quality": {
@@ -43627,7 +43627,7 @@
             "platform_counts": {
               "guba": 77
             },
-            "classifier_evidence_coverage": 0.2208,
+            "classifier_evidence_coverage": 0.2468,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -43673,7 +43673,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2208,
+                "actual": 0.2468,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -43681,7 +43681,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2208,
+                "actual": 0.2468,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -43781,7 +43781,7 @@
             "platform_counts": {
               "guba": 76
             },
-            "classifier_evidence_coverage": 0.1316,
+            "classifier_evidence_coverage": 0.1579,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -43827,7 +43827,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.1316,
+                "actual": 0.1579,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -43835,7 +43835,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.1316,
+                "actual": 0.1579,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
