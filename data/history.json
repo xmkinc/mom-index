@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "last_success_at": "2026-10-14T17:17:23.770758+00:00",
+  "last_success_at": "2026-10-14T21:45:38.567280+00:00",
   "records": [
     {
       "date": "2026-07-31",
@@ -45671,7 +45671,7 @@
     },
     {
       "date": "2026-10-15",
-      "timestamp": "2026-10-14T17:17:23.770758+00:00",
+      "timestamp": "2026-10-14T21:45:38.567280+00:00",
       "source_mode": "live",
       "sectors": {
         "nasdaq": {
@@ -45755,7 +45755,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.2667,
+            "classifier_evidence_coverage": 0.28,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -45801,7 +45801,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2667,
+                "actual": 0.28,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -45809,7 +45809,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2667,
+                "actual": 0.28,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -45973,20 +45973,20 @@
           }
         },
         "cpo": {
-          "index": 20.8,
-          "interpretation": "🟢 正常区间 — 小白参与度适中，情绪分布相对平稳",
+          "index": 19.3,
+          "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
             "total_posts": 75,
             "valid_posts": 75,
             "spam_posts": 0,
-            "newbie_posts": 12,
+            "newbie_posts": 10,
             "pure_newbie": 0,
-            "newbie_ratio": 16.0,
-            "avg_newbie_score": 31.0,
-            "avg_sentiment": 33.3,
+            "newbie_ratio": 13.3,
+            "avg_newbie_score": 32.0,
+            "avg_sentiment": 30.0,
             "purity_signal": 0.0,
             "activity": 93.8,
-            "mom_buy_index": 17.2,
+            "mom_buy_index": 19.9,
             "mom_sell_index": 0.0,
             "buy_sell_ratio": null,
             "buy_count": 3,
@@ -46057,7 +46057,7 @@
             "platform_counts": {
               "guba": 75
             },
-            "classifier_evidence_coverage": 0.2133,
+            "classifier_evidence_coverage": 0.2,
             "known_in_window_ratio": 0.0,
             "unknown_time_ratio": 1.0,
             "window_hours": 72,
@@ -46103,7 +46103,7 @@
                 "code": "classifier_evidence_coverage_below_0_3",
                 "level": "low",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2,
                 "threshold": 0.3,
                 "comparator": "gte"
               },
@@ -46111,7 +46111,7 @@
                 "code": "classifier_evidence_coverage_below_0_5",
                 "level": "high",
                 "passed": false,
-                "actual": 0.2133,
+                "actual": 0.2,
                 "threshold": 0.5,
                 "comparator": "gte"
               },
@@ -46127,21 +46127,21 @@
           }
         },
         "semiconductor": {
-          "index": 15.8,
+          "index": 15.9,
           "interpretation": "🔵 极度冷清 — 小白参与度很低，样本讨论清淡或偏谨慎",
           "details": {
             "total_posts": 72,
             "valid_posts": 72,
             "spam_posts": 0,
-            "newbie_posts": 10,
+            "newbie_posts": 11,
             "pure_newbie": 0,
-            "newbie_ratio": 13.9,
-            "avg_newbie_score": 24.8,
-            "avg_sentiment": 20.0,
+            "newbie_ratio": 15.3,
+            "avg_newbie_score": 24.5,
+            "avg_sentiment": 18.2,
             "purity_signal": 0.0,
             "activity": 90.0,
             "mom_buy_index": 0.0,
-            "mom_sell_index": 20.4,
+            "mom_sell_index": 19.5,
             "buy_sell_ratio": 0.0,
             "buy_count": 0,
             "sell_count": 2
